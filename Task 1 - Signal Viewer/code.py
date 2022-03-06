@@ -32,7 +32,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.BrowseButton_13.clicked.connect(self.Handel_Browse)
         self.ShowButton_4.clicked.connect(self.Handel_Show)
         self.HideButton_5.clicked.connect(self.Handel_Hide)
-        self.ZoomButton.clicked.connect(self.Handel_Zoom)
+        self.ZoomInButton.clicked.connect(self.Handel_ZoomIn)
     def Handel_Slider(self):
          pass
 
@@ -42,7 +42,7 @@ class MainApp(QMainWindow , FORM_CLASS):
     def Handel_Show(self):
           self.pen = pg.mkPen('r')
 
-    def Handel_Zoom(self):
+    def Handel_ZoomIn(self):
         pass
 
     def Handel_Hide(self):

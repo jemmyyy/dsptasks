@@ -14,10 +14,8 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QToolBar * {
-  margin: 0px;
-  padding: 0px;
-}
+   <string notr="true">QToolBar * {margin: 0px;padding: 0px;}
+
 QWidget {
   background-color: #19232D;
   border: 0px solid #455364;
@@ -2152,7 +2150,7 @@ border-color: rgb(0, 0, 0);
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QPushButton" name="Zoom_InButton_2">
+   <widget class="QPushButton" name="ZoomInButton">
     <property name="geometry">
      <rect>
       <x>10</x>
