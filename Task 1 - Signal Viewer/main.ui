@@ -14,8 +14,10 @@
    <string>Form</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QToolBar * {margin: 0px;padding: 0px;}
-
+   <string notr="true">QToolBar * {
+  margin: 0px;
+  padding: 0px;
+}
 QWidget {
   background-color: #19232D;
   border: 0px solid #455364;
@@ -2075,13 +2077,37 @@ PlotWidget {
 }
 </string>
   </property>
+  <widget class="QPushButton" name="BrowseButton_13">
+   <property name="geometry">
+    <rect>
+     <x>660</x>
+     <y>30</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press to Browse&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+}</string>
+   </property>
+   <property name="text">
+    <string>Browse</string>
+   </property>
+  </widget>
   <widget class="QFrame" name="frame">
    <property name="geometry">
     <rect>
      <x>170</x>
-     <y>100</y>
+     <y>80</y>
      <width>451</width>
-     <height>341</height>
+     <height>331</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -2135,13 +2161,37 @@ border-color: rgb(0, 0, 0);
     </property>
    </widget>
   </widget>
+  <widget class="QPushButton" name="ExportButton_12">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>30</y>
+     <width>81</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press to Export&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">QPushButton
+{
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+}</string>
+   </property>
+   <property name="text">
+    <string>Export</string>
+   </property>
+  </widget>
   <widget class="QFrame" name="frame_2">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>100</y>
+     <y>80</y>
      <width>141</width>
-     <height>341</height>
+     <height>301</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -2150,13 +2200,13 @@ border-color: rgb(0, 0, 0);
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QPushButton" name="ZoomInButton">
+   <widget class="QPushButton" name="Zoom_InButton_2">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>20</y>
-      <width>121</width>
-      <height>41</height>
+      <x>0</x>
+      <y>10</y>
+      <width>71</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -2174,10 +2224,10 @@ border-color: rgb(0, 0, 0);
    <widget class="QPushButton" name="ShowButton_4">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>120</y>
-      <width>121</width>
-      <height>41</height>
+      <x>0</x>
+      <y>40</y>
+      <width>71</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -2195,10 +2245,10 @@ border-color: rgb(0, 0, 0);
    <widget class="QPushButton" name="HideButton_5">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>170</y>
-      <width>121</width>
-      <height>41</height>
+      <x>70</x>
+      <y>40</y>
+      <width>71</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -2216,10 +2266,10 @@ border-color: rgb(0, 0, 0);
    <widget class="QPushButton" name="PauseButton_6">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>270</y>
-      <width>121</width>
-      <height>41</height>
+      <x>0</x>
+      <y>70</y>
+      <width>71</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -2237,10 +2287,10 @@ border-color: rgb(0, 0, 0);
    <widget class="QPushButton" name="PlayButton_7">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>220</y>
-      <width>121</width>
-      <height>41</height>
+      <x>70</x>
+      <y>70</y>
+      <width>71</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -2255,13 +2305,55 @@ border-color: rgb(0, 0, 0);
      <string>Play </string>
     </property>
    </widget>
+   <widget class="QPushButton" name="ScrollButton_8">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>100</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+}</string>
+    </property>
+    <property name="text">
+     <string>Scroll </string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="PanButton_9">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>100</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+}</string>
+    </property>
+    <property name="text">
+     <string>Pan</string>
+    </property>
+   </widget>
    <widget class="QPushButton" name="Zoom_OutButton_3">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>70</y>
-      <width>121</width>
-      <height>41</height>
+      <x>70</x>
+      <y>10</y>
+      <width>71</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -2276,76 +2368,93 @@ border-color: rgb(0, 0, 0);
      <string>Zoom out</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="ControlButton_10">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>130</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+}</string>
+    </property>
+    <property name="text">
+     <string>Control</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Add_title_labelButton_14">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>160</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton
+{
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+}</string>
+    </property>
+    <property name="text">
+     <string>Add title/ label</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="ColorButton_1">
+    <property name="geometry">
+     <rect>
+      <x>70</x>
+      <y>130</y>
+      <width>71</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+.QPushButtonn-6d {
+	border: 2px dashed #226fbe;
+}
+
+.QPushButton-6d:hover {
+	background: transparent;
+	color: #226fbe;
+}
+QPushButton
+{
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+}</string>
+    </property>
+    <property name="text">
+     <string> Color</string>
+    </property>
+   </widget>
   </widget>
-  <widget class="QFrame" name="frame_4">
+  <widget class="QFrame" name="frame_3">
    <property name="geometry">
     <rect>
      <x>630</x>
-     <y>100</y>
-     <width>431</width>
-     <height>341</height>
+     <y>80</y>
+     <width>451</width>
+     <height>331</height>
     </rect>
    </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
-   </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
-   </property>
-   <widget class="QFrame" name="frame_3">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>411</width>
-      <height>281</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QFrame 
+   <property name="styleSheet">
+    <string notr="true">QFrame 
 {
 border-color: rgb(0, 0, 0);
 }</string>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-   </widget>
-   <widget class="QComboBox" name="comboBox">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>300</y>
-      <width>241</width>
-      <height>26</height>
-     </rect>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>80</x>
-      <y>300</y>
-      <width>61</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Channels</string>
-    </property>
-   </widget>
-  </widget>
-  <widget class="QFrame" name="frame_5">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>20</y>
-     <width>1051</width>
-     <height>61</height>
-    </rect>
    </property>
    <property name="frameShape">
     <enum>QFrame::StyledPanel</enum>
@@ -2353,86 +2462,32 @@ border-color: rgb(0, 0, 0);
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QPushButton" name="BrowseButton_13">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>131</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press to Browse&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton
-{
-    border-style: outset;
-    border-width: 2px;
-    border-color: black;
-}</string>
-    </property>
-    <property name="text">
-     <string>Browse</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="ExportButton_12">
-    <property name="geometry">
-     <rect>
-      <x>150</x>
-      <y>10</y>
-      <width>141</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="toolTip">
-     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press to Export&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">QPushButton
-{
-    border-style: outset;
-    border-width: 2px;
-    border-color: black;
-}</string>
-    </property>
-    <property name="text">
-     <string>Export</string>
-    </property>
-   </widget>
   </widget>
-  <widget class="QFrame" name="frame_6">
+  <widget class="QSlider" name="horizontalSlider_2">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>460</y>
-     <width>1051</width>
-     <height>151</height>
+     <x>170</x>
+     <y>450</y>
+     <width>431</width>
+     <height>16</height>
     </rect>
    </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
    </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>420</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
    </property>
-   <widget class="QFrame" name="frame_7">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>221</width>
-      <height>131</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-   </widget>
+   <property name="text">
+    <string>Speed slider</string>
+   </property>
   </widget>
  </widget>
  <customwidgets>
