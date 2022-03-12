@@ -63,6 +63,17 @@ class MainApp(QMainWindow , FORM_CLASS):
         # self.horizontalSlider_2.valueChanged.connect(self.Handel_Slider)
         self.PauseButton_6.clicked.connect(self.Handel_pause)
         self.PlayButton_7.clicked.connect(self.Handel_play)
+        # Zoom Button Functions
+        self.zoomInButton.clicked.connect(self.zoomIn)
+        self.zoomOutButton.clicked.connect(self.zoomOut)
+        # Scroll Slider Functions
+        self.horizontalScroll.valueChanged.connect(self.scrollHorizontal)
+        self.horizontalScroll.sliderMoved.connect(self.scrollHorizontal)
+        self.horizontalScroll.sliderReleased.connect(self.scrollHorizontal)
+        self.verticalScroll.valueChanged.connect(self.scrollVertical)
+        self.verticalScroll.sliderMoved.connect(self.scrollVertical)
+        self.verticalScroll.sliderReleased.connect(self.scrollVertical)
+
 
     # def Handel_Slider(self):
     #       self.speed=self.speed+self.horizontalSlider_2.value()
@@ -79,6 +90,27 @@ class MainApp(QMainWindow , FORM_CLASS):
     
     def Handel_play(self):
             self.isRunning=True   
+
+    def zoomIn(self):
+        self.Handel_pause
+        self.graphicsView.plotItem.getViewBox().scaleBy((0.85,0.85))
+
+    def zoomOut(self):
+        self.Handel_pause
+        self.graphicsView.plotItem.getViewBox().scaleBy((1.15,1.15))
+
+    def scrollHorizontal(self):
+            self.horizontalScroll.setMaximum(self.max_len)
+            self.horizontalScroll.setMinimum(0)
+            val = self.horizontalScroll.value()
+            self.graphicsView.setXRange(val-50, val+50)
+
+    def scrollVertical(self):
+            self.verticalScroll.setMaximum(self.maxAmp)
+            self.verticalScroll.setMinimum(self.minAmp)
+            val = self.verticalScroll.value()
+            self.graphicsView.setYRange(val-((self.maxAmp-self.minAmp) / 5), val+((self.maxAmp-self.minAmp) / 5))
+
 
     def Handel_Show(self) :
         item = self.HidecomboBox.currentText()
@@ -135,18 +167,34 @@ class MainApp(QMainWindow , FORM_CLASS):
         if self.Signal_Flag == 1:
             self.x1 = np.array(self.time)
             self.y1 = np.array(self.amplitude)
-            print(self.x1)
-            print(self.y1)
+            self.maxAmp = max(self.y1)
+            self.minAmp = min(self.y1)
+            if (self.maxAmp - self.minAmp) < 5:
+                self.y1*=10
+                self.maxAmp = max(self.y1)
+                self.minAmp = min(self.y1)
             self.Signal_Flag = 2
             self.First_Signal_Flag = 1
         elif self.Signal_Flag == 2:
             self.x2 = np.array(self.time)
             self.y2 = np.array(self.amplitude)
+            if (max(self.y2) - min(self.y2)) < 5:
+                self.y2*=10
+            if max(self.y2) > self.maxAmp:
+                self.maxAmp = max(self.y2)
+            if min(self.y2) < self.minAmp:
+                self.minAmp = min(self.y2)
             self.Second_Signal_Flag = 1
             self.Signal_Flag = 3
         elif self.Signal_Flag == 3:
             self.x3 = np.array(self.time)
             self.y3 = np.array(self.amplitude)
+            if (max(self.y3) - min(self.y3)) < 5:
+                self.y3*=10
+            if max(self.y3) > self.maxAmp:
+                self.maxAmp = max(self.y3)
+            if min(self.y3) < self.minAmp:
+                self.minAmp = min(self.y3)
             self.Signal_Flag = 1
             self.Third_Signal_Flag = 1
         self.timer()
@@ -163,7 +211,7 @@ class MainApp(QMainWindow , FORM_CLASS):
             
         self.graphicsView.clear()
         if self.First_Signal_Flag == 1 and self.Hide_First_Signal_Flag == 0:
-            self.Signal1 = self.graphicsView.plot(self.x1[0:self.counter],self.y1[0:self.counter], pen=self.pen1)               #Plot every 100 x index with 100 y index
+            self.Signal1 = self.graphicsView.plotItem.plot(self.x1[0:self.counter],self.y1[0:self.counter], pen=self.pen1)               #Plot every 100 x index with 100 y index
             self.max_len = len(self.x1)
         if self.Second_Signal_Flag == 1 and self.Hide_Second_Signal_Flag == 0:
             self.Signal2 = self.graphicsView.plot(self.x2[0:self.counter],self.y2[0:self.counter], pen=self.pen2)
@@ -180,6 +228,7 @@ class MainApp(QMainWindow , FORM_CLASS):
                 start_count = self.counter - 100
                 end_count = self.counter
                 self.graphicsView.setXRange(start_count,end_count)
+                self.graphicsView.setYRange(self.minAmp, self.maxAmp)
 def main ():
     app = QApplication(sys.argv)
     window = MainApp ()
