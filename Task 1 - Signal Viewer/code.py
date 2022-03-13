@@ -23,6 +23,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_pdf import PdfPages, _create_pdf_info_dict
 from PyPDF2 import PdfFileMerger, merger
 import fitz
+import pyqtgraph.exporters
 
 root = Tk()
 root.title('Codemy.com - Learn To Code!')
@@ -279,7 +280,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         table.scale(1, 2)
         fig.tight_layout()
         fileName = pdffilename + ".pdf"
-        report = PdfPages(fileName)
+        report = PdfPages(pdffilename)
         report.savefig()
         #plt.close
         report.close()
@@ -287,8 +288,8 @@ class MainApp(QMainWindow , FORM_CLASS):
     def print_widget(self,Plotting_Weidget ,pdf_filename):
         ex=pg.exporters.ImageExporter(self.graphicsView.plotItem)
         ex.export("test1.png")
-        ex = pg.exporters.ImageExporter(self.frame_3.paintEvent)
-        ex.export("test2.png")
+        # ex = pg.exporters.ImageExporter(self.frame_3.paintEvent)
+        # ex.export("test2.png")
         doc = fitz.open(pdf_filename)  # open the PDF
         img1 = open("test1.png", "rb").read()
         rect1 = fitz.Rect(20, 30, 450, 110)# where to put image: use upper left corner
