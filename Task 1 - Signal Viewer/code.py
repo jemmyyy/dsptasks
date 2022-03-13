@@ -113,14 +113,14 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.graphicsView.plotItem.getViewBox().scaleBy((1.15,1.15))
 
     def scrollHorizontal(self):
-            self.horizontalScroll.setMaximum(self.max_len)
+            self.horizontalScroll.setMaximum(self.counter)
             self.horizontalScroll.setMinimum(0)
             val = self.horizontalScroll.value()
             self.graphicsView.setXRange(val-50, val+50)
 
     def scrollVertical(self):
-            self.verticalScroll.setMaximum(self.maxAmp)
-            self.verticalScroll.setMinimum(self.minAmp)
+            self.verticalScroll.setMaximum(int(self.maxAmp))
+            self.verticalScroll.setMinimum(int(self.minAmp))
             val = self.verticalScroll.value()
             self.graphicsView.setYRange(val-((self.maxAmp-self.minAmp) / 5), val+((self.maxAmp-self.minAmp) / 5))
 
