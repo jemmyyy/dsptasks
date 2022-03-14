@@ -2165,6 +2165,7 @@ class Ui_Form(object):
         self.splitter_2 = QSplitter(self.frame)
         self.splitter_2.setObjectName(u"splitter_2")
         self.splitter_2.setGeometry(QRect(30, 50, 860, 256))
+        self.splitter_2.setOrientation(Qt.Horizontal)
         self.splitter_2.setOpaqueResize(True)
         self.splitter_2.setHandleWidth(2)
         self.splitter_2.setChildrenCollapsible(True)
@@ -2181,7 +2182,7 @@ class Ui_Form(object):
         self.frame_2.setFrameShadow(QFrame.Raised)
         self.zoomInButton = QPushButton(self.frame_2)
         self.zoomInButton.setObjectName(u"zoomInButton")
-        self.zoomInButton.setGeometry(QRect(20, 20, 101, 41))
+        self.zoomInButton.setGeometry(QRect(20, 40, 101, 41))
         self.zoomInButton.setStyleSheet(u"QPushButton\n"
 "{\n"
 "    border-style: outset;\n"
@@ -2190,7 +2191,7 @@ class Ui_Form(object):
 "}")
         self.PauseButton_6 = QPushButton(self.frame_2)
         self.PauseButton_6.setObjectName(u"PauseButton_6")
-        self.PauseButton_6.setGeometry(QRect(20, 170, 101, 41))
+        self.PauseButton_6.setGeometry(QRect(20, 190, 101, 41))
         self.PauseButton_6.setStyleSheet(u"QPushButton\n"
 "{\n"
 "    border-style: outset;\n"
@@ -2199,7 +2200,7 @@ class Ui_Form(object):
 "}")
         self.PlayButton_7 = QPushButton(self.frame_2)
         self.PlayButton_7.setObjectName(u"PlayButton_7")
-        self.PlayButton_7.setGeometry(QRect(20, 120, 101, 41))
+        self.PlayButton_7.setGeometry(QRect(20, 140, 101, 41))
         self.PlayButton_7.setStyleSheet(u"QPushButton\n"
 "{\n"
 "    border-style: outset;\n"
@@ -2208,26 +2209,8 @@ class Ui_Form(object):
 "}")
         self.zoomOutButton = QPushButton(self.frame_2)
         self.zoomOutButton.setObjectName(u"zoomOutButton")
-        self.zoomOutButton.setGeometry(QRect(20, 70, 101, 41))
+        self.zoomOutButton.setGeometry(QRect(20, 90, 101, 41))
         self.zoomOutButton.setStyleSheet(u"QPushButton\n"
-"{\n"
-"    border-style: outset;\n"
-"    border-width: 2px;\n"
-"    border-color: black;\n"
-"}")
-        self.ColorButton_1 = QPushButton(self.frame_2)
-        self.ColorButton_1.setObjectName(u"ColorButton_1")
-        self.ColorButton_1.setGeometry(QRect(20, 220, 101, 41))
-        self.ColorButton_1.setStyleSheet(u"\n"
-".QPushButtonn-6d {\n"
-"	border: 2px dashed #226fbe;\n"
-"}\n"
-"\n"
-".QPushButton-6d:hover {\n"
-"	background: transparent;\n"
-"	color: #226fbe;\n"
-"}\n"
-"QPushButton\n"
 "{\n"
 "    border-style: outset;\n"
 "    border-width: 2px;\n"
@@ -2235,7 +2218,7 @@ class Ui_Form(object):
 "}")
         self.titleButton = QPushButton(self.frame_2)
         self.titleButton.setObjectName(u"titleButton")
-        self.titleButton.setGeometry(QRect(20, 270, 101, 41))
+        self.titleButton.setGeometry(QRect(20, 240, 101, 41))
         self.titleButton.setStyleSheet(u"QPushButton\n"
 "{\n"
 "    border-style: outset;\n"
@@ -2280,19 +2263,19 @@ class Ui_Form(object):
         self.frame_5.setFrameShadow(QFrame.Raised)
         self.speedSlider = QSlider(self.frame_5)
         self.speedSlider.setObjectName(u"speedSlider")
-        self.speedSlider.setGeometry(QRect(110, 20, 361, 20))
+        self.speedSlider.setGeometry(QRect(110, 10, 361, 31))
         self.speedSlider.setOrientation(Qt.Horizontal)
         self.label = QLabel(self.frame_5)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(10, 10, 91, 41))
+        self.label.setGeometry(QRect(10, 10, 91, 31))
         self.label.setFont(font)
         self.label_4 = QLabel(self.frame_5)
         self.label_4.setObjectName(u"label_4")
-        self.label_4.setGeometry(QRect(10, 50, 91, 51))
+        self.label_4.setGeometry(QRect(10, 40, 91, 51))
         self.label_4.setFont(font)
         self.label_5 = QLabel(self.frame_5)
         self.label_5.setObjectName(u"label_5")
-        self.label_5.setGeometry(QRect(10, 100, 91, 41))
+        self.label_5.setGeometry(QRect(10, 90, 91, 41))
         self.label_5.setFont(font)
         self.ShowcomboBox = QComboBox(self.frame_5)
         self.ShowcomboBox.addItem("")
@@ -2300,7 +2283,7 @@ class Ui_Form(object):
         self.ShowcomboBox.addItem("")
         self.ShowcomboBox.addItem("")
         self.ShowcomboBox.setObjectName(u"ShowcomboBox")
-        self.ShowcomboBox.setGeometry(QRect(110, 60, 361, 31))
+        self.ShowcomboBox.setGeometry(QRect(110, 50, 361, 31))
         self.ShowcomboBox.setStyleSheet(u"QComboBox\n"
 "{\n"
 "    border-style: outset;\n"
@@ -2313,8 +2296,42 @@ class Ui_Form(object):
         self.HidecomboBox.addItem("")
         self.HidecomboBox.addItem("")
         self.HidecomboBox.setObjectName(u"HidecomboBox")
-        self.HidecomboBox.setGeometry(QRect(110, 110, 361, 28))
+        self.HidecomboBox.setGeometry(QRect(110, 97, 361, 31))
         self.HidecomboBox.setStyleSheet(u"QComboBox\n"
+"{\n"
+"    border-style: outset;\n"
+"    border-width: 2px;\n"
+"    border-color: black;\n"
+"}")
+        self.signalColorCombo = QComboBox(self.frame_5)
+        self.signalColorCombo.addItem("")
+        self.signalColorCombo.addItem("")
+        self.signalColorCombo.addItem("")
+        self.signalColorCombo.setObjectName(u"signalColorCombo")
+        self.signalColorCombo.setGeometry(QRect(110, 140, 361, 28))
+        self.signalColorCombo.setStyleSheet(u"QComboBox\n"
+"{\n"
+"    border-style: outset;\n"
+"    border-width: 2px;\n"
+"    border-color: black;\n"
+"}")
+        self.label_10 = QLabel(self.frame_5)
+        self.label_10.setObjectName(u"label_10")
+        self.label_10.setGeometry(QRect(10, 130, 91, 41))
+        self.label_10.setFont(font)
+        self.colorButton = QPushButton(self.frame_5)
+        self.colorButton.setObjectName(u"colorButton")
+        self.colorButton.setGeometry(QRect(490, 140, 101, 31))
+        self.colorButton.setStyleSheet(u"\n"
+".QPushButtonn-6d {\n"
+"	border: 2px dashed #226fbe;\n"
+"}\n"
+"\n"
+".QPushButton-6d:hover {\n"
+"	background: transparent;\n"
+"	color: #226fbe;\n"
+"}\n"
+"QPushButton\n"
 "{\n"
 "    border-style: outset;\n"
 "    border-width: 2px;\n"
@@ -2394,7 +2411,6 @@ class Ui_Form(object):
         self.PauseButton_6.setText(QCoreApplication.translate("Form", u"Pause", None))
         self.PlayButton_7.setText(QCoreApplication.translate("Form", u"Play ", None))
         self.zoomOutButton.setText(QCoreApplication.translate("Form", u"Zoom out", None))
-        self.ColorButton_1.setText(QCoreApplication.translate("Form", u" Color", None))
         self.titleButton.setText(QCoreApplication.translate("Form", u"Add Title", None))
 #if QT_CONFIG(tooltip)
         self.BrowseButton_13.setToolTip(QCoreApplication.translate("Form", u"<html><head/><body><p>Press to Browse</p></body></html>", None))
@@ -2418,6 +2434,12 @@ class Ui_Form(object):
         self.HidecomboBox.setItemText(2, QCoreApplication.translate("Form", u"Signal_3", None))
         self.HidecomboBox.setItemText(3, QCoreApplication.translate("Form", u"All", None))
 
+        self.signalColorCombo.setItemText(0, QCoreApplication.translate("Form", u"Signal_1", None))
+        self.signalColorCombo.setItemText(1, QCoreApplication.translate("Form", u"Signal_2", None))
+        self.signalColorCombo.setItemText(2, QCoreApplication.translate("Form", u"Signal_3", None))
+
+        self.label_10.setText(QCoreApplication.translate("Form", u"Color", None))
+        self.colorButton.setText(QCoreApplication.translate("Form", u" Color", None))
         self.label_6.setText(QCoreApplication.translate("Form", u"Signal", None))
         self.SpectrogramcomboBox.setItemText(0, QCoreApplication.translate("Form", u"No Signal", None))
         self.SpectrogramcomboBox.setItemText(1, QCoreApplication.translate("Form", u"Signal_1", None))

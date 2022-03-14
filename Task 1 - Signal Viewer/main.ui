@@ -2156,6 +2156,9 @@ border-color: rgb(0, 0, 0);
       <height>256</height>
      </rect>
     </property>
+    <property name="orientation">
+     <enum>Qt::Horizontal</enum>
+    </property>
     <property name="opaqueResize">
      <bool>true</bool>
     </property>
@@ -2188,7 +2191,7 @@ border-color: rgb(0, 0, 0);
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>20</y>
+      <y>40</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -2209,7 +2212,7 @@ border-color: rgb(0, 0, 0);
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>170</y>
+      <y>190</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -2230,7 +2233,7 @@ border-color: rgb(0, 0, 0);
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>120</y>
+      <y>140</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -2251,7 +2254,7 @@ border-color: rgb(0, 0, 0);
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>70</y>
+      <y>90</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -2268,41 +2271,11 @@ border-color: rgb(0, 0, 0);
      <string>Zoom out</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="ColorButton_1">
-    <property name="geometry">
-     <rect>
-      <x>20</x>
-      <y>220</y>
-      <width>101</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">
-.QPushButtonn-6d {
-	border: 2px dashed #226fbe;
-}
-
-.QPushButton-6d:hover {
-	background: transparent;
-	color: #226fbe;
-}
-QPushButton
-{
-    border-style: outset;
-    border-width: 2px;
-    border-color: black;
-}</string>
-    </property>
-    <property name="text">
-     <string> Color</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="titleButton">
     <property name="geometry">
      <rect>
       <x>20</x>
-      <y>270</y>
+      <y>240</y>
       <width>101</width>
       <height>41</height>
      </rect>
@@ -2432,9 +2405,9 @@ QPushButton
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>20</y>
+      <y>10</y>
       <width>361</width>
-      <height>20</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="orientation">
@@ -2447,7 +2420,7 @@ QPushButton
       <x>10</x>
       <y>10</y>
       <width>91</width>
-      <height>41</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="font">
@@ -2463,7 +2436,7 @@ QPushButton
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>50</y>
+      <y>40</y>
       <width>91</width>
       <height>51</height>
      </rect>
@@ -2481,7 +2454,7 @@ QPushButton
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>100</y>
+      <y>90</y>
       <width>91</width>
       <height>41</height>
      </rect>
@@ -2499,7 +2472,7 @@ QPushButton
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>60</y>
+      <y>50</y>
       <width>361</width>
       <height>31</height>
      </rect>
@@ -2537,9 +2510,9 @@ QPushButton
     <property name="geometry">
      <rect>
       <x>110</x>
-      <y>110</y>
+      <y>97</y>
       <width>361</width>
-      <height>28</height>
+      <height>31</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -2570,6 +2543,87 @@ QPushButton
       <string>All</string>
      </property>
     </item>
+   </widget>
+   <widget class="QComboBox" name="signalColorCombo">
+    <property name="geometry">
+     <rect>
+      <x>110</x>
+      <y>140</y>
+      <width>361</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QComboBox
+{
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+}</string>
+    </property>
+    <item>
+     <property name="text">
+      <string>Signal_1</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Signal_2</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Signal_3</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QLabel" name="label_10">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>130</y>
+      <width>91</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Color</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="colorButton">
+    <property name="geometry">
+     <rect>
+      <x>490</x>
+      <y>140</y>
+      <width>101</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">
+.QPushButtonn-6d {
+	border: 2px dashed #226fbe;
+}
+
+.QPushButton-6d:hover {
+	background: transparent;
+	color: #226fbe;
+}
+QPushButton
+{
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+}</string>
+    </property>
+    <property name="text">
+     <string> Color</string>
+    </property>
    </widget>
   </widget>
   <widget class="QFrame" name="frame_6">
