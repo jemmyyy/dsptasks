@@ -36,6 +36,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.Handle_UI()
+        
         self.cmap = 'inferno'
         self.title = ''
         self.counter = 0
@@ -50,7 +51,9 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.Hide_First_Signal_Flag = 0
         self.Hide_Second_Signal_Flag = 0
         self.Hide_Third_Signal_Flag = 0
-
+        
+        self.min = -100
+        self.max = -50
         self.pen1 = pg.mkPen('r')
         self.pen2 = pg.mkPen('b')
         self.pen3 = pg.mkPen('y')
@@ -69,11 +72,26 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.HidecomboBox.currentTextChanged.connect(self.Hide)
         self.PauseButton_6.clicked.connect(self.Pause)
         self.PlayButton_7.clicked.connect(self.Play)
-        
+        self.currSpecFigure=0
+
         # Zoom Button Functions
         self.zoomInButton.clicked.connect(self.zoomIn)
         self.zoomOutButton.clicked.connect(self.zoomOut)
         
+        self.Slidermax.setMinimum(-75)
+        self.Slidermax.setMaximum(-25)
+        self.Slidermax.setValue(-50)
+        self.Slidermax.setTickInterval(12)
+        self.Slidermax.setTickPosition(QSlider.TicksBelow)
+        self.Slidermax.valueChanged.connect(self.Contrast_max_change)
+
+        self.Slidermin.setMinimum(-150)
+        self.Slidermin.setMaximum(-75)
+        self.Slidermin.setValue(-100)
+        self.Slidermin.setTickInterval(12)
+        self.Slidermin.setTickPosition(QSlider.TicksBelow)
+        self.Slidermin.valueChanged.connect(self.Contrast_min_change)
+
         # Speed Slider
         self.speedSlider.setMinimum(-50)
         self.speedSlider.setMaximum(50)
@@ -97,7 +115,10 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.titleButton.clicked.connect(self.addTitle)
         self.titleConfirmButton.clicked.connect(self.confirmTitle)
 
-    
+        
+        
+        
+
 #----------------------------------------------------------------------------------------------------------#
     # Utility functions (Play/Pause, Zoom, Show/Hide, Scroll, Title)
     
@@ -204,6 +225,7 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.time.append(float(self.line [1])) 
         myfile.close()
         if self.Signal_Flag == 1:
+            self.channel1_path=path
             self.x1 = np.array(self.time)
             self.y1 = np.array(self.amplitude)
             self.maxAmp = max(self.y1)
@@ -217,6 +239,8 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.Signal_Flag = 2
             self.First_Signal_Flag = 1
         elif self.Signal_Flag == 2:
+            self.channel2_path=path
+
             self.x2 = np.array(self.time)
             self.y2 = np.array(self.amplitude)
             self.sigDatax.append(self.x2)
@@ -231,6 +255,7 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.Second_Signal_Flag = 1
             self.Signal_Flag = 3
         elif self.Signal_Flag == 3:
+            self.channel3_path=path
             self.x3 = np.array(self.time)
             self.y3 = np.array(self.amplitude)
             self.sigDatax.append(self.x3)
@@ -269,7 +294,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         if self.Third_Signal_Flag == 1 and self.Hide_Third_Signal_Flag == 0:
             self.Signal3 = self.graphicsView.plot(self.x3[0:self.counter],self.y3[0:self.counter], pen=self.pen3)
             self.max_len = max(len(self.x1),len(self.x2),len(self.x3))
-        
+        print(self.max)
         if self.counter < self.max_len:                                                    #To stop at the limit of the graph
             if self.counter < 100:
                 start_count = 0
@@ -333,17 +358,47 @@ class MainApp(QMainWindow , FORM_CLASS):
 #----------------------------------------------------------------------------------------------------------#
     # Spectrogram Functions
 
+    def Contrast_max_change(self):
+        self.max = self.Slidermax.value()
+        self.widget.canvas.axes.clear()
+        self.item = self.SpectrogramcomboBox.currentText()
+
+        if self.item == "Signal_1":
+            self.Fig1 = self.widget.canvas.axes.specgram(self.y1, cmap = self.cmap,xextent =(self.min, self.max))
+            self.widget.canvas.draw()
+        elif self.item == "Signal_2":
+            self.Fig2 = self.widget.canvas.axes.specgram(self.y2, cmap = self.cmap,xextent =(self.min, self.max))
+            self.widget.canvas.draw()
+        elif self.item == "Signal_3":
+            self.Fig3 = self.widget.canvas.axes.specgram(self.y2, cmap = self.cmap,xextent =(self.min, self.max))
+            self.widget.canvas.draw()
+
+    def Contrast_min_change(self):
+        self.min = self.Slidermin.value()
+        self.widget.canvas.axes.clear()
+
+        if self.item == "Signal_1":
+            self.Fig1 = self.widget.canvas.axes.specgram(self.y1, cmap = self.cmap,xextent =(self.min, self.max))
+            self.widget.canvas.draw()
+        elif self.item == "Signal_2":
+            self.Fig2 = self.widget.canvas.axes.specgram(self.y2, cmap = self.cmap,xextent =(self.min, self.max))
+            self.widget.canvas.draw()
+        elif self.item == "Signal_3":
+            self.Fig3 = self.widget.canvas.axes.specgram(self.y2, cmap = self.cmap,xextent =(self.min, self.max))
+            self.widget.canvas.draw()
+
     def Spectrogram(self):
 
         self.widget.canvas.axes.clear()
-        item = self.SpectrogramcomboBox.currentText()
+        self.item = self.SpectrogramcomboBox.currentText()
+        fs = int(1 / 0.004)
 
-        if item == "Signal_1" :
-            self.widget.canvas.axes.specgram(self.y1, cmap = self.cmap)
-        elif item == "Signal_2" :
-            self.widget.canvas.axes.specgram(self.y2, cmap = self.cmap)
-        elif item == "Signal_3" :
-            self.widget.canvas.axes.specgram(self.y3, cmap = self.cmap)
+        if self.item == "Signal_1" :
+            self.Fig1 = self.widget.canvas.axes.specgram(self.y1, cmap=self.cmap , xextent =(self.min, self.max))
+        elif self.item == "Signal_2" :
+            self.Fig2 = self.widget.canvas.axes.specgram(self.y2, cmap = self.cmap, xextent =(self.min, self.max))
+        elif self.item == "Signal_3" :
+            self.Fig3= self.widget.canvas.axes.specgram(self.y2, cmap = self.cmap, xextent =(self.min, self.max))
 
         self.widget.canvas.draw()
 
