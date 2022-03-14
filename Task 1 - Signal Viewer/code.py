@@ -102,7 +102,6 @@ class MainApp(QMainWindow , FORM_CLASS):
     # Utility functions (Play/Pause, Zoom, Show/Hide, Scroll, Title)
     
     def Slider(self):
-        print(self.speedSlider.value())
         self.speed=self.speed+self.speedSlider.value()
 
         if(self.speed > 0):
@@ -260,7 +259,6 @@ class MainApp(QMainWindow , FORM_CLASS):
         end_count = 0
         if self.isRunning :
             self.counter = self.counter +10
-        print(self.speed)
         self.graphicsView.clear()
         if self.First_Signal_Flag == 1 and self.Hide_First_Signal_Flag == 0:
             self.Signal1 = self.graphicsView.plotItem.plot(self.x1[0:self.counter],self.y1[0:self.counter], pen=self.pen1)               #Plot every 100 x index with 100 y index
