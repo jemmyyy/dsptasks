@@ -303,16 +303,11 @@ class MainApp(QMainWindow , FORM_CLASS):
         item = self.SpectrogramcomboBox.currentText()
 
         if item == "Signal_1" :
-            self.widget.canvas.axes.specgram(self.y1,NFFT=None,Fs=None,Fc=None,detrend=None,window=None,noverlap=None,
-            cmap=self.cmap,vmin=self.Slidermin.value()-100,vmax=self.Slidermax.value())
+            self.widget.canvas.axes.specgram(self.y1, cmap = self.cmap)
         elif item == "Signal_2" :
             self.widget.canvas.axes.specgram(self.y2, cmap = self.cmap)
-            self.widget.canvas.axes.specgram(self.y2signal_2,NFFT=None,Fs=None,Fc=None,detrend=None,window=None,noverlap=None,
-            cmap=self.ColorcomboBox,vmin=self.Slidermin.value()-100,vmax=self.Slidermax.value())
         elif item == "Signal_3" :
             self.widget.canvas.axes.specgram(self.y3, cmap = self.cmap)
-            self.widget.canvas.axes.specgram(self.y3signal_3,NFFT=None,Fs=None,Fc=None,detrend=None,window=None,noverlap=None,
-            cmap=self.ColorcomboBox,vmin=self.Slidermin.value()-100,vmax=self.Slidermax.value())
 
         self.widget.canvas.draw()
 
