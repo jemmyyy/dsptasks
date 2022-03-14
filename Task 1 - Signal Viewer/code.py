@@ -1,20 +1,19 @@
-##PyQT5
+# Libraries and imports
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.uic import  loadUiType
-from pyqtgraph import PlotWidget,plot
+from pyqtgraph import PlotWidget, plot
 from PyQt5 import QtCore
 import numpy as np
 import pyqtgraph as pg
 import sys
-import os 
+import os
 from os import path 
-from tkinter import *
+import tkinter
 from tkinter import ttk
-from PyQt5 import QtCore, QtGui, QtWidgets,QtPrintSupport
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyPDF2.pdf import PdfFileReader
-from PyQt5.QtPrintSupport import QPrintDialog, QPrinter, QPrintPreviewDialog
 from PyQt5.Qt import QFileInfo
 import matplotlib.pyplot as plt
 from numpy.lib.function_base import append
@@ -24,8 +23,6 @@ from PyPDF2 import PdfFileMerger, merger
 import fitz
 import pyqtgraph.exporters
 
-root = Tk()
-root.title('Codemy.com - Learn To Code!')
 
 FORM_CLASS,_= loadUiType(path.join(path.dirname(__file__),"main.ui"))
 
@@ -89,6 +86,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.zoomInButton.clicked.connect(self.zoomIn)
         self.zoomOutButton.clicked.connect(self.zoomOut)
         
+        # Min/Max Spectrogram Sliders
         self.Slidermax.setMinimum(-75)
         self.Slidermax.setMaximum(-25)
         self.Slidermax.setValue(-50)
@@ -105,7 +103,7 @@ class MainApp(QMainWindow , FORM_CLASS):
 
         # Speed Slider
         self.speedSlider.setMinimum(-50)
-        self.speedSlider.setMaximum(50)
+        self.speedSlider.setMaximum(250)
         self.speedSlider.setValue(-10)
         self.speedSlider.setTickPosition(QSlider.TicksBelow)
         self.speedSlider.setSingleStep(1)
@@ -125,11 +123,6 @@ class MainApp(QMainWindow , FORM_CLASS):
         
         self.titleButton.clicked.connect(self.addTitle)
         self.titleConfirmButton.clicked.connect(self.confirmTitle)
-
-        
-        
-        
-
 
         self.colorButton.clicked.connect(self.colorFn)
 
@@ -189,7 +182,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         item = self.ShowcomboBox.currentText()
         if item == "Signal_1" :
             self.Hide_First_Signal_Flag = 0
-            self.Signal1 = self.graphicsView.plot(self.x1[0:self.counter],self.y1[0:self.counter], pen=self.pen1)
+            self.Signal1 = self.graphicsView.plot(self.signal1Time[0:self.counter],self.signal1Amp[0:self.counter], pen=self.pen1)
         elif item == "Signal_2" :
             self.Hide_Second_Signal_Flag = 0
             self.Signal2 = self.graphicsView.plot(self.x2[0:self.counter],self.y2[0:self.counter], pen=self.pen2)
@@ -198,7 +191,7 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.Signal3 = self.graphicsView.plot(self.x3[0:self.counter],self.y3[0:self.counter], pen=self.pen3)
         else :
             self.Hide_First_Signal_Flag = 0
-            self.Signal1 = self.graphicsView.plot(self.x1[0:self.counter],self.y1[0:self.counter], pen=self.pen1)
+            self.Signal1 = self.graphicsView.plot(self.signal1Time[0:self.counter],self.signal1Amp[0:self.counter], pen=self.pen1)
             self.Hide_Second_Signal_Flag = 0
             self.Signal2 = self.graphicsView.plot(self.x2[0:self.counter],self.y2[0:self.counter], pen=self.pen2)
             self.Hide_Third_Signal_Flag = 0
@@ -256,17 +249,17 @@ class MainApp(QMainWindow , FORM_CLASS):
         myfile.close()
         if self.Signal_Flag == 1:
             self.channel1_path=path
-            self.x1 = np.array(self.time)
-            self.y1 = np.array(self.amplitude)
-            self.maxTime = max(self.x1)
-            self.maxAmp = max(self.y1)
-            self.minAmp = min(self.y1)
-            self.sigDatax.append(self.x1)
-            self.sigDatay.append(self.y1)
+            self.signal1Time = np.array(self.time)
+            self.signal1Amp = np.array(self.amplitude)
+            self.maxTime = max(self.signal1Time)
+            self.maxAmp = max(self.signal1Amp)
+            self.minAmp = min(self.signal1Amp)
+            self.sigDatax.append(self.signal1Time)
+            self.sigDatay.append(self.signal1Amp)
             if (self.maxAmp - self.minAmp) < 5:
-                self.y1*=10
-                self.maxAmp = max(self.y1)
-                self.minAmp = min(self.y1)
+                self.signal1Amp*=10
+                self.maxAmp = max(self.signal1Amp)
+                self.minAmp = min(self.signal1Amp)
             self.Signal_Flag = 2
             self.First_Signal_Flag = 1
         elif self.Signal_Flag == 2:
@@ -320,14 +313,14 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.counter = self.counter +10
         self.graphicsView.clear()
         if self.First_Signal_Flag == 1 and self.Hide_First_Signal_Flag == 0:
-            self.Signal1 = self.graphicsView.plotItem.plot(self.x1[0:self.counter],self.y1[0:self.counter], pen=self.pen1)               #Plot every 100 x index with 100 y index
-            self.max_len = len(self.x1)
+            self.Signal1 = self.graphicsView.plotItem.plot(self.signal1Time[0:self.counter],self.signal1Amp[0:self.counter], pen=self.pen1)               #Plot every 100 x index with 100 y index
+            self.max_len = len(self.signal1Time)
         if self.Second_Signal_Flag == 1 and self.Hide_Second_Signal_Flag == 0:
             self.Signal2 = self.graphicsView.plot(self.x2[0:self.counter],self.y2[0:self.counter], pen=self.pen2)
-            self.max_len = max(len(self.x1),len(self.x2))
+            self.max_len = max(len(self.signal1Time),len(self.x2))
         if self.Third_Signal_Flag == 1 and self.Hide_Third_Signal_Flag == 0:
             self.Signal3 = self.graphicsView.plot(self.x3[0:self.counter],self.y3[0:self.counter], pen=self.pen3)
-            self.max_len = max(len(self.x1),len(self.x2),len(self.x3))
+            self.max_len = max(len(self.signal1Time),len(self.x2),len(self.x3))
         if self.counter < self.max_len:                                                    #To stop at the limit of the graph
             if self.counter < 100:
                 start_count = 0
@@ -396,7 +389,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.item = self.SpectrogramcomboBox.currentText()
 
         if self.item == "Signal_1":
-            self.Fig1 = self.widget.canvas.axes.specgram(self.y1, cmap = self.cmap,xextent =(self.min, self.max))
+            self.Fig1 = self.widget.canvas.axes.specgram(self.signal1Amp, cmap = self.cmap,xextent =(self.min, self.max))
             self.widget.canvas.draw()
         elif self.item == "Signal_2":
             self.Fig2 = self.widget.canvas.axes.specgram(self.y2, cmap = self.cmap,xextent =(self.min, self.max))
@@ -410,7 +403,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.widget.canvas.axes.clear()
 
         if self.item == "Signal_1":
-            self.Fig1 = self.widget.canvas.axes.specgram(self.y1, cmap = self.cmap,xextent =(self.min, self.max))
+            self.Fig1 = self.widget.canvas.axes.specgram(self.signal1Amp, cmap = self.cmap,xextent =(self.min, self.max))
             self.widget.canvas.draw()
         elif self.item == "Signal_2":
             self.Fig2 = self.widget.canvas.axes.specgram(self.y2, cmap = self.cmap,xextent =(self.min, self.max))
@@ -426,11 +419,11 @@ class MainApp(QMainWindow , FORM_CLASS):
         fs = int(1 / 0.004)
 
         if self.item == "Signal_1" :
-            self.Fig1 = self.widget.canvas.axes.specgram(self.y1, cmap=self.cmap , xextent =(self.min, self.max))
+            self.Fig1 = self.widget.canvas.axes.specgram(self.signal1Amp, cmap=self.cmap , xextent =(self.min, self.max))
         elif self.item == "Signal_2" :
             self.Fig2 = self.widget.canvas.axes.specgram(self.y2, cmap = self.cmap, xextent =(self.min, self.max))
         elif self.item == "Signal_3" :
-            self.Fig3= self.widget.canvas.axes.specgram(self.y2, cmap = self.cmap, xextent =(self.min, self.max))
+            self.Fig3= self.widget.canvas.axes.specgram(self.y3, cmap = self.cmap, xextent =(self.min, self.max))
 
         self.widget.canvas.draw()
 
