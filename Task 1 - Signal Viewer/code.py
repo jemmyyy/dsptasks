@@ -1,5 +1,4 @@
 ##PyQT5
-from distutils import extension
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
@@ -36,8 +35,9 @@ class MainApp(QMainWindow , FORM_CLASS):
         super(MainApp,self).__init__(parent)
         QMainWindow.__init__(self)
         self.setupUi(self)
-        self.Handel_UI()
+        self.Handle_UI()
         self.cmap = 'inferno'
+        self.title = ''
         self.counter = 0
         self.max_len = 0
         self.Signal_Flag = 1
@@ -55,28 +55,25 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.pen2 = pg.mkPen('b')
         self.pen3 = pg.mkPen('y')
 
-    def Handel_UI(self):
+    def Handle_UI(self):
         # self = QMainWindow
         self.setWindowTitle('Multi-Channel Signal Viewer')
-        self.Handel_Buttons()
-        self.Handel_GraphicsViews()
-        # self.Handel_Slider()
+        self.Handle_Buttons()
+        self.Handle_GraphicsViews()
+        # self.Handle_Slider()
 
-    def Handel_Buttons(self):
-        self.BrowseButton_13.clicked.connect(self.Handel_Browse)
-        self.ShowcomboBox.currentTextChanged.connect(self.Handel_Show)
-        self.HidecomboBox.currentTextChanged.connect(self.Handel_Hide)
-        self.horizontalSlider_2.setMinimum(-500)
-        self.horizontalSlider_2.setMaximum(1000)
-        self.horizontalSlider_2.setValue(0)
-        self.horizontalSlider_2.setTickPosition(QSlider.TicksBelow)
-        self.horizontalSlider_2.setTickInterval(50)
-        self.horizontalSlider_2.valueChanged.connect(self.Handel_Slider)
-        self.PauseButton_6.clicked.connect(self.Handel_pause)
-        self.PlayButton_7.clicked.connect(self.Handel_play)
+    def Handle_Buttons(self):
+        
+        self.BrowseButton_13.clicked.connect(self.Browse)
+        self.ShowcomboBox.currentTextChanged.connect(self.Show)
+        self.HidecomboBox.currentTextChanged.connect(self.Hide)
+        self.PauseButton_6.clicked.connect(self.Pause)
+        self.PlayButton_7.clicked.connect(self.Play)
+        
         # Zoom Button Functions
         self.zoomInButton.clicked.connect(self.zoomIn)
         self.zoomOutButton.clicked.connect(self.zoomOut)
+        
         # Scroll Slider Functions
         self.horizontalScroll.valueChanged.connect(self.scrollHorizontal)
         self.horizontalScroll.sliderMoved.connect(self.scrollHorizontal)
@@ -84,32 +81,39 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.verticalScroll.valueChanged.connect(self.scrollVertical)
         self.verticalScroll.sliderMoved.connect(self.scrollVertical)
         self.verticalScroll.sliderReleased.connect(self.scrollVertical)
-        self.ExportButton_12.clicked.connect(self.handel_export)
-        self.SpectrogramcomboBox.currentTextChanged.connect(self.Handle_Spectrogram)
-        self.ColorcomboBox.currentTextChanged.connect(self.Handle_Color)
 
-    def Handel_Slider(self):
-          self.speed=self.speed+self.horizontalSlider_2.value()
-          if(self.speed > 0):
-             self.timer.setInterval(self.speed)
-             self.timer.timeout.connect(self.update_plot_data)
-             self.timer.start()
+        self.ExportButton_12.clicked.connect(self.Export)
+        self.SpectrogramcomboBox.currentTextChanged.connect(self.Spectrogram)
+        self.ColorcomboBox.currentTextChanged.connect(self.spectroColor)
+        
+        self.titleButton.clicked.connect(self.addTitle)
+        self.titleConfirmButton.clicked.connect(self.confirmTitle)
 
-    def Handel_GraphicsViews(self):
+    # def Handle_Slider(self):
+    #       self.speed=self.speed+self.speedSlider.value()
+    #       if(self.speed > 0):
+    #          self.timer.setInterval(self.speed)
+    #          self.timer.timeout.connect(self.update_plot_data)
+    #          self.timer.start()
+
+    def Handle_GraphicsViews(self):
          pass
 
-    def Handel_pause(self):
+#----------------------------------------------------------------------------------------------------------#
+    # Utility functions (Play/Pause, Zoom, Show/Hide, Scroll, Title)
+    
+    def Pause(self):
             self.isRunning=False        
     
-    def Handel_play(self):
+    def Play(self):
             self.isRunning=True   
 
     def zoomIn(self):
-        self.Handel_pause
+        self.Pause
         self.graphicsView.plotItem.getViewBox().scaleBy((0.85,0.85))
 
     def zoomOut(self):
-        self.Handel_pause
+        self.Pause
         self.graphicsView.plotItem.getViewBox().scaleBy((1.15,1.15))
 
     def scrollHorizontal(self):
@@ -124,8 +128,18 @@ class MainApp(QMainWindow , FORM_CLASS):
             val = self.verticalScroll.value()
             self.graphicsView.setYRange(val-((self.maxAmp-self.minAmp) / 5), val+((self.maxAmp-self.minAmp) / 5))
 
+    def confirmTitle(self):
+        self.title = self.titleText.toPlainText()
+        self.titleText.setText('')
+        self.titleLabel.setText(self.title)
+        self.titleText.setEnabled(False)
+        self.titleConfirmButton.setEnabled(False)
 
-    def Handel_Show(self) :
+    def addTitle(self):
+        self.titleText.setEnabled(True)
+        self.titleConfirmButton.setEnabled(True)
+
+    def Show(self) :
         item = self.HidecomboBox.currentText()
         if item == "Signal_1" :
             self.Hide_First_Signal_Flag = 0
@@ -145,7 +159,7 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.Signal3 = self.graphicsView.plot(self.x3[0:self.counter],self.y3[0:self.counter], pen=self.pen1)
 
 
-    def Handel_Hide(self):
+    def Hide(self):
         item = self.HidecomboBox.currentText()
         if item == "Signal_1" :
             self.Hide_First_Signal_Flag = 1
@@ -164,7 +178,10 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.Hide_Third_Signal_Flag = 1
             self.Signal3.hide()
 
-    def Handel_Browse(self):
+#----------------------------------------------------------------------------------------------------------#
+    # Signal Plotting (Browse, Timer, Update Plot)
+
+    def Browse(self):
         open_place = QFileDialog.getOpenFileName(self , caption= "Browse", directory=".", filter="All Files (*.*)")
         path = open_place[0].split(',') 
         myfile = open(path[0], "r") #path refears to the chosen file after splitting   # 'r' refears to the mode, the mode here is reading 
@@ -229,6 +246,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.timer.setInterval(self.speed)                       #In control of speed :)
         self.timer.timeout.connect(self.update_plot_data)
         self.timer.start()
+    
     def update_plot_data(self):
         start_count = 0
         end_count = 0
@@ -256,6 +274,8 @@ class MainApp(QMainWindow , FORM_CLASS):
                 self.graphicsView.setXRange(start_count,end_count)
                 self.graphicsView.setYRange(self.minAmp, self.maxAmp)
     
+#----------------------------------------------------------------------------------------------------------#
+    # Data Exporting
 
     def table_creation(self, pdffilename):
         table_header = ["Signal Name", "Mean", "Standard Deviation", "Maximum Value", "Minimum Value", 'duration']
@@ -296,38 +316,37 @@ class MainApp(QMainWindow , FORM_CLASS):
             page.insert_image(rect1, stream=img1)
 
         doc.saveIncr()
+    
+    def Export(self):
+        fn, _ = QtWidgets.QFileDialog.getSaveFileName(None, "Export PDF", None, "PDF files (.pdf);;All Files()")
+        if fn != '':
+            if QtCore.QFileInfo(fn).suffix() == "": fn += '.pdf'
+            self.table_creation(fn)
+            self.print_widget(self.graphicsView, fn)
 
-    def Handle_Spectrogram(self):
+#----------------------------------------------------------------------------------------------------------#
+    # Spectrogram Functions
+
+    def Spectrogram(self):
 
         self.widget.canvas.axes.clear()
         item = self.SpectrogramcomboBox.currentText()
 
         if item == "Signal_1" :
             self.widget.canvas.axes.specgram(self.y1, cmap = self.cmap)
-            self.widget.canvas.axes.specgram(self.y1signal_1,NFFT=None,Fs=None,Fc=None,detrend=None,window=None,noverlap=None,
-            cmap=self.ColorcomboBox,vmin=self.Slidermin.value()-100,vmax=self.Slidermax.value())
         elif item == "Signal_2" :
             self.widget.canvas.axes.specgram(self.y2, cmap = self.cmap)
-            self.widget.canvas.axes.specgram(self.y2signal_2,NFFT=None,Fs=None,Fc=None,detrend=None,window=None,noverlap=None,
-            cmap=self.ColorcomboBox,vmin=self.Slidermin.value()-100,vmax=self.Slidermax.value())
         elif item == "Signal_3" :
             self.widget.canvas.axes.specgram(self.y3, cmap = self.cmap)
-            self.widget.canvas.axes.specgram(self.y3signal_3,NFFT=None,Fs=None,Fc=None,detrend=None,window=None,noverlap=None,
-            cmap=self.ColorcomboBox,vmin=self.Slidermin.value()-100,vmax=self.Slidermax.value())
 
         self.widget.canvas.draw()
 
-    def Handle_Color(self):
+    def spectroColor(self):
 
         self.cmap = self.ColorcomboBox.currentText()
-        self.Handle_Spectrogram()
+        self.Spectrogram()
     
-    def handel_export(self):
-        fn, _ = QtWidgets.QFileDialog.getSaveFileName(None, "Export PDF", None, "PDF files (.pdf);;All Files()")
-        if fn != '':
-            if QtCore.QFileInfo(fn).suffix() == "": fn += '.pdf'
-            self.table_creation(fn)
-            self.print_widget(self.graphicsView, fn)
+#----------------------------------------------------------------------------------------------------------#
 
 def main ():
     app = QApplication(sys.argv)
