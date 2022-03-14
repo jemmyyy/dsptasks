@@ -13,6 +13,7 @@ from PySide2.QtGui import *
 from PySide2.QtWidgets import *
 
 from pyqtgraph import PlotWidget
+from mplwidget import MplWidget
 
 
 class Ui_Form(object):
@@ -20,8 +21,10 @@ class Ui_Form(object):
         if not Form.objectName():
             Form.setObjectName(u"Form")
         Form.resize(1118, 637)
-        Form.setStyleSheet(u"QToolBar * {margin: 0px;padding: 0px;}\n"
-"\n"
+        Form.setStyleSheet(u"QToolBar * {\n"
+"  margin: 0px;\n"
+"  padding: 0px;\n"
+"}\n"
 "QWidget {\n"
 "  background-color: #19232D;\n"
 "  border: 0px solid #455364;\n"
@@ -63,10 +66,10 @@ class Ui_Form(object):
 "  margin-top: 2px;\n"
 "  margin-bottom: 2px;\n"
 "  image: url(\":/qss_icons/dark/rc/toolbar_separator_vertical.png\");\n"
-"}\n"
+""
+                        "}\n"
 "\n"
-"QM"
-                        "ainWindow::separator:vertical {\n"
+"QMainWindow::separator:vertical {\n"
 "  height: 5px;\n"
 "  margin-left: 2px;\n"
 "  margin-right: 2px;\n"
@@ -126,8 +129,8 @@ class Ui_Form(object):
 "}\n"
 "\n"
 "QCheckBox QWidget:disabled {\n"
-"  background-"
-                        "color: #19232D;\n"
+""
+                        "  background-color: #19232D;\n"
 "  color: #9DA9B5;\n"
 "}\n"
 "\n"
@@ -160,8 +163,8 @@ class Ui_Form(object):
 "}\n"
 "\n"
 "QCheckBox::indicator:checked:disabled {\n"
-"  image: url(\":/qss_icons/dark"
-                        "/rc/checkbox_checked_disabled.png\");\n"
+"  image: url(\":/q"
+                        "ss_icons/dark/rc/checkbox_checked_disabled.png\");\n"
 "}\n"
 "\n"
 "QCheckBox::indicator:indeterminate {\n"
@@ -198,9 +201,9 @@ class Ui_Form(object):
 "  margin-left: 2px;\n"
 "  margin-top: 2px;\n"
 "  padding: 0;\n"
-"  height: 14px;\n"
-" "
-                        " width: 14px;\n"
+"  height"
+                        ": 14px;\n"
+"  width: 14px;\n"
 "}\n"
 "\n"
 "QGroupBox::indicator:unchecked {\n"
@@ -231,8 +234,8 @@ class Ui_Form(object):
 "  image: url(\":/qss_icons/dark/rc/checkbox_checked_disabled.png\");\n"
 "}\n"
 "QRadioButton {\n"
-"  background-color"
-                        ": #19232D;\n"
+"  bac"
+                        "kground-color: #19232D;\n"
 "  color: #E0E1E3;\n"
 "  spacing: 4px;\n"
 "  padding-top: 4px;\n"
@@ -276,9 +279,9 @@ class Ui_Form(object):
 "QRadioButton::indicator:unchecked:hover, QRadioButton::indicator:unchecked:focus, QRadioButton::indicator:unchecked:pressed {\n"
 "  border: none;\n"
 "  outline: none;\n"
-"  image: url(\":/qss_icons/dark/rc/radio_unchecked_focus.png\");\n"
-"}"
-                        "\n"
+"  image: url(\":/qss_icons/dark/rc/radio_unchecked_focus."
+                        "png\");\n"
+"}\n"
 "\n"
 "QRadioButton::indicator:unchecked:disabled {\n"
 "  image: url(\":/qss_icons/dark/rc/radio_unchecked_disabled.png\");\n"
@@ -318,8 +321,8 @@ class Ui_Form(object):
 "  padding: 4px;\n"
 "}\n"
 "\n"
-"QMenuBar::item:"
-                        "selected {\n"
+"QM"
+                        "enuBar::item:selected {\n"
 "  padding: 4px;\n"
 "  background: transparent;\n"
 "  border: 0px solid #455364;\n"
@@ -369,9 +372,9 @@ class Ui_Form(object):
 "  width: 14px;\n"
 "  height: 14px;\n"
 "}\n"
-"\n"
-"QMenu::i"
-                        "ndicator {\n"
+""
+                        "\n"
+"QMenu::indicator {\n"
 "  padding-left: 8px;\n"
 "  width: 12px;\n"
 "  height: 12px;\n"
@@ -400,8 +403,8 @@ class Ui_Form(object):
 "  image: url(\":/qss_icons/dark/rc/checkbox_checked_focus.png\");\n"
 "}\n"
 "\n"
-"QMenu::indicator:non-exclusive:checked:dis"
-                        "abled {\n"
+"QMenu::indicator:non-exclusiv"
+                        "e:checked:disabled {\n"
 "  image: url(\":/qss_icons/dark/rc/checkbox_checked_disabled.png\");\n"
 "}\n"
 "\n"
@@ -427,8 +430,8 @@ class Ui_Form(object):
 "  image: url(\":/qss_icons/dark/rc/radio_unchecked_focus.png\");\n"
 "}\n"
 "\n"
-"QMenu::indicator:exc"
-                        "lusive:unchecked:disabled {\n"
+"QMenu::"
+                        "indicator:exclusive:unchecked:disabled {\n"
 "  image: url(\":/qss_icons/dark/rc/radio_unchecked_disabled.png\");\n"
 "}\n"
 "\n"
@@ -464,8 +467,8 @@ class Ui_Form(object):
 "  border-radius: 4px;\n"
 "}\n"
 "\n"
-"QAbstractItemV"
-                        "iew QLineEdit {\n"
+"Q"
+                        "AbstractItemView QLineEdit {\n"
 "  padding: 2px;\n"
 "}\n"
 "\n"
@@ -515,9 +518,9 @@ class Ui_Form(object):
 "\n"
 "QScrollBar::handle:horizontal:hover {\n"
 "  background-color: #346792;\n"
-"  border: #346792;\n"
-""
-                        "  border-radius: 4px;\n"
+"  bord"
+                        "er: #346792;\n"
+"  border-radius: 4px;\n"
 "  min-width: 8px;\n"
 "}\n"
 "\n"
@@ -556,9 +559,9 @@ class Ui_Form(object):
 "  border-image: url(\":/qss_icons/dark/rc/arrow_right.png\");\n"
 "  height: 12px;\n"
 "  width: 12px;\n"
-"  subcontrol-position: right;\n"
-""
-                        "  subcontrol-origin: margin;\n"
+"  subcontrol-posi"
+                        "tion: right;\n"
+"  subcontrol-origin: margin;\n"
 "}\n"
 "\n"
 "QScrollBar::add-line:vertical {\n"
@@ -591,8 +594,8 @@ class Ui_Form(object):
 "  border-image: url(\":/qss_icons/dark/rc/arrow_left.png\");\n"
 "  height: 12px;\n"
 "  width: 12px;\n"
-"  subcontrol-positio"
-                        "n: left;\n"
+"  s"
+                        "ubcontrol-position: left;\n"
 "  subcontrol-origin: margin;\n"
 "}\n"
 "\n"
@@ -630,8 +633,8 @@ class Ui_Form(object):
 "}\n"
 "\n"
 "QTextEdit {\n"
-"  background-color: #192"
-                        "32D;\n"
+"  backg"
+                        "round-color: #19232D;\n"
 "  color: #E0E1E3;\n"
 "  border-radius: 4px;\n"
 "  border: 1px solid #455364;\n"
@@ -686,8 +689,8 @@ class Ui_Form(object):
 "  spacing: 2px;\n"
 "}\n"
 "\n"
-"QToolBar:disa"
-                        "bled {\n"
+""
+                        "QToolBar:disabled {\n"
 "  /* Fixes #272 */\n"
 "  background-color: #455364;\n"
 "}\n"
@@ -727,9 +730,9 @@ class Ui_Form(object):
 "  padding-top: 2px;\n"
 "  padding-bottom: 2px;\n"
 "  padding-left: 4px;\n"
-"  padding-right: 4px;\n"
-" "
-                        " border-radius: 4px;\n"
+"  padding-righ"
+                        "t: 4px;\n"
+"  border-radius: 4px;\n"
 "  \n"
 "}\n"
 "\n"
@@ -763,8 +766,8 @@ class Ui_Form(object):
 "  border-left: 1px solid #455364;\n"
 "  border-top: 1px solid #455364;\n"
 "  border-top-left-radius: 0;\n"
-"  border-bottom-left-radius"
-                        ": 0;\n"
+"  border-botto"
+                        "m-left-radius: 0;\n"
 "  margin: 1px;\n"
 "  width: 12px;\n"
 "  margin-top: -1px;\n"
@@ -810,8 +813,8 @@ class Ui_Form(object):
 "\n"
 "QTextBrowser {\n"
 "  background-color: #19232D;\n"
-"  border: 1px solid #45536"
-                        "4;\n"
+"  border: 1px"
+                        " solid #455364;\n"
 "  color: #E0E1E3;\n"
 "  border-radius: 4px;\n"
 "}\n"
@@ -855,9 +858,9 @@ class Ui_Form(object):
 "}\n"
 "\n"
 "QLCDNumber {\n"
-"  background-color: #19232D;\n"
-""
-                        "  color: #E0E1E3;\n"
+"  background-color:"
+                        " #19232D;\n"
+"  color: #E0E1E3;\n"
 "}\n"
 "\n"
 "QLCDNumber:disabled {\n"
@@ -906,11 +909,11 @@ class Ui_Form(object):
 "  background-color: #455364;\n"
 "  color: #9DA9B5;\n"
 "  border-radius: 4px;\n"
-"  padding: 2px;\n"
+"  padding: 2p"
+                        "x;\n"
 "}\n"
 "\n"
-""
-                        "QPushButton:checked {\n"
+"QPushButton:checked {\n"
 "  background-color: #60798B;\n"
 "  border-radius: 4px;\n"
 "  padding: 2px;\n"
@@ -956,8 +959,8 @@ class Ui_Form(object):
 "\n"
 "/* QToolButton ------------------------------------------------------------\n"
 "\n"
-"https://doc.qt.io/q"
-                        "t-5/stylesheet-examples.html#customizing-qtoolbutton\n"
+"h"
+                        "ttps://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qtoolbutton\n"
 "\n"
 "--------------------------------------------------------------------------- */\n"
 "QToolButton {\n"
@@ -994,9 +997,9 @@ class Ui_Form(object):
 "  outline: none;\n"
 "}\n"
 "\n"
-"QToolButton:checked:hover {\n"
-""
-                        "  background-color: #54687A;\n"
+"QToolButton"
+                        ":checked:hover {\n"
+"  background-color: #54687A;\n"
 "  color: #E0E1E3;\n"
 "}\n"
 "\n"
@@ -1045,10 +1048,10 @@ class Ui_Form(object):
 "\n"
 "QToolButton[popupMode=\"2\"] {\n"
 "  /* Only for InstantPopup */\n"
-"  padding-right: 2px;\n"
+"  paddi"
+                        "ng-right: 2px;\n"
 "}\n"
-""
-                        "\n"
+"\n"
 "QToolButton::menu-button {\n"
 "  padding: 2px;\n"
 "  border-radius: 4px;\n"
@@ -1088,9 +1091,9 @@ class Ui_Form(object):
 "/* QCommandLinkButton -----------------------------------------------------\n"
 "\n"
 "--------------------------------------------------------------------------- */\n"
-"QCommandLinkButton {\n"
-"  background-color"
-                        ": transparent;\n"
+"QCommandLinkButton"
+                        " {\n"
+"  background-color: transparent;\n"
 "  border: 1px solid #455364;\n"
 "  color: #E0E1E3;\n"
 "  border-radius: 4px;\n"
@@ -1118,9 +1121,9 @@ class Ui_Form(object):
 "  padding-left: 4px;\n"
 "  padding-right: 4px;\n"
 "  /* padding-right = 36; 4 + 16*2 See scrollbar size */\n"
-"  /* changed to 4px to fix #239 */\n"
-"  /* Fi"
-                        "xes #103, #111 */\n"
+"  /* changed to 4px t"
+                        "o fix #239 */\n"
+"  /* Fixes #103, #111 */\n"
 "  min-height: 1.5em;\n"
 "  /* padding-top: 2px;     removed to fix #132 */\n"
 "  /* padding-bottom: 2px;  removed to fix #132 */\n"
@@ -1163,9 +1166,9 @@ class Ui_Form(object):
 "}\n"
 "\n"
 "QComboBox:on {\n"
-"  selection-background-color: #346792;\n"
-"}"
-                        "\n"
+"  selection-backgro"
+                        "und-color: #346792;\n"
+"}\n"
 "\n"
 "QComboBox::indicator {\n"
 "  border: none;\n"
@@ -1210,8 +1213,8 @@ class Ui_Form(object):
 "  width: 8px;\n"
 "}\n"
 "\n"
-"QComboBox::down-arrow:on, "
-                        "QComboBox::down-arrow:hover, QComboBox::down-arrow:focus {\n"
+"Q"
+                        "ComboBox::down-arrow:on, QComboBox::down-arrow:hover, QComboBox::down-arrow:focus {\n"
 "  image: url(\":/qss_icons/dark/rc/arrow_down.png\");\n"
 "}\n"
 "\n"
@@ -1252,8 +1255,8 @@ class Ui_Form(object):
 "  border-radius: 4px;\n"
 "}\n"
 "\n"
-"QSlider::add-page:vertical :disabled"
-                        " {\n"
+"QSlider::ad"
+                        "d-page:vertical :disabled {\n"
 "  background: #26486B;\n"
 "}\n"
 "\n"
@@ -1301,9 +1304,9 @@ class Ui_Form(object):
 "  border: 1px solid #346792;\n"
 "}\n"
 "\n"
-"QSlider::handle:vertical:focus {\n"
-"  border: 1p"
-                        "x solid #1A72BB;\n"
+"QSlider::handle:vertical"
+                        ":focus {\n"
+"  border: 1px solid #1A72BB;\n"
 "}\n"
 "\n"
 "/* QLineEdit --------------------------------------------------------------\n"
@@ -1344,8 +1347,8 @@ class Ui_Form(object):
 "  color: #455364;\n"
 "}\n"
 "\n"
-"/* QTabWiget ---------------------------------------------"
-                        "-----------------\n"
+"/* QTabWiget --------------------"
+                        "------------------------------------------\n"
 "\n"
 "https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qtabwidget-and-qtabbar\n"
 "\n"
@@ -1380,9 +1383,9 @@ class Ui_Form(object):
 "--------------------------------------------------------------------------- */\n"
 "QTabBar, QDockWidget QTabBar {\n"
 "  qproperty-drawBase: 0;\n"
-"  border-radius: 4px;\n"
-" "
-                        " margin: 0px;\n"
+"  "
+                        "border-radius: 4px;\n"
+"  margin: 0px;\n"
 "  padding: 2px;\n"
 "  border: 0;\n"
 "  /* left: 5px; move to the right by 5px - removed for fix */\n"
@@ -1411,9 +1414,9 @@ class Ui_Form(object):
 "QTabBar::tab:top:selected:disabled, QDockWidget QTabBar::tab:top:selected:disabled {\n"
 "  border-bottom: 3px solid #26486B;\n"
 "  color: #9DA9B5;\n"
-"  background-color: #455364;\n"
-"}"
-                        "\n"
+"  backgro"
+                        "und-color: #455364;\n"
+"}\n"
 "\n"
 "QTabBar::tab:bottom:selected:disabled, QDockWidget QTabBar::tab:bottom:selected:disabled {\n"
 "  border-top: 3px solid #26486B;\n"
@@ -1445,8 +1448,8 @@ class Ui_Form(object):
 "  background-color: #19232D;\n"
 "}\n"
 "\n"
-"QTabBar::tab:left:!selected"
-                        ":disabled, QDockWidget QTabBar::tab:left:!selected:disabled {\n"
+"QT"
+                        "abBar::tab:left:!selected:disabled, QDockWidget QTabBar::tab:left:!selected:disabled {\n"
 "  border-right: 3px solid #19232D;\n"
 "  color: #9DA9B5;\n"
 "  background-color: #19232D;\n"
@@ -1478,9 +1481,9 @@ class Ui_Form(object):
 "  margin-left: 2px;\n"
 "}\n"
 "\n"
-"QTabBar::tab:top, QDockWidget QTabBar::tab:top {\n"
-"  "
-                        "background-color: #455364;\n"
+"QTabBar::tab:top, QDockWidget "
+                        "QTabBar::tab:top {\n"
+"  background-color: #455364;\n"
 "  margin-left: 2px;\n"
 "  padding-left: 4px;\n"
 "  padding-right: 4px;\n"
@@ -1513,9 +1516,9 @@ class Ui_Form(object):
 "  margin-left: 2px;\n"
 "  padding-left: 4px;\n"
 "  padding-right: 4px;\n"
-"  padding-top: 2px;\n"
 ""
-                        "  padding-bottom: 2px;\n"
+                        "  padding-top: 2px;\n"
+"  padding-bottom: 2px;\n"
 "  border-bottom-left-radius: 4px;\n"
 "  border-bottom-right-radius: 4px;\n"
 "  min-width: 5px;\n"
@@ -1548,8 +1551,8 @@ class Ui_Form(object):
 "  min-height: 5px;\n"
 "}\n"
 "\n"
-"QTabBar::tab:left:selected, QDockWidget QTabBar::tab:left:se"
-                        "lected {\n"
+"QTabBar::tab:left:selected, QDockWid"
+                        "get QTabBar::tab:left:selected {\n"
 "  background-color: #54687A;\n"
 "  border-right: 3px solid #259AE9;\n"
 "}\n"
@@ -1582,8 +1585,8 @@ class Ui_Form(object):
 "QTabBar::tab:right:!selected:hover, QDockWidget QTabBar::tab:right:!selected:hover {\n"
 "  border: 1px solid #1A72BB;\n"
 "  border-left: 3px solid #1A72BB;\n"
-"  /* Fixes different beh"
-                        "avior #271 */\n"
+""
+                        "  /* Fixes different behavior #271 */\n"
 "  margin-left: 0px;\n"
 "  padding-left: 0px;\n"
 "}\n"
@@ -1613,10 +1616,10 @@ class Ui_Form(object):
 "\n"
 "QTabBar QToolButton::right-arrow:enabled, QDockWidget QTabBar QToolButton::right-arrow:enabled {\n"
 "  image: url(\":/qss_icons/dark/rc/arrow_right.png\");\n"
-"}\n"
+"}"
+                        "\n"
 "\n"
-"QTabBar QToolB"
-                        "utton::right-arrow:disabled, QDockWidget QTabBar QToolButton::right-arrow:disabled {\n"
+"QTabBar QToolButton::right-arrow:disabled, QDockWidget QTabBar QToolButton::right-arrow:disabled {\n"
 "  image: url(\":/qss_icons/dark/rc/arrow_right_disabled.png\");\n"
 "}\n"
 "\n"
@@ -1648,8 +1651,8 @@ class Ui_Form(object):
 "  border: 0;\n"
 "  margin: 0;\n"
 "  padding: 0;\n"
-"  image: url(\":/qss_icon"
-                        "s/dark/rc/window_close.png\");\n"
+" "
+                        " image: url(\":/qss_icons/dark/rc/window_close.png\");\n"
 "}\n"
 "\n"
 "QDockWidget::close-button:hover {\n"
@@ -1682,9 +1685,9 @@ class Ui_Form(object):
 "/* QTreeView QListView QTableView -----------------------------------------\n"
 "\n"
 "https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qtreeview\n"
-"https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qlistview\n"
-"https://d"
-                        "oc.qt.io/qt-5/stylesheet-examples.html#customizing-qtableview\n"
+"https://doc.qt.io/qt-5/stylesheet-examples.html#customizing"
+                        "-qlistview\n"
+"https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qtableview\n"
 "\n"
 "--------------------------------------------------------------------------- */\n"
 "QTreeView:branch:selected, QTreeView:branch:hover {\n"
@@ -1709,9 +1712,9 @@ class Ui_Form(object):
 "}\n"
 "\n"
 "QTreeView:branch:open:has-children:!has-siblings, QTreeView:branch:open:has-children:has-siblings {\n"
-"  border-image: none;\n"
-"  ima"
-                        "ge: url(\":/qss_icons/dark/rc/branch_open.png\");\n"
+"  borde"
+                        "r-image: none;\n"
+"  image: url(\":/qss_icons/dark/rc/branch_open.png\");\n"
 "}\n"
 "\n"
 "QTreeView:branch:has-children:!has-siblings:closed:hover, QTreeView:branch:closed:has-children:has-siblings:hover {\n"
@@ -1735,8 +1738,8 @@ class Ui_Form(object):
 "QListView::indicator:checked:pressed,\n"
 "QTableView::indicator:checked:hover,\n"
 "QTableView::indicator:checked:focus,\n"
-"QTableView::indicator:checked:pressed"
-                        ",\n"
+"QTableView::i"
+                        "ndicator:checked:pressed,\n"
 "QColumnView::indicator:checked:hover,\n"
 "QColumnView::indicator:checked:focus,\n"
 "QColumnView::indicator:checked:pressed {\n"
@@ -1760,9 +1763,9 @@ class Ui_Form(object):
 "QColumnView::indicator:unchecked:hover,\n"
 "QColumnView::indicator:unchecked:focus,\n"
 "QColumnView::indicator:unchecked:pressed {\n"
-"  image: url(\":/qss_icons/dark/rc/checkbox_unchecked_focus.png\");\n"
-""
-                        "}\n"
+"  image: url(\":/qss_icons/dark/rc/checkbox_un"
+                        "checked_focus.png\");\n"
+"}\n"
 "\n"
 "QTreeView::indicator:indeterminate,\n"
 "QListView::indicator:indeterminate,\n"
@@ -1789,8 +1792,8 @@ class Ui_Form(object):
 "QTableView,\n"
 "QColumnView {\n"
 "  background-color: #19232D;\n"
-"  border: 1px solid #45"
-                        "5364;\n"
+""
+                        "  border: 1px solid #455364;\n"
 "  color: #E0E1E3;\n"
 "  gridline-color: #455364;\n"
 "  border-radius: 4px;\n"
@@ -1835,8 +1838,8 @@ class Ui_Form(object):
 "\n"
 "QTreeView::item:selected:!active,\n"
 "QListView::item:selected:!active,\n"
-"QTableView::item:selected"
-                        ":!active,\n"
+"QT"
+                        "ableView::item:selected:!active,\n"
 "QColumnView::item:selected:!active {\n"
 "  color: #E0E1E3;\n"
 "  background-color: #37414F;\n"
@@ -1872,11 +1875,11 @@ class Ui_Form(object):
 "\n"
 "QHeaderView:disabled {\n"
 "  background-color: #455364;\n"
-"  border: 1px transparent #455364;\n"
+"  border: 1px transparent #455364"
+                        ";\n"
 "}\n"
 "\n"
-"QHeade"
-                        "rView::section {\n"
+"QHeaderView::section {\n"
 "  background-color: #455364;\n"
 "  color: #E0E1E3;\n"
 "  border-radius: 0;\n"
@@ -1917,8 +1920,8 @@ class Ui_Form(object):
 "}\n"
 "\n"
 "QHeaderView::down-arrow {\n"
-"  /* Those settings (border/width/h"
-                        "eight/background-color) solve bug */\n"
+"  /* Those s"
+                        "ettings (border/width/height/background-color) solve bug */\n"
 "  /* transparent arrow background and size */\n"
 "  background-color: #455364;\n"
 "  border: none;\n"
@@ -1956,9 +1959,9 @@ class Ui_Form(object):
 "}\n"
 "\n"
 "QToolBox::tab {\n"
-"  background-color: #19232D;\n"
-""
-                        "  border: 1px solid #455364;\n"
+"  backgrou"
+                        "nd-color: #19232D;\n"
+"  border: 1px solid #455364;\n"
 "  color: #E0E1E3;\n"
 "  border-top-left-radius: 4px;\n"
 "  border-top-right-radius: 4px;\n"
@@ -2000,9 +2003,9 @@ class Ui_Form(object):
 "\n"
 "/* QFrame -----------------------------------------------------------------\n"
 "\n"
-"https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qframe\n"
-"https:"
-                        "//doc.qt.io/qt-5/qframe.html#-prop\n"
+"https://doc.qt.io/qt-5/stylesheet-examples.html#custom"
+                        "izing-qframe\n"
+"https://doc.qt.io/qt-5/qframe.html#-prop\n"
 "https://doc.qt.io/qt-5/qframe.html#details\n"
 "https://stackoverflow.com/questions/14581498/qt-stylesheet-for-hline-vline-color\n"
 "\n"
@@ -2037,8 +2040,8 @@ class Ui_Form(object):
 "\n"
 "https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qsplitter\n"
 "\n"
-"----------------------------------------------------------------------"
-                        "----- */\n"
+"-----------------------------------------------"
+                        "---------------------------- */\n"
 "QSplitter {\n"
 "  background-color: #455364;\n"
 "  spacing: 0px;\n"
@@ -2078,8 +2081,8 @@ class Ui_Form(object):
 "  border-radius: 4px;\n"
 "  /* This fixes 103, 111 */\n"
 "  padding-top: 2px;\n"
-"  /* This fixes 103, 111"
-                        " */\n"
+" "
+                        " /* This fixes 103, 111 */\n"
 "  padding-bottom: 2px;\n"
 "  padding-left: 4px;\n"
 "  padding-right: 4px;\n"
@@ -2111,8 +2114,8 @@ class Ui_Form(object):
 "  background-color: #19232D;\n"
 "  border-radius: 4px;\n"
 "  border: 1px solid #455364;\n"
-"  selection-background-color: #346792;"
-                        "\n"
+"  selection-bac"
+                        "kground-color: #346792;\n"
 "}\n"
 "\n"
 "/* QAbstractView ----------------------------------------------------------\n"
@@ -2133,9 +2136,18 @@ class Ui_Form(object):
 "  padding: 0px;\n"
 "}\n"
 "")
+        self.BrowseButton_13 = QPushButton(Form)
+        self.BrowseButton_13.setObjectName(u"BrowseButton_13")
+        self.BrowseButton_13.setGeometry(QRect(660, 30, 81, 31))
+        self.BrowseButton_13.setStyleSheet(u"QPushButton\n"
+"{\n"
+"    border-style: outset;\n"
+"    border-width: 2px;\n"
+"    border-color: black;\n"
+"}")
         self.frame = QFrame(Form)
         self.frame.setObjectName(u"frame")
-        self.frame.setGeometry(QRect(170, 100, 451, 341))
+        self.frame.setGeometry(QRect(170, 80, 451, 331))
         self.frame.setStyleSheet(u"QFrame{\n"
 "\n"
 "border: 1px solid ;\n"
@@ -2144,44 +2156,35 @@ class Ui_Form(object):
 "}")
         self.frame.setFrameShape(QFrame.StyledPanel)
         self.frame.setFrameShadow(QFrame.Raised)
-        self.verticalSlider = QSlider(self.frame)
-        self.verticalSlider.setObjectName(u"verticalSlider")
-        self.verticalSlider.setGeometry(QRect(10, 10, 16, 291))
-        self.verticalSlider.setOrientation(Qt.Vertical)
-        self.horizontalSlider = QSlider(self.frame)
-        self.horizontalSlider.setObjectName(u"horizontalSlider")
-        self.horizontalSlider.setGeometry(QRect(30, 310, 411, 20))
-        self.horizontalSlider.setOrientation(Qt.Horizontal)
+        self.verticalScroll = QSlider(self.frame)
+        self.verticalScroll.setObjectName(u"verticalScroll")
+        self.verticalScroll.setGeometry(QRect(10, 10, 16, 291))
+        self.verticalScroll.setOrientation(Qt.Vertical)
+        self.horizontalScroll = QSlider(self.frame)
+        self.horizontalScroll.setObjectName(u"horizontalScroll")
+        self.horizontalScroll.setGeometry(QRect(30, 310, 411, 20))
+        self.horizontalScroll.setOrientation(Qt.Horizontal)
         self.graphicsView = PlotWidget(self.frame)
         self.graphicsView.setObjectName(u"graphicsView")
         self.graphicsView.setGeometry(QRect(30, 10, 411, 291))
+        self.ExportButton_12 = QPushButton(Form)
+        self.ExportButton_12.setObjectName(u"ExportButton_12")
+        self.ExportButton_12.setGeometry(QRect(450, 30, 81, 31))
+        self.ExportButton_12.setStyleSheet(u"QPushButton\n"
+"{\n"
+"    border-style: outset;\n"
+"    border-width: 2px;\n"
+"    border-color: black;\n"
+"}")
         self.frame_2 = QFrame(Form)
         self.frame_2.setObjectName(u"frame_2")
-        self.frame_2.setGeometry(QRect(10, 100, 141, 341))
+        self.frame_2.setGeometry(QRect(10, 80, 141, 301))
         self.frame_2.setFrameShape(QFrame.StyledPanel)
         self.frame_2.setFrameShadow(QFrame.Raised)
-        self.ZoomInButton = QPushButton(self.frame_2)
-        self.ZoomInButton.setObjectName(u"ZoomInButton")
-        self.ZoomInButton.setGeometry(QRect(10, 20, 121, 41))
-        self.ZoomInButton.setStyleSheet(u"QPushButton\n"
-"{\n"
-"    border-style: outset;\n"
-"    border-width: 2px;\n"
-"    border-color: black;\n"
-"}")
-        self.ShowButton_4 = QPushButton(self.frame_2)
-        self.ShowButton_4.setObjectName(u"ShowButton_4")
-        self.ShowButton_4.setGeometry(QRect(10, 120, 121, 41))
-        self.ShowButton_4.setStyleSheet(u"QPushButton\n"
-"{\n"
-"    border-style: outset;\n"
-"    border-width: 2px;\n"
-"    border-color: black;\n"
-"}")
-        self.HideButton_5 = QPushButton(self.frame_2)
-        self.HideButton_5.setObjectName(u"HideButton_5")
-        self.HideButton_5.setGeometry(QRect(10, 170, 121, 41))
-        self.HideButton_5.setStyleSheet(u"QPushButton\n"
+        self.zoomInButton = QPushButton(self.frame_2)
+        self.zoomInButton.setObjectName(u"zoomInButton")
+        self.zoomInButton.setGeometry(QRect(0, 10, 71, 21))
+        self.zoomInButton.setStyleSheet(u"QPushButton\n"
 "{\n"
 "    border-style: outset;\n"
 "    border-width: 2px;\n"
@@ -2189,7 +2192,7 @@ class Ui_Form(object):
 "}")
         self.PauseButton_6 = QPushButton(self.frame_2)
         self.PauseButton_6.setObjectName(u"PauseButton_6")
-        self.PauseButton_6.setGeometry(QRect(10, 270, 121, 41))
+        self.PauseButton_6.setGeometry(QRect(0, 70, 71, 21))
         self.PauseButton_6.setStyleSheet(u"QPushButton\n"
 "{\n"
 "    border-style: outset;\n"
@@ -2198,70 +2201,182 @@ class Ui_Form(object):
 "}")
         self.PlayButton_7 = QPushButton(self.frame_2)
         self.PlayButton_7.setObjectName(u"PlayButton_7")
-        self.PlayButton_7.setGeometry(QRect(10, 220, 121, 41))
+        self.PlayButton_7.setGeometry(QRect(70, 70, 71, 21))
         self.PlayButton_7.setStyleSheet(u"QPushButton\n"
 "{\n"
 "    border-style: outset;\n"
 "    border-width: 2px;\n"
 "    border-color: black;\n"
 "}")
-        self.ZoomOutButton = QPushButton(self.frame_2)
-        self.ZoomOutButton.setObjectName(u"ZoomOutButton")
-        self.ZoomOutButton.setGeometry(QRect(10, 70, 121, 41))
-        self.ZoomOutButton.setStyleSheet(u"QPushButton\n"
+        self.ScrollButton_8 = QPushButton(self.frame_2)
+        self.ScrollButton_8.setObjectName(u"ScrollButton_8")
+        self.ScrollButton_8.setGeometry(QRect(0, 100, 71, 21))
+        self.ScrollButton_8.setStyleSheet(u"QPushButton\n"
 "{\n"
 "    border-style: outset;\n"
 "    border-width: 2px;\n"
 "    border-color: black;\n"
 "}")
-        self.frame_4 = QFrame(Form)
-        self.frame_4.setObjectName(u"frame_4")
-        self.frame_4.setGeometry(QRect(630, 100, 431, 341))
-        self.frame_4.setFrameShape(QFrame.StyledPanel)
-        self.frame_4.setFrameShadow(QFrame.Raised)
-        self.frame_3 = QFrame(self.frame_4)
+        self.PanButton_9 = QPushButton(self.frame_2)
+        self.PanButton_9.setObjectName(u"PanButton_9")
+        self.PanButton_9.setGeometry(QRect(70, 100, 71, 21))
+        self.PanButton_9.setStyleSheet(u"QPushButton\n"
+"{\n"
+"    border-style: outset;\n"
+"    border-width: 2px;\n"
+"    border-color: black;\n"
+"}")
+        self.zoomOutButton = QPushButton(self.frame_2)
+        self.zoomOutButton.setObjectName(u"zoomOutButton")
+        self.zoomOutButton.setGeometry(QRect(70, 10, 71, 21))
+        self.zoomOutButton.setStyleSheet(u"QPushButton\n"
+"{\n"
+"    border-style: outset;\n"
+"    border-width: 2px;\n"
+"    border-color: black;\n"
+"}")
+        self.ControlButton_10 = QPushButton(self.frame_2)
+        self.ControlButton_10.setObjectName(u"ControlButton_10")
+        self.ControlButton_10.setGeometry(QRect(0, 130, 71, 21))
+        self.ControlButton_10.setStyleSheet(u"QPushButton\n"
+"{\n"
+"    border-style: outset;\n"
+"    border-width: 2px;\n"
+"    border-color: black;\n"
+"}")
+        self.Customize_SpeedButton_11 = QPushButton(self.frame_2)
+        self.Customize_SpeedButton_11.setObjectName(u"Customize_SpeedButton_11")
+        self.Customize_SpeedButton_11.setGeometry(QRect(0, 160, 111, 21))
+        self.Customize_SpeedButton_11.setStyleSheet(u"QPushButton\n"
+"{\n"
+"    border-style: outset;\n"
+"    border-width: 2px;\n"
+"    border-color: black;\n"
+"}\n"
+"")
+        self.Add_title_labelButton_14 = QPushButton(self.frame_2)
+        self.Add_title_labelButton_14.setObjectName(u"Add_title_labelButton_14")
+        self.Add_title_labelButton_14.setGeometry(QRect(0, 40, 101, 21))
+        self.Add_title_labelButton_14.setStyleSheet(u"QPushButton\n"
+"{\n"
+"    border-style: outset;\n"
+"    border-width: 2px;\n"
+"    border-color: black;\n"
+"}")
+        self.ColorButton_1 = QPushButton(self.frame_2)
+        self.ColorButton_1.setObjectName(u"ColorButton_1")
+        self.ColorButton_1.setGeometry(QRect(70, 130, 71, 21))
+        self.ColorButton_1.setStyleSheet(u"\n"
+".QPushButtonn-6d {\n"
+"	border: 2px dashed #226fbe;\n"
+"}\n"
+"\n"
+".QPushButton-6d:hover {\n"
+"	background: transparent;\n"
+"	color: #226fbe;\n"
+"}\n"
+"QPushButton\n"
+"{\n"
+"    border-style: outset;\n"
+"    border-width: 2px;\n"
+"    border-color: black;\n"
+"}")
+        self.frame_3 = QFrame(Form)
         self.frame_3.setObjectName(u"frame_3")
-        self.frame_3.setGeometry(QRect(10, 10, 411, 281))
+        self.frame_3.setGeometry(QRect(630, 80, 451, 331))
         self.frame_3.setStyleSheet(u"QFrame \n"
 "{\n"
 "border-color: rgb(0, 0, 0);\n"
 "}")
         self.frame_3.setFrameShape(QFrame.StyledPanel)
         self.frame_3.setFrameShadow(QFrame.Raised)
-        self.comboBox = QComboBox(self.frame_4)
-        self.comboBox.setObjectName(u"comboBox")
-        self.comboBox.setGeometry(QRect(150, 300, 241, 26))
-        self.label = QLabel(self.frame_4)
+        self.widget = MplWidget(self.frame_3)
+        self.widget.setObjectName(u"widget")
+        self.widget.setGeometry(QRect(9, 9, 431, 311))
+        self.ShowcomboBox = QComboBox(Form)
+        self.ShowcomboBox.addItem("")
+        self.ShowcomboBox.addItem("")
+        self.ShowcomboBox.addItem("")
+        self.ShowcomboBox.addItem("")
+        self.ShowcomboBox.setObjectName(u"ShowcomboBox")
+        self.ShowcomboBox.setGeometry(QRect(130, 490, 69, 28))
+        self.ShowcomboBox.setStyleSheet(u"QComboBox\n"
+"{\n"
+"    border-style: outset;\n"
+"    border-width: 2px;\n"
+"    border-color: black;\n"
+"}")
+        self.textEdit = QTextEdit(Form)
+        self.textEdit.setObjectName(u"textEdit")
+        self.textEdit.setGeometry(QRect(210, 490, 61, 21))
+        self.HidecomboBox = QComboBox(Form)
+        self.HidecomboBox.addItem("")
+        self.HidecomboBox.addItem("")
+        self.HidecomboBox.addItem("")
+        self.HidecomboBox.addItem("")
+        self.HidecomboBox.setObjectName(u"HidecomboBox")
+        self.HidecomboBox.setGeometry(QRect(400, 490, 69, 28))
+        self.HidecomboBox.setStyleSheet(u"QComboBox\n"
+"{\n"
+"    border-style: outset;\n"
+"    border-width: 2px;\n"
+"    border-color: black;\n"
+"}")
+        self.textEdit_2 = QTextEdit(Form)
+        self.textEdit_2.setObjectName(u"textEdit_2")
+        self.textEdit_2.setGeometry(QRect(500, 490, 51, 21))
+        self.horizontalSlider_2 = QSlider(Form)
+        self.horizontalSlider_2.setObjectName(u"horizontalSlider_2")
+        self.horizontalSlider_2.setGeometry(QRect(199, 430, 411, 20))
+        self.horizontalSlider_2.setOrientation(Qt.Horizontal)
+        self.label = QLabel(Form)
         self.label.setObjectName(u"label")
-        self.label.setGeometry(QRect(80, 300, 61, 31))
-        self.frame_5 = QFrame(Form)
-        self.frame_5.setObjectName(u"frame_5")
-        self.frame_5.setGeometry(QRect(10, 20, 1051, 61))
-        self.frame_5.setFrameShape(QFrame.StyledPanel)
-        self.frame_5.setFrameShadow(QFrame.Raised)
-        self.BrowseButton_13 = QPushButton(self.frame_5)
-        self.BrowseButton_13.setObjectName(u"BrowseButton_13")
-        self.BrowseButton_13.setGeometry(QRect(10, 10, 131, 41))
-        self.BrowseButton_13.setStyleSheet(u"QPushButton\n"
+        self.label.setGeometry(QRect(120, 430, 61, 21))
+        self.SpectrogramcomboBox = QComboBox(Form)
+        self.SpectrogramcomboBox.addItem("")
+        self.SpectrogramcomboBox.addItem("")
+        self.SpectrogramcomboBox.addItem("")
+        self.SpectrogramcomboBox.addItem("")
+        self.SpectrogramcomboBox.setObjectName(u"SpectrogramcomboBox")
+        self.SpectrogramcomboBox.setGeometry(QRect(740, 480, 69, 28))
+        self.SpectrogramcomboBox.setStyleSheet(u"QComboBox\n"
 "{\n"
 "    border-style: outset;\n"
 "    border-width: 2px;\n"
 "    border-color: black;\n"
 "}")
-        self.ExportButton_12 = QPushButton(self.frame_5)
-        self.ExportButton_12.setObjectName(u"ExportButton_12")
-        self.ExportButton_12.setGeometry(QRect(150, 10, 141, 41))
-        self.ExportButton_12.setStyleSheet(u"QPushButton\n"
+        self.ColorcomboBox = QComboBox(Form)
+        self.ColorcomboBox.addItem("")
+        self.ColorcomboBox.addItem("")
+        self.ColorcomboBox.addItem("")
+        self.ColorcomboBox.addItem("")
+        self.ColorcomboBox.addItem("")
+        self.ColorcomboBox.addItem("")
+        self.ColorcomboBox.setObjectName(u"ColorcomboBox")
+        self.ColorcomboBox.setGeometry(QRect(920, 480, 69, 28))
+        self.ColorcomboBox.setStyleSheet(u"QComboBox\n"
 "{\n"
 "    border-style: outset;\n"
 "    border-width: 2px;\n"
 "    border-color: black;\n"
 "}")
-        self.frame_6 = QFrame(Form)
-        self.frame_6.setObjectName(u"frame_6")
-        self.frame_6.setGeometry(QRect(10, 460, 1051, 151))
-        self.frame_6.setFrameShape(QFrame.StyledPanel)
-        self.frame_6.setFrameShadow(QFrame.Raised)
+        self.textEdit_3 = QTextEdit(Form)
+        self.textEdit_3.setObjectName(u"textEdit_3")
+        self.textEdit_3.setGeometry(QRect(1010, 490, 61, 21))
+        self.Slidermax = QSlider(Form)
+        self.Slidermax.setObjectName(u"Slidermax")
+        self.Slidermax.setGeometry(QRect(810, 520, 160, 22))
+        self.Slidermax.setOrientation(Qt.Horizontal)
+        self.Slidermin = QSlider(Form)
+        self.Slidermin.setObjectName(u"Slidermin")
+        self.Slidermin.setGeometry(QRect(810, 560, 160, 22))
+        self.Slidermin.setOrientation(Qt.Horizontal)
+        self.label_2 = QLabel(Form)
+        self.label_2.setObjectName(u"label_2")
+        self.label_2.setGeometry(QRect(730, 520, 55, 16))
+        self.label_3 = QLabel(Form)
+        self.label_3.setObjectName(u"label_3")
+        self.label_3.setGeometry(QRect(730, 560, 55, 16))
 
         self.retranslateUi(Form)
 
@@ -2270,13 +2385,6 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         Form.setWindowTitle(QCoreApplication.translate("Form", u"Form", None))
-        self.ZoomInButton.setText(QCoreApplication.translate("Form", u"Zoom in", None))
-        self.ShowButton_4.setText(QCoreApplication.translate("Form", u"Show", None))
-        self.HideButton_5.setText(QCoreApplication.translate("Form", u"Hide", None))
-        self.PauseButton_6.setText(QCoreApplication.translate("Form", u"Pause", None))
-        self.PlayButton_7.setText(QCoreApplication.translate("Form", u"Play ", None))
-        self.ZoomOutButton.setText(QCoreApplication.translate("Form", u"Zoom out", None))
-        self.label.setText(QCoreApplication.translate("Form", u"Channels", None))
 #if QT_CONFIG(tooltip)
         self.BrowseButton_13.setToolTip(QCoreApplication.translate("Form", u"<html><head/><body><p>Press to Browse</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
@@ -2285,5 +2393,55 @@ class Ui_Form(object):
         self.ExportButton_12.setToolTip(QCoreApplication.translate("Form", u"<html><head/><body><p>Press to Export</p></body></html>", None))
 #endif // QT_CONFIG(tooltip)
         self.ExportButton_12.setText(QCoreApplication.translate("Form", u"Export", None))
+        self.zoomInButton.setText(QCoreApplication.translate("Form", u"Zoom in", None))
+        self.PauseButton_6.setText(QCoreApplication.translate("Form", u"Pause", None))
+        self.PlayButton_7.setText(QCoreApplication.translate("Form", u"Play ", None))
+        self.ScrollButton_8.setText(QCoreApplication.translate("Form", u"Scroll ", None))
+        self.PanButton_9.setText(QCoreApplication.translate("Form", u"Pan", None))
+        self.zoomOutButton.setText(QCoreApplication.translate("Form", u"Zoom out", None))
+        self.ControlButton_10.setText(QCoreApplication.translate("Form", u"Control", None))
+        self.Customize_SpeedButton_11.setText(QCoreApplication.translate("Form", u"Customize Speed", None))
+        self.Add_title_labelButton_14.setText(QCoreApplication.translate("Form", u"Add title/ label", None))
+        self.ColorButton_1.setText(QCoreApplication.translate("Form", u" Color", None))
+        self.ShowcomboBox.setItemText(0, QCoreApplication.translate("Form", u"Signal_1", None))
+        self.ShowcomboBox.setItemText(1, QCoreApplication.translate("Form", u"Signal_2", None))
+        self.ShowcomboBox.setItemText(2, QCoreApplication.translate("Form", u"Signal_3", None))
+        self.ShowcomboBox.setItemText(3, QCoreApplication.translate("Form", u"All", None))
+
+        self.textEdit.setHtml(QCoreApplication.translate("Form", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8.25pt;\">Show</span></p></body></html>", None))
+        self.HidecomboBox.setItemText(0, QCoreApplication.translate("Form", u"Signal_1", None))
+        self.HidecomboBox.setItemText(1, QCoreApplication.translate("Form", u"Signal_2", None))
+        self.HidecomboBox.setItemText(2, QCoreApplication.translate("Form", u"Signal_3", None))
+        self.HidecomboBox.setItemText(3, QCoreApplication.translate("Form", u"All", None))
+
+        self.textEdit_2.setHtml(QCoreApplication.translate("Form", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8.25pt;\">Hide</span></p></body></html>", None))
+        self.label.setText(QCoreApplication.translate("Form", u"Speed", None))
+        self.SpectrogramcomboBox.setItemText(0, QCoreApplication.translate("Form", u"No Signal", None))
+        self.SpectrogramcomboBox.setItemText(1, QCoreApplication.translate("Form", u"Signal_1", None))
+        self.SpectrogramcomboBox.setItemText(2, QCoreApplication.translate("Form", u"Signal_2", None))
+        self.SpectrogramcomboBox.setItemText(3, QCoreApplication.translate("Form", u"Signal_3", None))
+
+        self.ColorcomboBox.setItemText(0, QCoreApplication.translate("Form", u"inferno", None))
+        self.ColorcomboBox.setItemText(1, QCoreApplication.translate("Form", u"viridis", None))
+        self.ColorcomboBox.setItemText(2, QCoreApplication.translate("Form", u"cool", None))
+        self.ColorcomboBox.setItemText(3, QCoreApplication.translate("Form", u"PuBu", None))
+        self.ColorcomboBox.setItemText(4, QCoreApplication.translate("Form", u"magma", None))
+        self.ColorcomboBox.setItemText(5, QCoreApplication.translate("Form", u"YlGnBu", None))
+
+        self.textEdit_3.setHtml(QCoreApplication.translate("Form", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'MS Shell Dlg 2'; font-size:7.8pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:8.25pt;\">Color</span></p></body></html>", None))
+        self.label_2.setText(QCoreApplication.translate("Form", u"max", None))
+        self.label_3.setText(QCoreApplication.translate("Form", u"min", None))
     # retranslateUi
 

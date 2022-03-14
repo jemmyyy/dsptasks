@@ -31,17 +31,13 @@ root.title('Codemy.com - Learn To Code!')
 FORM_CLASS,_= loadUiType(path.join(path.dirname(__file__),"main.ui"))
 
 
-
-  
-
 class MainApp(QMainWindow , FORM_CLASS):
     def __init__(self, parent=None):
         super(MainApp,self).__init__(parent)
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.Handel_UI()
-        
-
+        self.cmap = 'inferno'
         self.counter = 0
         self.max_len = 0
         self.Signal_Flag = 1
@@ -89,6 +85,8 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.verticalScroll.sliderMoved.connect(self.scrollVertical)
         self.verticalScroll.sliderReleased.connect(self.scrollVertical)
         self.ExportButton_12.clicked.connect(self.handel_export)
+        self.SpectrogramcomboBox.currentTextChanged.connect(self.Handle_Spectrogram)
+        self.ColorcomboBox.currentTextChanged.connect(self.Handle_Color)
 
     def Handel_Slider(self):
           self.speed=self.speed+self.horizontalSlider_2.value()
@@ -115,14 +113,14 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.graphicsView.plotItem.getViewBox().scaleBy((1.15,1.15))
 
     def scrollHorizontal(self):
-            self.horizontalScroll.setMaximum(self.max_len)
+            self.horizontalScroll.setMaximum(self.counter)
             self.horizontalScroll.setMinimum(0)
             val = self.horizontalScroll.value()
             self.graphicsView.setXRange(val-50, val+50)
 
     def scrollVertical(self):
-            self.verticalScroll.setMaximum(self.maxAmp)
-            self.verticalScroll.setMinimum(self.minAmp)
+            self.verticalScroll.setMaximum(int(self.maxAmp))
+            self.verticalScroll.setMinimum(int(self.minAmp))
             val = self.verticalScroll.value()
             self.graphicsView.setYRange(val-((self.maxAmp-self.minAmp) / 5), val+((self.maxAmp-self.minAmp) / 5))
 
@@ -298,8 +296,31 @@ class MainApp(QMainWindow , FORM_CLASS):
             page.insert_image(rect1, stream=img1)
 
         doc.saveIncr()
-        
 
+    def Handle_Spectrogram(self):
+
+        self.widget.canvas.axes.clear()
+        item = self.SpectrogramcomboBox.currentText()
+
+        if item == "Signal_1" :
+            self.widget.canvas.axes.specgram(self.y1,NFFT=None,Fs=None,Fc=None,detrend=None,window=None,noverlap=None,
+            cmap=self.cmap,vmin=self.Slidermin.value()-100,vmax=self.Slidermax.value())
+        elif item == "Signal_2" :
+            self.widget.canvas.axes.specgram(self.y2, cmap = self.cmap)
+            self.widget.canvas.axes.specgram(self.y2signal_2,NFFT=None,Fs=None,Fc=None,detrend=None,window=None,noverlap=None,
+            cmap=self.ColorcomboBox,vmin=self.Slidermin.value()-100,vmax=self.Slidermax.value())
+        elif item == "Signal_3" :
+            self.widget.canvas.axes.specgram(self.y3, cmap = self.cmap)
+            self.widget.canvas.axes.specgram(self.y3signal_3,NFFT=None,Fs=None,Fc=None,detrend=None,window=None,noverlap=None,
+            cmap=self.ColorcomboBox,vmin=self.Slidermin.value()-100,vmax=self.Slidermax.value())
+
+        self.widget.canvas.draw()
+
+    def Handle_Color(self):
+
+        self.cmap = self.ColorcomboBox.currentText()
+        self.Handle_Spectrogram()
+    
     def handel_export(self):
         fn, _ = QtWidgets.QFileDialog.getSaveFileName(None, "Export PDF", None, "PDF files (.pdf);;All Files()")
         if fn != '':
