@@ -58,6 +58,17 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.pen2 = pg.mkPen('b')
         self.pen3 = pg.mkPen('y')
 
+
+        self.colorSignal1 = '#f54248'
+        self.colorSignal2 = '#0533eb'
+        self.colorSignal3 = '#ffe100'
+
+        self.pen1 = pg.mkPen(self.colorSignal1)
+        self.pen2 = pg.mkPen(self.colorSignal2)
+        self.pen3 = pg.mkPen(self.colorSignal3)
+
+        self.splitter_2.setSizes([430,430])
+
     def Handle_UI(self):
         # self = QMainWindow
         self.setWindowTitle('Multi-Channel Signal Viewer')
@@ -119,8 +130,12 @@ class MainApp(QMainWindow , FORM_CLASS):
         
         
 
+
+        self.colorButton.clicked.connect(self.colorFn)
+
+    
 #----------------------------------------------------------------------------------------------------------#
-    # Utility functions (Play/Pause, Zoom, Show/Hide, Scroll, Title)
+    # Utility functions (Play/Pause, Zoom, Show/Hide, Scroll, Title, Color)
     
     def Slider(self):
         self.speed=self.speed+self.speedSlider.value()
@@ -148,7 +163,10 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.horizontalScroll.setMaximum(self.counter)
             self.horizontalScroll.setMinimum(0)
             val = self.horizontalScroll.value()
-            self.graphicsView.setXRange(val-50, val+50)
+            if val > self.maxTime:
+                self.graphicsView.setXRange(self.maxTime-50, self.maxTime+50)
+            else:
+                self.graphicsView.setXRange(val-50, val+50)
 
     def scrollVertical(self):
             self.verticalScroll.setMaximum(int(self.maxAmp))
@@ -206,6 +224,18 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.Hide_Third_Signal_Flag = 1
             self.Signal3.hide()
 
+    def colorFn(self):
+        signalColor = QColorDialog.getColor()
+        if self.signalColorCombo.currentText() == 'Signal_1':
+            self.colorSignal1 = signalColor.name()
+            self.pen1 = pg.mkPen(self.colorSignal1)
+        elif self.signalColorCombo.currentText() == 'Signal_2':
+            self.colorSignal2 = signalColor.name()
+            self.pen2 = pg.mkPen(self.colorSignal2)
+        elif self.signalColorCombo.currentText() == 'Signal_3':
+            self.colorSignal3 = signalColor.name()
+            self.pen3 = pg.mkPen(self.colorSignal3)
+            
 #----------------------------------------------------------------------------------------------------------#
     # Signal Plotting (Browse, Timer, Update Plot)
 
@@ -228,6 +258,7 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.channel1_path=path
             self.x1 = np.array(self.time)
             self.y1 = np.array(self.amplitude)
+            self.maxTime = max(self.x1)
             self.maxAmp = max(self.y1)
             self.minAmp = min(self.y1)
             self.sigDatax.append(self.x1)
@@ -245,7 +276,8 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.y2 = np.array(self.amplitude)
             self.sigDatax.append(self.x2)
             self.sigDatay.append(self.y2)
-
+            if max(self.x2) > self.maxTime:
+                self.maxTime = max(self.x2)
             if (max(self.y2) - min(self.y2)) < 5:
                 self.y2*=10
             if max(self.y2) > self.maxAmp:
@@ -261,6 +293,8 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.sigDatax.append(self.x3)
             self.sigDatay.append(self.y3)
 
+            if max(self.x3) > self.maxTime:
+                self.maxTime = max(self.x3)
             if (max(self.y3) - min(self.y3)) < 5:
                 self.y3*=10
             if max(self.y3) > self.maxAmp:
