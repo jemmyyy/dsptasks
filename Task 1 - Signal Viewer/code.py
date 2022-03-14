@@ -59,7 +59,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         # self = QMainWindow
         self.setWindowTitle('Multi-Channel Signal Viewer')
         self.Handle_Buttons()
-        self.Handle_GraphicsViews()
+        # self.Handle_GraphicsViews()
         # self.Handle_Slider()
 
     def Handle_Buttons(self):
@@ -74,6 +74,14 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.zoomInButton.clicked.connect(self.zoomIn)
         self.zoomOutButton.clicked.connect(self.zoomOut)
         
+        # Speed Slider
+        self.speedSlider.setMinimum(-50)
+        self.speedSlider.setMaximum(50)
+        self.speedSlider.setValue(-10)
+        self.speedSlider.setTickPosition(QSlider.TicksBelow)
+        self.speedSlider.setSingleStep(1)
+        self.speedSlider.valueChanged.connect(self.Slider)
+
         # Scroll Slider Functions
         self.horizontalScroll.valueChanged.connect(self.scrollHorizontal)
         self.horizontalScroll.sliderMoved.connect(self.scrollHorizontal)
@@ -89,19 +97,19 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.titleButton.clicked.connect(self.addTitle)
         self.titleConfirmButton.clicked.connect(self.confirmTitle)
 
-    # def Handle_Slider(self):
-    #       self.speed=self.speed+self.speedSlider.value()
-    #       if(self.speed > 0):
-    #          self.timer.setInterval(self.speed)
-    #          self.timer.timeout.connect(self.update_plot_data)
-    #          self.timer.start()
-
-    def Handle_GraphicsViews(self):
-         pass
-
+    
 #----------------------------------------------------------------------------------------------------------#
     # Utility functions (Play/Pause, Zoom, Show/Hide, Scroll, Title)
     
+    def Slider(self):
+        print(self.speedSlider.value())
+        self.speed=self.speed+self.speedSlider.value()
+
+        if(self.speed > 0):
+            self.timer.setInterval(self.speed)
+            self.timer.timeout.connect(self.update_plot_data)
+            self.timer.start()
+
     def Pause(self):
             self.isRunning=False        
     
@@ -252,7 +260,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         end_count = 0
         if self.isRunning :
             self.counter = self.counter +10
-            
+        print(self.speed)
         self.graphicsView.clear()
         if self.First_Signal_Flag == 1 and self.Hide_First_Signal_Flag == 0:
             self.Signal1 = self.graphicsView.plotItem.plot(self.x1[0:self.counter],self.y1[0:self.counter], pen=self.pen1)               #Plot every 100 x index with 100 y index
