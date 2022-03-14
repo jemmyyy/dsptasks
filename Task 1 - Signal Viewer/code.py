@@ -55,6 +55,8 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.pen2 = pg.mkPen('b')
         self.pen3 = pg.mkPen('y')
 
+        self.splitter_2.setSizes([430,430])
+
     def Handle_UI(self):
         # self = QMainWindow
         self.setWindowTitle('Multi-Channel Signal Viewer')
