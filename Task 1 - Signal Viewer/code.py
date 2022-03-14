@@ -79,8 +79,9 @@ class MainApp(QMainWindow , FORM_CLASS):
     def Handle_Buttons(self):
         
         self.BrowseButton_13.clicked.connect(self.Browse)
-        self.ShowcomboBox.currentTextChanged.connect(self.Show)
-        self.HidecomboBox.currentTextChanged.connect(self.Hide)
+
+        self.showButton.clicked.connect(self.show)
+        self.hideButton.clicked.connect(self.hide)
         self.PauseButton_6.clicked.connect(self.Pause)
         self.PlayButton_7.clicked.connect(self.Play)
         self.currSpecFigure=0
@@ -186,23 +187,23 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.titleConfirmButton.setEnabled(True)
 
     def Show(self) :
-        item = self.HidecomboBox.currentText()
+        item = self.ShowcomboBox.currentText()
         if item == "Signal_1" :
             self.Hide_First_Signal_Flag = 0
             self.Signal1 = self.graphicsView.plot(self.x1[0:self.counter],self.y1[0:self.counter], pen=self.pen1)
         elif item == "Signal_2" :
             self.Hide_Second_Signal_Flag = 0
-            self.Signal2 = self.graphicsView.plot(self.x2[0:self.counter],self.y2[0:self.counter], pen=self.pen1)
+            self.Signal2 = self.graphicsView.plot(self.x2[0:self.counter],self.y2[0:self.counter], pen=self.pen2)
         elif item == "Signal_3" :
             self.Hide_Third_Signal_Flag = 0
-            self.Signal3 = self.graphicsView.plot(self.x3[0:self.counter],self.y3[0:self.counter], pen=self.pen1)
+            self.Signal3 = self.graphicsView.plot(self.x3[0:self.counter],self.y3[0:self.counter], pen=self.pen3)
         else :
             self.Hide_First_Signal_Flag = 0
             self.Signal1 = self.graphicsView.plot(self.x1[0:self.counter],self.y1[0:self.counter], pen=self.pen1)
             self.Hide_Second_Signal_Flag = 0
-            self.Signal2 = self.graphicsView.plot(self.x2[0:self.counter],self.y2[0:self.counter], pen=self.pen1)
+            self.Signal2 = self.graphicsView.plot(self.x2[0:self.counter],self.y2[0:self.counter], pen=self.pen2)
             self.Hide_Third_Signal_Flag = 0
-            self.Signal3 = self.graphicsView.plot(self.x3[0:self.counter],self.y3[0:self.counter], pen=self.pen1)
+            self.Signal3 = self.graphicsView.plot(self.x3[0:self.counter],self.y3[0:self.counter], pen=self.pen3)
 
 
     def Hide(self):

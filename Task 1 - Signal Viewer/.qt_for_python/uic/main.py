@@ -2321,8 +2321,44 @@ class Ui_Form(object):
         self.label_10.setFont(font)
         self.colorButton = QPushButton(self.frame_5)
         self.colorButton.setObjectName(u"colorButton")
-        self.colorButton.setGeometry(QRect(490, 140, 101, 31))
+        self.colorButton.setGeometry(QRect(490, 140, 101, 28))
         self.colorButton.setStyleSheet(u"\n"
+".QPushButtonn-6d {\n"
+"	border: 2px dashed #226fbe;\n"
+"}\n"
+"\n"
+".QPushButton-6d:hover {\n"
+"	background: transparent;\n"
+"	color: #226fbe;\n"
+"}\n"
+"QPushButton\n"
+"{\n"
+"    border-style: outset;\n"
+"    border-width: 2px;\n"
+"    border-color: black;\n"
+"}")
+        self.hideButton = QPushButton(self.frame_5)
+        self.hideButton.setObjectName(u"hideButton")
+        self.hideButton.setGeometry(QRect(490, 97, 101, 28))
+        self.hideButton.setStyleSheet(u"\n"
+".QPushButtonn-6d {\n"
+"	border: 2px dashed #226fbe;\n"
+"}\n"
+"\n"
+".QPushButton-6d:hover {\n"
+"	background: transparent;\n"
+"	color: #226fbe;\n"
+"}\n"
+"QPushButton\n"
+"{\n"
+"    border-style: outset;\n"
+"    border-width: 2px;\n"
+"    border-color: black;\n"
+"}")
+        self.showButton = QPushButton(self.frame_5)
+        self.showButton.setObjectName(u"showButton")
+        self.showButton.setGeometry(QRect(490, 50, 101, 28))
+        self.showButton.setStyleSheet(u"\n"
 ".QPushButtonn-6d {\n"
 "	border: 2px dashed #226fbe;\n"
 "}\n"
@@ -2440,6 +2476,8 @@ class Ui_Form(object):
 
         self.label_10.setText(QCoreApplication.translate("Form", u"Color", None))
         self.colorButton.setText(QCoreApplication.translate("Form", u" Color", None))
+        self.hideButton.setText(QCoreApplication.translate("Form", u"Hide", None))
+        self.showButton.setText(QCoreApplication.translate("Form", u"Show", None))
         self.label_6.setText(QCoreApplication.translate("Form", u"Signal", None))
         self.SpectrogramcomboBox.setItemText(0, QCoreApplication.translate("Form", u"No Signal", None))
         self.SpectrogramcomboBox.setItemText(1, QCoreApplication.translate("Form", u"Signal_1", None))
