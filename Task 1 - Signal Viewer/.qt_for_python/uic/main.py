@@ -2263,7 +2263,7 @@ class Ui_Form(object):
         self.frame_5.setFrameShadow(QFrame.Raised)
         self.speedSlider = QSlider(self.frame_5)
         self.speedSlider.setObjectName(u"speedSlider")
-        self.speedSlider.setGeometry(QRect(110, 10, 361, 31))
+        self.speedSlider.setGeometry(QRect(110, 10, 475, 31))
         self.speedSlider.setOrientation(Qt.Horizontal)
         self.label = QLabel(self.frame_5)
         self.label.setObjectName(u"label")
@@ -2283,7 +2283,7 @@ class Ui_Form(object):
         self.ShowcomboBox.addItem("")
         self.ShowcomboBox.addItem("")
         self.ShowcomboBox.setObjectName(u"ShowcomboBox")
-        self.ShowcomboBox.setGeometry(QRect(110, 50, 361, 31))
+        self.ShowcomboBox.setGeometry(QRect(110, 50, 481, 31))
         self.ShowcomboBox.setStyleSheet(u"QComboBox\n"
 "{\n"
 "    border-style: outset;\n"
@@ -2296,7 +2296,7 @@ class Ui_Form(object):
         self.HidecomboBox.addItem("")
         self.HidecomboBox.addItem("")
         self.HidecomboBox.setObjectName(u"HidecomboBox")
-        self.HidecomboBox.setGeometry(QRect(110, 97, 361, 31))
+        self.HidecomboBox.setGeometry(QRect(110, 97, 481, 31))
         self.HidecomboBox.setStyleSheet(u"QComboBox\n"
 "{\n"
 "    border-style: outset;\n"
@@ -2323,42 +2323,6 @@ class Ui_Form(object):
         self.colorButton.setObjectName(u"colorButton")
         self.colorButton.setGeometry(QRect(490, 140, 101, 28))
         self.colorButton.setStyleSheet(u"\n"
-".QPushButtonn-6d {\n"
-"	border: 2px dashed #226fbe;\n"
-"}\n"
-"\n"
-".QPushButton-6d:hover {\n"
-"	background: transparent;\n"
-"	color: #226fbe;\n"
-"}\n"
-"QPushButton\n"
-"{\n"
-"    border-style: outset;\n"
-"    border-width: 2px;\n"
-"    border-color: black;\n"
-"}")
-        self.hideButton = QPushButton(self.frame_5)
-        self.hideButton.setObjectName(u"hideButton")
-        self.hideButton.setGeometry(QRect(490, 97, 101, 28))
-        self.hideButton.setStyleSheet(u"\n"
-".QPushButtonn-6d {\n"
-"	border: 2px dashed #226fbe;\n"
-"}\n"
-"\n"
-".QPushButton-6d:hover {\n"
-"	background: transparent;\n"
-"	color: #226fbe;\n"
-"}\n"
-"QPushButton\n"
-"{\n"
-"    border-style: outset;\n"
-"    border-width: 2px;\n"
-"    border-color: black;\n"
-"}")
-        self.showButton = QPushButton(self.frame_5)
-        self.showButton.setObjectName(u"showButton")
-        self.showButton.setGeometry(QRect(490, 50, 101, 28))
-        self.showButton.setStyleSheet(u"\n"
 ".QPushButtonn-6d {\n"
 "	border: 2px dashed #226fbe;\n"
 "}\n"
@@ -2476,8 +2440,6 @@ class Ui_Form(object):
 
         self.label_10.setText(QCoreApplication.translate("Form", u"Color", None))
         self.colorButton.setText(QCoreApplication.translate("Form", u" Color", None))
-        self.hideButton.setText(QCoreApplication.translate("Form", u"Hide", None))
-        self.showButton.setText(QCoreApplication.translate("Form", u"Show", None))
         self.label_6.setText(QCoreApplication.translate("Form", u"Signal", None))
         self.SpectrogramcomboBox.setItemText(0, QCoreApplication.translate("Form", u"No Signal", None))
         self.SpectrogramcomboBox.setItemText(1, QCoreApplication.translate("Form", u"Signal_1", None))

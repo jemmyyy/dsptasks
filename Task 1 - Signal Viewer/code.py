@@ -79,9 +79,8 @@ class MainApp(QMainWindow , FORM_CLASS):
     def Handle_Buttons(self):
         
         self.BrowseButton_13.clicked.connect(self.Browse)
-
-        self.showButton.clicked.connect(self.show)
-        self.hideButton.clicked.connect(self.hide)
+        self.ShowcomboBox.currentTextChanged.connect(self.Show)
+        self.HidecomboBox.currentTextChanged.connect(self.Hide)
         self.PauseButton_6.clicked.connect(self.Pause)
         self.PlayButton_7.clicked.connect(self.Play)
         self.currSpecFigure=0
@@ -207,7 +206,7 @@ class MainApp(QMainWindow , FORM_CLASS):
 
 
     def Hide(self):
-        item = self.HidecomboBox.currentText()
+        item = self.ShowcomboBox.currentText()
         if item == "Signal_1" :
             self.Hide_First_Signal_Flag = 1
             self.Signal1.hide()
