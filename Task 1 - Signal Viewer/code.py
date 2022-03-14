@@ -328,7 +328,6 @@ class MainApp(QMainWindow , FORM_CLASS):
         if self.Third_Signal_Flag == 1 and self.Hide_Third_Signal_Flag == 0:
             self.Signal3 = self.graphicsView.plot(self.x3[0:self.counter],self.y3[0:self.counter], pen=self.pen3)
             self.max_len = max(len(self.x1),len(self.x2),len(self.x3))
-        print(self.max)
         if self.counter < self.max_len:                                                    #To stop at the limit of the graph
             if self.counter < 100:
                 start_count = 0
@@ -350,7 +349,6 @@ class MainApp(QMainWindow , FORM_CLASS):
         for i in range(1):
             amplitude = self.sigDatay[i]
             time = self.sigDatax[i]
-            print(amplitude)
             signal_info=["{}".format(chn[i]),round(amplitude.mean(),5),round(amplitude.std(),5),round(amplitude.max(),5),round(amplitude.min(),5),round((time.max() - time.min()),5)]
             table_data.append(signal_info)
 
