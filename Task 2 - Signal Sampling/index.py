@@ -1,20 +1,33 @@
 ##PyQT5
+import string
+from subprocess import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.uic import loadUiType
+from PyQt5 import QtCore, QtGui, QtWidgets
 from pyqtgraph import PlotWidget,plot
 from PyQt5 import QtCore
-import sys
 import os 
+import csv 
 import pyqtgraph as pg
-from os import path 
+from os import path, remove 
 import numpy as np
+import pandas as pd
+import math  
 import matplotlib.pyplot as plt
 import scipy
+from scipy.fftpack import fft
 from scipy import signal 
+from tkinter import filedialog
+from tkinter import *
+import sys
+
 
 FORM_CLASS,_= loadUiType(path.join(path.dirname(__file__),"main.ui"))
+
+new_sig=[]
+t = np.arange(0, 1, 0.001)
 
 class MainApp(QMainWindow , FORM_CLASS):
     def __init__(self, parent=None):
@@ -22,70 +35,170 @@ class MainApp(QMainWindow , FORM_CLASS):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.Handle_UI()
+        self.SignalsCounter = 1
+        self.added_signal = 0 
+        self.counter_signal = 0
+        self.list_signal = [] 
+        self.y = 0
         self.counter = 0
-        self.speed=2000
-        self.isRunning=True
         self.max_len = 0
         self.pen = pg.mkPen('r')
+        self.orange_pen = pg.mkPen((255,215,0) , width=1)
 
     def Handle_UI(self):
         self.setWindowTitle('Sampling-Theory Illustrator')
         self.Handle_Buttons()
+        #self.Handle_GraphicsViews()
+        self.horizontalSlider.setMaximum(12)
+        self.horizontalSlider.setMinimum(0)
+        self.horizontalSlider.setValue(0)
+        self.horizontalSlider.setTickInterval(1)
+        self.horizontalSlider.setSingleStep(1)
+        self.horizontalSlider.setTickPosition(QSlider.TicksBelow)
 
     def Handle_Buttons(self):
          self.BrowseButton.clicked.connect(self.Browse)
-         self.ShowButton.clicked.connect(self.Show_Signal_Composer)
+         self.ApplyButton.clicked.connect(self.Show_Signal_Composer)
          self.AddButton.clicked.connect(self.Add)
+         self.DeleteButton.clicked.connect(self.Delete)
          self.ConfirmButton.clicked.connect(self.Confirm)
-         self.SaveButton.clicked.connect(self.Save)
+         self.ShowButton.clicked.connect(self.Show)
+         self.HideButton.clicked.connect(self.Hide)
+         self.horizontalSlider.valueChanged.connect(self.Sampling_change)
 
+    def Hide (self):
+        self.graphicsView_2.hide()
+    def Show (self):  
+        self.graphicsView_2.show()
     def Add (self): 
-        pass
+        self.graphicsView_3.clear()
+        self.list_signal.append(self.signal)
+        self.added_signal = self.added_signal + self.signal
+        self.graphicsView_3.plot(self.t , self.added_signal, pen = self.pen)
 
-    def Save (self): 
-        pass
+        self.text = 'A:' +str(self.Amplitude) + '_F:' +str(self.Frequency)+ '_P:' +str(self.Phase_Shift)
+        self.DeletecomboBox.addItem(self.text)
+        self.counter_signal +=1
+    
+    def Delete(self):
+         delete_item_index = self.DeletecomboBox.currentIndex()
+         removed_signal = self.list_signal[delete_item_index]
+         self.list_signal.pop(delete_item_index)
+         self.DeletecomboBox.removeItem(delete_item_index)
+         self.added_signal = self.added_signal - removed_signal 
+         self.graphicsView_3.clear()
+         if self.DeletecomboBox.count() > 0 :
+            self.graphicsView_3.plot(self.t , self.added_signal, pen = self.pen)
 
+
+    def Save_Signal (self): 
+        SavedSignal = np.column_stack((self.t,self.added_signal))
+        Save_Text = self.Save_textEdit.toPlainText()
+        np.savetxt(str(Save_Text)+'.csv', SavedSignal)
+                
     def Confirm (self): 
-        pass
+        self.y = self.y + self.added_signal
+        self.plotGraphicsView.clear()
+        self.plotGraphicsView.plot(self.t, self.y)
+    
+    def GetMaxFreq(self, Amplitude, time):
+        data_amp=[]
+        for i in Amplitude:
+            if len(data_amp)== len(t):
+                break
+            else:
+                data_amp.append(i)
 
+        n=np.size(time)
+        frequencies_array=np.arange(1,np.floor(n/2),dtype ='int')
+        data_freq=fft(data_amp)
+
+        freq_mag=(2/n)*abs(data_freq[0:np.size(frequencies_array)])
+
+        imp_freq=freq_mag>0.2
+        clean_frequencies_array=imp_freq*frequencies_array
+        self.fmax=round(clean_frequencies_array.max())
 
     def Browse(self):
-        open_place = QFileDialog.getOpenFileName(self , caption= "Browse", directory=".", filter="All Files (*.*)")
-        path = open_place[0].split(',') #path refears to the chosen file after splitting  
-        myfile = open(path[0], "r") # 'r' refears to the mode, the mode here is reading 
-        self.Amplitude = []
-        self.Time = []
-        self.sigDatax=[]
-        self.sigDatay=[]
-        while myfile:
-            myline  = myfile.readline()
-            if myline == "": 
-                 break
-            self.line = myline.split() 
-            self.Amplitude.append(float(self.line [0]))
-            self.Time.append(float(self.line [1])) 
-        myfile.close()
-        self.x = np.array(self.Time)
-        self.y = np.array(self.Amplitude)
-        self.update_plot_data()
+        self.ComposergraphicsView.clear()
+        # self.graphicsView_generated_signal.clear()
+        self.reconstructGraphicsView.clear() 
+        fileName, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open csv', QtCore.QDir.rootPath(), 'csv(*.csv)')
+        dataSet = pd.read_csv(fileName, header=None)
+        self.amplitudeData = dataSet[1]
+        self.timeData = dataSet[0]
+        self.GetMaxFreq(self.amplitudeData, self.timeData)
+        self.plotMainGraph(self.amplitudeData, self.timeData, 0)
+
+    def plotMainGraph(self, amplitude,time,Fs):
+        self.plotGraphicsView.plotItem.vb.setLimits(xMin=min(time)-0.01, xMax=max(time),yMin=min(amplitude) - 0.2, yMax=max(amplitude) + 0.2)
+        if Fs == 0:
+            self.plotGraphicsView.clear()
+            self.plotGraphicsView.plot(time,amplitude)
+        else:
+            sample_time = 1/Fs
+            no_of_samples = math.ceil(max(time))/sample_time
+            no_of_samples = math.ceil(no_of_samples)
+            index_append= len(time)/no_of_samples
+            index_append = math.floor(index_append)
+            self.Sample_amp=[]
+            self.Sample_time = []
+            index = 0
+
+            for i in range(no_of_samples):
+                self.Sample_time.append(time[index])
+                self.Sample_amp.append(amplitude[index])
+                index += index_append
+
+            self.recons_amp = self.sinInterpolate(self.Sample_amp,self.Sample_time,time)
+
+            self.plotGraphicsView.clear()
+            self.reconstructGraphicsView.clear()
+            self.plotGraphicsView.plot(time, amplitude)
+            self.plotGraphicsView.plot(self.Sample_time, self.Sample_amp, symbol='o', pen = None)
+            self.plotGraphicsView.plot(time, self.recons_amp, pen = self.orange_pen)
+            self.reconstructGraphicsView.plot(time, self.recons_amp, pen=self.orange_pen)
+            self.reconstructGraphicsView.plotItem.vb.setLimits(xMin=min(self.timeData) - 0.01,xMax=max(self.timeData),yMin=min(self.amplitudeData) - 0.2,yMax=max(self.amplitudeData) + 0.2)
     
-    def Plot(self):
-        self.Signal = self.PlotgraphicsView.plot(self.x,self.y, pen='#FFFF00')
-        self.PlotgraphicsView.setLimits(xMin = 0, xMax = self.x[101])
+    def sinInterpolate(self, sample_amplitude,sample_time , time):
+         if len(sample_amplitude) != len(sample_time):
+             raise ValueError('sample time and sample amplitude must be the same length')
+
+         sample_time = np.array(sample_time)
+         time = np.array(time)
+
+         # Find the period
+         period_time = sample_time[1] - sample_time[0]
+
+         sincM = np.tile(time, (len(sample_time), 1)) - np.tile(sample_time[:, np.newaxis], (1, len(time)))
+         recovered_signal = np.dot(sample_amplitude, np.sinc(sincM / period_time))
+         return recovered_signal
+
+
+    def Sampling_change(self):
+        value = float(self.horizontalSlider.value())
+        if (value/4)*self.fmax*max(self.timeData) <3:
+            value = 3/(max(self.timeData*self.fmax))
+        else:
+            value = value / 4
+
+        self.plotMainGraph(self.amplitudeData,self.timeData,self.fmax*value)
+ 
 
     def Show_Signal_Composer(self):
         self.ComposergraphicsView.clear()
         self.Amplitude = float(self.Amplitude_textEdit.toPlainText())
         self.Frequency = float(self.Frequency_textEdit.toPlainText())
         self.Phase_Shift = float(self.Phase_Shift_textEdit.toPlainText())
+        self.Phase_Shift =  self.Phase_Shift*np.pi/180
+        self.t = np.arange(0,20,1/1000)
         current_comboBox_item = self.SignalcomboBox.currentText()
         if current_comboBox_item == "Sine Signal" :
-          signal = self.Amplitude * np.sin(2* np.pi * self.Frequency * self.Time + self.Phase_Shift)
+          self.signal = self.Amplitude * np.sin(2* np.pi * self.Frequency * self.t + self.Phase_Shift)
         elif current_comboBox_item == "Cosine Signal" :
-          signal = self.Amplitude * np.cos(2* np.pi * self.Frequency * self.Time + self.Phase_Shift)
+          self.signal = self.Amplitude * np.cos(2* np.pi * self.Frequency * self.t + self.Phase_Shift)
+        self.ComposergraphicsView.plot(self.t , self.signal, pen = self.pen)
         
-          
-
 def main ():
     app = QApplication(sys.argv)
     window = MainApp ()
