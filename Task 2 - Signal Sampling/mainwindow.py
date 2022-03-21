@@ -65,6 +65,7 @@ class MainApp(QMainWindow , FORM_CLASS):
          self.ConfirmButton.clicked.connect(self.Confirm)
          self.ShowButton.clicked.connect(self.Show)
          self.HideButton.clicked.connect(self.Hide)
+         self.SaveButton.clicked.connect(self.Save_Signal)
          self.horizontalSlider.valueChanged.connect(self.Sampling_change)
 
     def Hide (self):
@@ -133,7 +134,6 @@ class MainApp(QMainWindow , FORM_CLASS):
 
     def Browse(self):
         self.ComposergraphicsView.clear()
-        # self.graphicsView_generated_signal.clear()
         self.reconstructGraphicsView.clear() 
         fileName, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open csv', QtCore.QDir.rootPath(), 'csv(*.csv)')
         dataSet = pd.read_csv(fileName, header=None)
