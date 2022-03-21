@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1660</width>
+    <height>740</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QFrame" name="frame">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <widget class="QFrame" name="frame_14">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>741</width>
+         <height>601</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QFrame" name="frame_15">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>560</y>
+          <width>721</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QTextEdit" name="Save_textEdit">
+         <property name="geometry">
+          <rect>
+           <x>570</x>
+           <y>5</y>
+           <width>141</width>
+           <height>21</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="SaveButton">
+         <property name="geometry">
+          <rect>
+           <x>480</x>
+           <y>5</y>
+           <width>75</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press to Save&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+{
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+    font: 9pt &quot;Century&quot;;
+}</string>
+         </property>
+         <property name="text">
+          <string>Save</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="ConfirmButton">
+         <property name="geometry">
+          <rect>
+           <x>390</x>
+           <y>5</y>
+           <width>75</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press to Confirm&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+{
+   border-style: outset;
+    border-width: 2px;
+    border-color: black;
+    font: 9pt &quot;Century&quot;;
+}</string>
+         </property>
+         <property name="text">
+          <string>Confirm</string>
+         </property>
+        </widget>
+        <widget class="QSlider" name="horizontalSlider">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>5</y>
+           <width>341</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QSplitter" name="splitter_10">
+        <property name="geometry">
+         <rect>
+          <x>10</x>
+          <y>10</y>
+          <width>721</width>
+          <height>541</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <widget class="QSplitter" name="splitter_11">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <widget class="PlotWidget" name="plotGraphicsView"/>
+         <widget class="PlotWidget" name="reconstructGraphicsView"/>
+        </widget>
+        <widget class="QSplitter" name="splitter_12">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <widget class="PlotWidget" name="ComposergraphicsView"/>
+         <widget class="PlotWidget" name="graphicsView_3"/>
+        </widget>
+       </widget>
+      </widget>
+      <widget class="QFrame" name="frame_16">
+       <property name="geometry">
+        <rect>
+         <x>760</x>
+         <y>10</y>
+         <width>491</width>
+         <height>271</height>
+        </rect>
+       </property>
+       <property name="frameShape">
+        <enum>QFrame::StyledPanel</enum>
+       </property>
+       <property name="frameShadow">
+        <enum>QFrame::Raised</enum>
+       </property>
+       <widget class="QFrame" name="frame_17">
+        <property name="geometry">
+         <rect>
+          <x>220</x>
+          <y>10</y>
+          <width>261</width>
+          <height>161</height>
+         </rect>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <widget class="QLineEdit" name="AmplitudeLine">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>40</y>
+           <width>91</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Amplitude</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="FrequencyLine">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>70</y>
+           <width>91</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Frequency</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_8">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>100</y>
+           <width>91</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string> Phase_Shift</string>
+         </property>
+        </widget>
+        <widget class="QTextEdit" name="Amplitude_textEdit">
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>40</y>
+           <width>141</width>
+           <height>21</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QTextEdit" name="Frequency_textEdit">
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>70</y>
+           <width>141</width>
+           <height>21</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QTextEdit" name="Phase_Shift_textEdit">
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>100</y>
+           <width>141</width>
+           <height>21</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_9">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>10</y>
+           <width>91</width>
+           <height>20</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Signal </string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="SignalcomboBox">
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>10</y>
+           <width>141</width>
+           <height>26</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>Sine Signal</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Cosine Signal</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QPushButton" name="ApplyButton">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>130</y>
+           <width>91</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press to Show Signal &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+{
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+    font: 9pt &quot;Century&quot;;
+}</string>
+         </property>
+         <property name="text">
+          <string>Apply</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="AddButton">
+         <property name="geometry">
+          <rect>
+           <x>110</x>
+           <y>130</y>
+           <width>75</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <property name="toolTip">
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press to Add Signal &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton
+{
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+    font: 9pt &quot;Century&quot;;
+}</string>
+         </property>
+         <property name="text">
+          <string>Add</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QComboBox" name="DeletecomboBox">
+        <property name="geometry">
+         <rect>
+          <x>170</x>
+          <y>190</y>
+          <width>311</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"> QComboBox
+{
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+    font: 9pt &quot;Century&quot;;
+}</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="DeleteButton">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>190</y>
+          <width>111</width>
+          <height>28</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press to Delete&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton
+{
+   border-style: outset;
+    border-width: 2px;
+    border-color: black;
+    font: 9pt &quot;Century&quot;;
+}</string>
+        </property>
+        <property name="text">
+         <string>Delete</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="BrowseButton">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>20</y>
+          <width>101</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="toolTip">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press to Browse&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton
+{
+    border-style: outset;
+    border-width: 2px;
+    border-color: black;
+    font: 9pt &quot;Century&quot;;
+}</string>
+        </property>
+        <property name="text">
+         <string>Browse</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="ShowButton">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>60</y>
+          <width>101</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton
+{
+   border-style: outset;
+    border-width: 2px;
+    border-color: black;
+    font: 9pt &quot;Century&quot;;
+}</string>
+        </property>
+        <property name="text">
+         <string>Show</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="HideButton">
+        <property name="geometry">
+         <rect>
+          <x>70</x>
+          <y>100</y>
+          <width>101</width>
+          <height>31</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton
+{
+   border-style: outset;
+    border-width: 2px;
+    border-color: black;
+    font: 9pt &quot;Century&quot;;
+}</string>
+        </property>
+        <property name="text">
+         <string>Hide</string>
+        </property>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1660</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QGraphicsView</extends>
+   <header location="global">pyqtgraph</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

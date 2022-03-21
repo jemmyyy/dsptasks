@@ -24,7 +24,7 @@ from tkinter import *
 import sys
 
 
-FORM_CLASS,_= loadUiType(path.join(path.dirname(__file__),"main.ui"))
+FORM_CLASS,_= loadUiType(path.join(path.dirname(__file__),"qtFiles/main.ui"))
 
 new_sig=[]
 t = np.arange(0, 1, 0.001)
@@ -40,6 +40,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.counter_signal = 0
         self.list_signal = [] 
         self.y = 0
+        self.fmax = -1000
         self.counter = 0
         self.max_len = 0
         self.pen = pg.mkPen('r')
@@ -67,14 +68,20 @@ class MainApp(QMainWindow , FORM_CLASS):
          self.horizontalSlider.valueChanged.connect(self.Sampling_change)
 
     def Hide (self):
-        self.graphicsView_2.hide()
+        self.ComposergraphicsView.hide()
+        self.graphicsView_3.hide()
+        self.reconstructGraphicsView.hide()
     def Show (self):  
-        self.graphicsView_2.show()
+        self.ComposergraphicsView.show()
+        self.graphicsView_3.show()
+        self.reconstructGraphicsView.show()
+
     def Add (self): 
         self.graphicsView_3.clear()
         self.list_signal.append(self.signal)
         self.added_signal = self.added_signal + self.signal
         self.graphicsView_3.plot(self.t , self.added_signal, pen = self.pen)
+        self.graphicsView_3.plotItem.vb.setLimits(xMin = min(self.t), xMax = max(self.t), yMin = min(self.added_signal), yMax = max(self.added_signal))
 
         self.text = 'A:' +str(self.Amplitude) + '_F:' +str(self.Frequency)+ '_P:' +str(self.Phase_Shift)
         self.DeletecomboBox.addItem(self.text)
@@ -89,6 +96,7 @@ class MainApp(QMainWindow , FORM_CLASS):
          self.graphicsView_3.clear()
          if self.DeletecomboBox.count() > 0 :
             self.graphicsView_3.plot(self.t , self.added_signal, pen = self.pen)
+            self.graphicsView_3.plotItem.vb.setLimits(xMin = min(self.t), xMax = max(self.t), yMin = min(self.added_signal), yMax = max(self.added_signal))
 
 
     def Save_Signal (self): 
@@ -98,8 +106,12 @@ class MainApp(QMainWindow , FORM_CLASS):
                 
     def Confirm (self): 
         self.y = self.y + self.added_signal
+        
+        self.timeData = self.t
+        self.amplitudeData = self.y
         self.plotGraphicsView.clear()
         self.plotGraphicsView.plot(self.t, self.y)
+        self.plotGraphicsView.plotItem.vb.setLimits(xMin = min(self.t), xMax = max(self.t), yMin = min(self.y), yMax = max(self.y))
     
     def GetMaxFreq(self, Amplitude, time):
         data_amp=[]
@@ -109,11 +121,11 @@ class MainApp(QMainWindow , FORM_CLASS):
             else:
                 data_amp.append(i)
 
-        n=np.size(time)
-        frequencies_array=np.arange(1,np.floor(n/2),dtype ='int')
+        timeLength=np.size(time)
+        frequencies_array=np.arange(1,np.floor(timeLength/2),dtype ='int')
         data_freq=fft(data_amp)
 
-        freq_mag=(2/n)*abs(data_freq[0:np.size(frequencies_array)])
+        freq_mag=(2/timeLength)*abs(data_freq[0:np.size(frequencies_array)])
 
         imp_freq=freq_mag>0.2
         clean_frequencies_array=imp_freq*frequencies_array
@@ -189,6 +201,8 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.ComposergraphicsView.clear()
         self.Amplitude = float(self.Amplitude_textEdit.toPlainText())
         self.Frequency = float(self.Frequency_textEdit.toPlainText())
+        if self.Frequency > self.fmax:
+            self.fmax = self.Frequency
         self.Phase_Shift = float(self.Phase_Shift_textEdit.toPlainText())
         self.Phase_Shift =  self.Phase_Shift*np.pi/180
         self.t = np.arange(0,20,1/1000)
@@ -198,6 +212,8 @@ class MainApp(QMainWindow , FORM_CLASS):
         elif current_comboBox_item == "Cosine Signal" :
           self.signal = self.Amplitude * np.cos(2* np.pi * self.Frequency * self.t + self.Phase_Shift)
         self.ComposergraphicsView.plot(self.t , self.signal, pen = self.pen)
+        self.ComposergraphicsView.plotItem.vb.setLimits(xMin = min(self.t), xMax = max(self.t), yMin = min(self.signal), yMax = max(self.signal))
+
         
 def main ():
     app = QApplication(sys.argv)
