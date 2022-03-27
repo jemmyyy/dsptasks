@@ -1,4 +1,5 @@
 ##PyQT5
+from fileinput import filename
 import string
 from subprocess import *
 from PyQt5.QtWidgets import *
@@ -101,9 +102,15 @@ class MainApp(QMainWindow , FORM_CLASS):
 
 
     def Save_Signal (self): 
+        print(self.fmax)
+        self.t = np.append(self.t, self.fmax)
+        self.added_signal = np.append(self.added_signal, self.fmax)
         SavedSignal = np.column_stack((self.t,self.added_signal))
         Save_Text = self.Save_textEdit.toPlainText()
-        np.savetxt(str(Save_Text)+'.csv', SavedSignal)
+        with open(Save_Text+'.csv', 'w') as f:
+           write = csv.writer(f)
+           
+           write.writerows(SavedSignal)
                 
     def Confirm (self): 
         self.y = self.y + self.added_signal
@@ -123,7 +130,8 @@ class MainApp(QMainWindow , FORM_CLASS):
                 data_amp.append(i)
 
         timeLength=np.size(time)
-        frequencies_array=np.arange(1,np.floor(timeLength/2),dtype ='int')
+        frequencies_array=np.arange(1, np.floor(timeLength/2), 10, dtype ='int')
+        print(len(frequencies_array))
         data_freq=fft(data_amp)
 
         freq_mag=(2/timeLength)*abs(data_freq[0:np.size(frequencies_array)])
@@ -131,6 +139,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         imp_freq=freq_mag>0.2
         clean_frequencies_array=imp_freq*frequencies_array
         self.fmax=round(clean_frequencies_array.max())
+        print(clean_frequencies_array)
 
     def Browse(self):
         self.ComposergraphicsView.clear()
@@ -139,7 +148,12 @@ class MainApp(QMainWindow , FORM_CLASS):
         dataSet = pd.read_csv(fileName, header=None)
         self.amplitudeData = dataSet[1]
         self.timeData = dataSet[0]
-        self.GetMaxFreq(self.amplitudeData, self.timeData)
+        if self.amplitudeData[20001]:
+            self.fmax = self.amplitudeData[20001]
+            self.amplitudeData = self.amplitudeData[0:20000]
+            self.timeData = self.timeData[0:20000]
+        else:
+            self.GetMaxFreq(self.amplitudeData, self.timeData)
         self.plotMainGraph(self.amplitudeData, self.timeData, 0)
 
     def plotMainGraph(self, amplitude,time,Fs):
@@ -172,7 +186,7 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.reconstructGraphicsView.plot(time, self.recons_amp, pen=self.orange_pen)
             self.reconstructGraphicsView.plotItem.vb.setLimits(xMin=min(self.timeData) - 0.01,xMax=max(self.timeData),yMin=min(self.amplitudeData) - 0.2,yMax=max(self.amplitudeData) + 0.2)
     
-    def sinInterpolate(self, sample_amplitude,sample_time , time):
+    def sinInterpolate(self, sample_amplitude, sample_time, time):
          if len(sample_amplitude) != len(sample_time):
              raise ValueError('sample time and sample amplitude must be the same length')
 
