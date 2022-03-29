@@ -52,7 +52,8 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.Instrument3verticalSlider.setValue(4)
 
     def Handle_Buttons(self):
-        pass
+        self.Instrument1verticalSlider.setMaximum(8)
+
 
         
 def main ():
