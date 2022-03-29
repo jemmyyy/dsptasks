@@ -41,6 +41,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.setWindowTitle('Sampling-Theory Illustrator')
         self.Handle_Buttons()
 
+    def Handle_Buttons(self):
         self.Instrument1verticalSlider.setMaximum(8)
         self.Instrument1verticalSlider.setMinimum(0)
         self.Instrument1verticalSlider.setValue(4)
@@ -51,8 +52,6 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.Instrument3verticalSlider.setMinimum(0)
         self.Instrument3verticalSlider.setValue(4)
 
-    def Handle_Buttons(self):
-        pass
 
         
 def main ():
