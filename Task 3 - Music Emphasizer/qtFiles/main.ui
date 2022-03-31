@@ -198,7 +198,7 @@
       <property name="title">
        <string>Graphs</string>
       </property>
-      <widget class="PlotWidget" name="graphicsView_2">
+      <widget class="PlotWidget" name="mainplot">
        <property name="geometry">
         <rect>
          <x>10</x>
@@ -233,7 +233,7 @@
      <x>0</x>
      <y>0</y>
      <width>1660</width>
-     <height>22</height>
+     <height>18</height>
     </rect>
    </property>
   </widget>
