@@ -67,14 +67,13 @@ class MainApp(QMainWindow , FORM_CLASS):
         pyg.mixer.init()
         pyg.init()
       
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(40, 60, 511, 331))
         self.splitter_graphs = QtWidgets.QSplitter(self.tab_3)
-        self.splitter_graphs.setGeometry(QtCore.QRect(110, 70, 951, 331))
+        self.splitter_graphs.setGeometry(QtCore.QRect(20, 70, 1211, 331))
         self.splitter_graphs.setOrientation(QtCore.Qt.Horizontal)
         self.splitter_graphs.setObjectName("splitter_graphs")
-        self.gridLayout.addWidget(self.splitter_graphs,0,1,6,4)
         
         self.canvas = MplCanvas(self, width=4, height=4, dpi=100)
+        self.splitter_graphs.addWidget(self.graphicsView_2)
         self.splitter_graphs.addWidget(self.canvas)
 
         self.reference_plot = None
@@ -147,6 +146,8 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.drumButtonTom4.clicked.connect(pd.playDrumTom4)
         self.drumButtonTom5.clicked.connect(pd.playDrumTom5)
         self.drumButtonSnare.clicked.connect(pd.playDrumSnare)
+
+
         self.VolumeverticalSlider.setMinimum(0)
         self.VolumeverticalSlider.setMaximum(200)
         self.VolumeverticalSlider.setValue(100)
