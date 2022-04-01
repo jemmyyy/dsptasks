@@ -77,9 +77,9 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.downsample = 10
         self.device = 0
         self.channels = [1]
-        self.interval = 30
         self.threadpool = QtCore.QThreadPool()
-        
+        self.isRunning = False
+
         deviceInfo = sd.query_devices(self.device)
         self.samplerate = deviceInfo['default_samplerate']
         self.window_length = 200
@@ -90,7 +90,7 @@ class MainApp(QMainWindow , FORM_CLASS):
 
         self.update_plot()
         self.timer = QtCore.QTimer()
-        self.timer.setInterval(self.interval)  # msec
+        self.timer.setInterval(30)  # msec
         self.timer.timeout.connect(self.update_plot)
         self.timer.start()
 
@@ -111,8 +111,16 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.Instrument3verticalSlider.setValue(4)
 
     def Handle_Buttons(self):
-        self.Instrument1verticalSlider.setMaximum(8)
+        self.VolumeverticalSlider.setMinimum(0)
+        self.VolumeverticalSlider.setMaximum(200)
+        self.VolumeverticalSlider.setValue(100)
+        self.VolumeverticalSlider.setTickInterval(20)
+        self.VolumeverticalSlider.setSingleStep(20)
+        self.VolumeverticalSlider.setTickPosition(QSlider.TicksRight)
+        self.VolumeverticalSlider.valueChanged.connect(self.changeVolume)  
         self.BrowsepushButton.clicked.connect(self.Browse)
+        self.PauseButton.clicked.connect(self.Pause)
+        self.PlayButton.clicked.connect(self.Play)
 
     def Browse(self):
         filePath, _ = QtWidgets.QFileDialog.getOpenFileName(
@@ -164,12 +172,23 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.canvas.axes.yaxis.set_major_formatter(
                 ticker.FormatStrFormatter('%0.1f'))
             self.canvas.axes.set_ylim(ymin=-0.5, ymax=0.5)
-            # if self.stop == False:
-            self.canvas.draw()
+            if self.isRunning == False:
+                self.canvas.draw()
         except:
             pass
 
-
+    def Pause(self):
+        self.isRunning=True
+        self.media.pause()
+    
+    def Play(self):
+        self.isRunning=False
+        self.media.play()
+    
+    def changeVolume(self):
+        SliderValue=int(self.VolumeverticalSlider.value())
+        self.media.audio_set_volume(SliderValue)
+        pass
         
         
 def main ():
