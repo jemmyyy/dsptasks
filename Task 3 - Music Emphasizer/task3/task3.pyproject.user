@@ -118,12 +118,16 @@
     <valuelist type="QVariantList" key="CustomOutputParsers"/>
     <value type="int" key="PE.EnvironmentAspect.Base">2</value>
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
-    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.CustomExecutableRunConfiguration</value>
-    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey"></value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">C:/Users/amgam/Desktop/DSP/dsptasks/Task 3 - Music Emphasizer/task3/mainwindow.py</value>
+    <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">PythonEditor.RunConfiguration.C:/Users/amgam/Desktop/DSP/dsptasks/Task 3 - Music Emphasizer/task3/mainwindow.py</value>
+    <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">C:/Users/amgam/Desktop/DSP/dsptasks/Task 3 - Music Emphasizer/task3/mainwindow.py</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Interpreter">{856ace6d-efcc-43ae-991d-c6a9d26e67da}</value>
+    <value type="QString" key="PythonEditor.RunConfiguation.Script">C:\Users\amgam\Desktop\DSP\dsptasks\Task 3 - Music Emphasizer\task3\mainwindow.py</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory.default">C:/Users/amgam/Desktop/DSP/dsptasks/Task 3 - Music Emphasizer/task3</value>
    </valuemap>
    <value type="qlonglong" key="ProjectExplorer.Target.RunConfigurationCount">1</value>
   </valuemap>
