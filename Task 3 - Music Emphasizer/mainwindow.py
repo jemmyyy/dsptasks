@@ -13,7 +13,6 @@ from PyQt5 import QtCore
 import os 
 import matplotlib.ticker as ticker
 import sounddevice as sd
-import csv 
 import pyqtgraph as pg
 from os import path, remove 
 import numpy as np
@@ -21,6 +20,8 @@ import pandas as pd
 import math  
 import simpleaudio as sa
 import vlc
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg 
+from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 from scipy.io import wavfile
 from scipy.fftpack import fft
@@ -32,8 +33,15 @@ import sys
 
 FORM_CLASS,_= loadUiType(path.join(path.dirname(__file__),"qtFiles/main.ui"))
 
-new_sig=[]
-t = np.arange(0, 1, 0.001)
+# new_sig=[]
+# t = np.arange(0, 1, 0.001)
+
+class MplCanvas(FigureCanvasQTAgg):
+    def __init__(self, parent=None, width=5, height=4, dpi=100):
+        fig = Figure(figsize=(width, height), dpi=dpi)
+        self.axes = fig.add_subplot(111)
+        super(MplCanvas, self).__init__(fig)
+        fig.tight_layout()
 
 class Worker(QtCore.QRunnable):
 
@@ -53,16 +61,25 @@ class MainApp(QMainWindow , FORM_CLASS):
         QMainWindow.__init__(self)
         self.setupUi(self)
         self.Handle_UI()
-
-        self.threadpool = QtCore.QThreadPool()
+      
+        self.gridLayoutWidget.setGeometry(QtCore.QRect(40, 60, 511, 331))
+        self.splitter_graphs = QtWidgets.QSplitter(self.tab_3)
+        self.splitter_graphs.setGeometry(QtCore.QRect(110, 70, 951, 331))
+        self.splitter_graphs.setOrientation(QtCore.Qt.Horizontal)
+        self.splitter_graphs.setObjectName("splitter_graphs")
+        self.gridLayout.addWidget(self.splitter_graphs,0,1,6,4)
         
+        self.canvas = MplCanvas(self, width=4, height=4, dpi=100)
+        self.splitter_graphs.addWidget(self.canvas)
+
         self.reference_plot = None
         self.que = queue.Queue(maxsize=20)
         self.downsample = 10
         self.device = 0
         self.channels = [1]
         self.interval = 30
-
+        self.threadpool = QtCore.QThreadPool()
+        
         deviceInfo = sd.query_devices(self.device)
         self.samplerate = deviceInfo['default_samplerate']
         self.window_length = 200
@@ -108,49 +125,49 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.threadpool.start(worker)
 
 
-    # def start_stream(self):
-    #     def audio_callback(indata, frames, time, status):
-    #         self.que.put(indata[::self.downsample, [0]])
-    #     stream = sd.InputStream(device=self.device, channels=max(
-    #         self.channels), samplerate=self.samplerate, callback=audio_callback)
-    #     with stream:
-    #         input()
+    def start_stream(self):
+        def audio_callback(indata, frames, time, status):
+            self.que.put(indata[::self.downsample, [0]])
+        stream = sd.InputStream(device=self.device, channels=max(
+            self.channels), samplerate=self.samplerate, callback=audio_callback)
+        with stream:
+            input()
 
-    # def update_plot(self):
-    #     try:
-    #         data = [0]
+    def update_plot(self):
+        try:
+            data = [0]
 
-    #         while True:
-    #             try:
-    #                 data = self.que.get_nowait()
-    #             except queue.Empty:
-    #                 break
-    #             shift = len(data)
-    #             self.plotdata = np.roll(self.plotdata, -shift, axis=0)
-    #             self.plotdata[-shift:, :] = data
-    #             self.ydata = self.plotdata[:]
-    #             self.mainplot.axes.set_facecolor((0, 0, 0))
+            while True:
+                try:
+                    data = self.que.get_nowait()
+                except queue.Empty:
+                    break
+                shift = len(data)
+                self.plotdata = np.roll(self.plotdata, -shift, axis=0)
+                self.plotdata[-shift:, :] = data
+                self.ydata = self.plotdata[:]
+                self.canvas.axes.set_facecolor((0, 0, 0))
 
-    #             if self.reference_plot is None:
-    #                 plot_refs = self.mainplot.axes.plot(
-    #                     self.ydata, color=(0, 1, 0.29))
-    #                 self.reference_plot = plot_refs[0]
-    #             else:
-    #                 self.reference_plot.set_ydata(self.ydata)
+                if self.reference_plot is None:
+                    plot_refs = self.canvas.axes.plot(
+                        self.ydata, color=(0, 1, 0.29))
+                    self.reference_plot = plot_refs[0]
+                else:
+                    self.reference_plot.set_ydata(self.ydata)
 
             
-    #         self.mainplot.axes.yaxis.grid(True, linestyle='--')
-    #         self.mainplot.axes
-    #         self.mainplot.axes.yaxis.grid(True, linestyle='--')
-    #         start, end = self.mainplot.axes.get_ylim()
-    #         self.mainplot.axes.yaxis.set_ticks(np.arange(start, end, 0.1))
-    #         self.mainplot.axes.yaxis.set_major_formatter(
-    #             ticker.FormatStrFormatter('%0.1f'))
-    #         self.mainplot.axes.set_ylim(ymin=-0.5, ymax=0.5)
-    #         if self.stop == False:
-    #             self.mainplot.draw()
-    #     except:
-    #         pass
+            self.canvas.axes.yaxis.grid(True, linestyle='--')
+            self.canvas.axes
+            self.canvas.axes.yaxis.grid(True, linestyle='--')
+            start, end = self.canvas.axes.get_ylim()
+            self.canvas.axes.yaxis.set_ticks(np.arange(start, end, 0.1))
+            self.canvas.axes.yaxis.set_major_formatter(
+                ticker.FormatStrFormatter('%0.1f'))
+            self.canvas.axes.set_ylim(ymin=-0.5, ymax=0.5)
+            # if self.stop == False:
+            self.canvas.draw()
+        except:
+            pass
 
 
         
