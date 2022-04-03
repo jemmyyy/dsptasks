@@ -17,8 +17,8 @@
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
+      <x>20</x>
+      <y>30</y>
       <width>1261</width>
       <height>721</height>
      </rect>
@@ -199,33 +199,16 @@
        </property>
       </widget>
      </widget>
-     <widget class="QGroupBox" name="GraphgroupBox">
+     <widget class="QWidget" name="gridLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>10</x>
-        <y>50</y>
-        <width>1231</width>
-        <height>361</height>
+        <x>30</x>
+        <y>60</y>
+        <width>851</width>
+        <height>331</height>
        </rect>
       </property>
-      <property name="title">
-       <string>Graphs</string>
-      </property>
-      <widget class="QSplitter" name="splitter">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>20</y>
-         <width>1211</width>
-         <height>331</height>
-        </rect>
-       </property>
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <widget class="PlotWidget" name="graphicsView_2"/>
-       <widget class="PlotWidget" name="SpectrogramgraphicsView"/>
-      </widget>
+      <layout class="QGridLayout" name="gridLayout"/>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_4">
@@ -667,18 +650,11 @@
      <x>0</x>
      <y>0</y>
      <width>1660</width>
-     <height>22</height>
+     <height>18</height>
     </rect>
    </property>
   </widget>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>PlotWidget</class>
-   <extends>QGraphicsView</extends>
-   <header location="global">pyqtgraph.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

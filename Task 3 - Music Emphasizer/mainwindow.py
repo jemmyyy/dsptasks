@@ -71,9 +71,8 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.splitter_graphs.setGeometry(QtCore.QRect(20, 70, 1211, 331))
         self.splitter_graphs.setOrientation(QtCore.Qt.Horizontal)
         self.splitter_graphs.setObjectName("splitter_graphs")
-        
-        self.canvas = MplCanvas(self, width=4, height=4, dpi=100)
-        self.splitter_graphs.addWidget(self.graphicsView_2)
+        self.gridLayout.addWidget(self.splitter_graphs,0,1,6,4)
+        self.canvas = MplCanvas(self, width=5, height=4, dpi=100)
         self.splitter_graphs.addWidget(self.canvas)
 
         self.reference_plot = None
