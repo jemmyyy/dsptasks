@@ -84,6 +84,9 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.threadpool = QtCore.QThreadPool()
         self.isRunning = False
 
+        self.pianoModes=[2,2.5,1.6,1.5,(4/3)]
+        self.octave = ['C', 'c', 'D', 'd', 'E', 'F', 'f', 'G', 'g', 'A', 'a', 'B']
+
         deviceInfo = sd.query_devices(self.device)
         self.samplerate = deviceInfo['default_samplerate']
         self.window_length = 200
@@ -116,36 +119,30 @@ class MainApp(QMainWindow , FORM_CLASS):
         
 
     def Handle_Buttons(self):
-        self.pianoButton1.clicked.connect(pp.playPianoNote1_1)
-        self.pianoButton1_2.clicked.connect(pp.playPianoNote1_2)
-        self.pianoButton1_3.clicked.connect(pp.playPianoNote1_3)
-        self.pianoButton1_4.clicked.connect(pp.playPianoNote1_4)
-        self.pianoButton1_5.clicked.connect(pp.playPianoNote1_5)
-        self.pianoButton1_6.clicked.connect(pp.playPianoNote1_6)
-        self.pianoButton1_7.clicked.connect(pp.playPianoNote1_7)
-        self.pianoButton2_1.clicked.connect(pp.playPianoNote2_1)
-        self.pianoButton2_2.clicked.connect(pp.playPianoNote2_2)
-        self.pianoButton2_3.clicked.connect(pp.playPianoNote2_3)
-        self.pianoButton2_4.clicked.connect(pp.playPianoNote2_4)
-        self.pianoButton2_5.clicked.connect(pp.playPianoNote2_5)
+        mode = self.modesComboBox.currentIndex()        
+        self.pianoButton1.clicked.connect(lambda: self.playKey(0, 260, 12, mode, 0.5))
+        self.pianoButton1_2.clicked.connect(lambda: self.playKey(2, 260, 12, mode, 0.5))
+        self.pianoButton1_3.clicked.connect(lambda: self.playKey(4, 260, 12, mode, 0.5))
+        self.pianoButton1_4.clicked.connect(lambda: self.playKey(5, 260, 12, mode, 0.5))
+        self.pianoButton1_5.clicked.connect(lambda: self.playKey(7, 260, 12, mode, 0.5))
+        self.pianoButton1_6.clicked.connect(lambda: self.playKey(9, 260, 12, mode, 0.5))
+        self.pianoButton1_7.clicked.connect(lambda: self.playKey(11, 260, 12, mode, 0.5))
+        self.pianoButton2_1.clicked.connect(lambda: self.playKey(1, 260, 12, mode, 0.5))
+        self.pianoButton2_2.clicked.connect(lambda: self.playKey(3, 260, 12, mode, 0.5))
+        self.pianoButton2_3.clicked.connect(lambda: self.playKey(6, 260, 12, mode, 0.5))
+        self.pianoButton2_4.clicked.connect(lambda: self.playKey(8, 260, 12, mode, 0.5))
+        self.pianoButton2_5.clicked.connect(lambda: self.playKey(10, 260, 12, mode, 0.5))
 
         self.triangleButton.clicked.connect(playTriangle)
 
         self.drumButtonChina1.clicked.connect(pd.playDrumChina1)
         self.drumButtonChina2.clicked.connect(pd.playDrumChina2)
-        self.drumButtonCrash1.clicked.connect(pd.playDrumCrash1)
-        self.drumButtonCrash2.clicked.connect(pd.playDrumCrash2)
-        self.drumButtonHats1.clicked.connect(pd.playDrumHats1)
-        self.drumButtonHats2.clicked.connect(pd.playDrumHats2)
-        self.drumButtonRide.clicked.connect(pd.playDrumRide)
-        self.drumButtonSplash.clicked.connect(pd.playDrumSplash)
-        self.drumButtonStax.clicked.connect(pd.playDrumStax)
-        self.drumButtonTom1.clicked.connect(pd.playDrumTom1)
-        self.drumButtonTom2.clicked.connect(pd.playDrumTom2)
-        self.drumButtonTom3.clicked.connect(pd.playDrumTom3)
-        self.drumButtonTom4.clicked.connect(pd.playDrumTom4)
-        self.drumButtonTom5.clicked.connect(pd.playDrumTom5)
-        self.drumButtonSnare.clicked.connect(pd.playDrumSnare)
+        self.drumButtonChina3.clicked.connect(pd.playDrumHats1)
+        self.drumButtonRide.clicked.connect(lambda: self.playKey(8, 170, 100, mode, 0.15))
+        self.drumButtonTom1.clicked.connect(lambda: self.playKey(5, 80, 100, mode, 0.15))
+        self.drumButtonTom2.clicked.connect(lambda: self.playKey(7, 80, 100, mode, 0.15))
+        self.drumButtonTom4.clicked.connect(lambda: self.playKey(9, 80, 100, mode, 0.15))
+        self.drumButtonSnare.clicked.connect(lambda: self.playKey(11, 50, 100, mode, 0.15))
 
 
         self.VolumeverticalSlider.setMinimum(0)
@@ -226,8 +223,34 @@ class MainApp(QMainWindow , FORM_CLASS):
         SliderValue=int(self.VolumeverticalSlider.value())
         self.media.audio_set_volume(SliderValue)
         pass
+      
         
-        
+    def getWave(self, freq, duration):
+        amplitude = 4096
+        self.samplerate = 44100
+        time = np.linspace(0, duration, int(self.samplerate * duration))
+        wave = amplitude * np.sin(2 * np.pi * freq * time)
+        return wave
+
+    def getNotes(self, base_freq, denominator, mode):
+        self.octave = ['C', 'c', 'D', 'd', 'E', 'F', 'f', 'G', 'g', 'A', 'a', 'B']
+        self.pianoModes=[2,2.5,1.6,1.5,(4/3)]
+        note_freq = {self.octave[note_index]: base_freq * pow(self.pianoModes[mode], (note_index / denominator)) for note_index in
+                     range(len(self.octave))}
+        note_freq[''] = 0.0  # silent freq
+        return note_freq
+
+    def playKey(self, key_index, base_freq, den, mode, duration):
+        notesFreqs = self.getNotes(base_freq, den, mode)
+        sound = self.octave[key_index]
+        song = [self.getWave(notesFreqs[note], duration) for note in sound.split('-')]
+        song = np.concatenate(song)
+        data = song.astype(np.int16)
+        data = data * (16300/np.max(data)) 
+        data = song.astype(np.int16)
+        sa.play_buffer(data, 1, 2, 48000)
+
+
 def playTriangle(self):
     sound = pyg.mixer.Sound('Datasests/Triangle Notes/triangle.wav')
     sound.play()
