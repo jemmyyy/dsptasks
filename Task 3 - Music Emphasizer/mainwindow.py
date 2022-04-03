@@ -139,8 +139,8 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.drumButtonChina3.clicked.connect(pd.playDrumHats1)
         self.drumButtonRide.clicked.connect(lambda: self.playKey(8, 170, 100, mode, 0.15))
         self.drumButtonTom1.clicked.connect(lambda: self.playKey(5, 80, 100, mode, 0.15))
-        self.drumButtonTom2.clicked.connect(lambda: self.playKey(7, 80, 100, mode, 0.15))
-        self.drumButtonTom4.clicked.connect(lambda: self.playKey(9, 80, 100, mode, 0.15))
+        self.drumButtonTom2.clicked.connect(lambda: self.playKey(7, 80, 50, mode, 0.15))
+        self.drumButtonTom4.clicked.connect(lambda: self.playKey(9, 80, 20, mode, 0.15))
         self.drumButtonSnare.clicked.connect(lambda: self.playKey(11, 50, 100, mode, 0.15))
 
 
