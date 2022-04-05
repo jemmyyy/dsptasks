@@ -167,12 +167,6 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.sticksVerticalSlider.setTickPosition(QSlider.TicksRight)
 
         
-        self.SaxaphoneVerticalSlider.setMaximum(10)
-        self.SaxaphoneVerticalSlider.setMinimum(0)
-        self.SaxaphoneVerticalSlider.setValue(1)
-        self.SaxaphoneVerticalSlider.setTickInterval(1)
-        self.SaxaphoneVerticalSlider.setSingleStep(1)
-        self.SaxaphoneVerticalSlider.setTickPosition(QSlider.TicksRight)
 
 
         self.pianoFreqSlider.setMaximum(280)
@@ -225,15 +219,16 @@ class MainApp(QMainWindow , FORM_CLASS):
         
     def Browse(self):
         self.filePath, _ = QtWidgets.QFileDialog.getOpenFileName(
-            None, 'Open Song', QtCore.QDir.rootPath(), 'wav(*.wav)')
-        
+            None, 'Open Song', QtCore.QDir.rootPath(), 'wav(*.wav)')     
         self.playFile(self.filePath)
+        self.time=0
 
         worker = Worker(self.start_stream,)
         self.threadpool.start(worker)    
         
     def playFile(self,filePath):
         self.media = vlc.MediaPlayer(filePath)
+        self.media.stop()
         self.media.play()
         self.media.set_time(self.time)
         self.fs, self.data = wavfile.read(filePath)
@@ -363,7 +358,6 @@ class MainApp(QMainWindow , FORM_CLASS):
         gainChanges.append(self.drumVerticalSlider.value())
         gainChanges.append(self.guitarVerticalSlider.value())
         gainChanges.append(self.sticksVerticalSlider.value())
-        gainChanges.append(self.SaxaphoneVerticalSlider.value())
 
         self.media.pause()
         self.fs, self.data = wavfile.read(self.filePath)
