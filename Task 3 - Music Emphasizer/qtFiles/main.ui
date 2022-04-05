@@ -2105,7 +2105,7 @@ PlotWidget {
         <property name="geometry">
          <rect>
           <x>10</x>
-          <y>420</y>
+          <y>430</y>
           <width>911</width>
           <height>261</height>
          </rect>
@@ -2142,7 +2142,7 @@ PlotWidget {
         <widget class="QPushButton" name="ShowSpectrogrampushButton">
          <property name="geometry">
           <rect>
-           <x>600</x>
+           <x>590</x>
            <y>120</y>
            <width>131</width>
            <height>41</height>
@@ -2165,10 +2165,10 @@ PlotWidget {
           <enum>Qt::Vertical</enum>
          </property>
         </widget>
-        <widget class="QSlider" name="Instrument1verticalSlider">
+        <widget class="QSlider" name="drumVerticalSlider">
          <property name="geometry">
           <rect>
-           <x>130</x>
+           <x>120</x>
            <y>90</y>
            <width>22</width>
            <height>111</height>
@@ -2178,7 +2178,7 @@ PlotWidget {
           <enum>Qt::Vertical</enum>
          </property>
         </widget>
-        <widget class="QSlider" name="Instrument2verticalSlider">
+        <widget class="QSlider" name="guitarVerticalSlider">
          <property name="geometry">
           <rect>
            <x>250</x>
@@ -2191,7 +2191,7 @@ PlotWidget {
           <enum>Qt::Vertical</enum>
          </property>
         </widget>
-        <widget class="QSlider" name="Instrument3verticalSlider">
+        <widget class="QSlider" name="sticksVerticalSlider">
          <property name="geometry">
           <rect>
            <x>380</x>
@@ -2204,31 +2204,12 @@ PlotWidget {
           <enum>Qt::Vertical</enum>
          </property>
         </widget>
-        <widget class="QLabel" name="Instrument2label">
-         <property name="geometry">
-          <rect>
-           <x>230</x>
-           <y>10</y>
-           <width>61</width>
-           <height>61</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap>../Datasests/Images/guitar.png</pixmap>
-         </property>
-         <property name="scaledContents">
-          <bool>true</bool>
-         </property>
-        </widget>
         <widget class="QLabel" name="Instrument3label">
          <property name="geometry">
           <rect>
-           <x>340</x>
+           <x>350</x>
            <y>10</y>
-           <width>101</width>
+           <width>91</width>
            <height>71</height>
           </rect>
          </property>
@@ -2236,7 +2217,7 @@ PlotWidget {
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>../Datasests/Images/51wrKa7o4LL._AC_SX425_.jpg</pixmap>
+          <pixmap>../Datasests/Images/sticks.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -2260,7 +2241,7 @@ PlotWidget {
           <rect>
            <x>90</x>
            <y>10</y>
-           <width>101</width>
+           <width>91</width>
            <height>71</height>
           </rect>
          </property>
@@ -2268,7 +2249,7 @@ PlotWidget {
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap>../Datasests/Images/drumsTab1.jpg</pixmap>
+          <pixmap>../Datasests/Images/drum.png</pixmap>
          </property>
          <property name="scaledContents">
           <bool>true</bool>
@@ -2285,6 +2266,57 @@ PlotWidget {
          </property>
          <property name="text">
           <string>Music Mixer </string>
+         </property>
+        </widget>
+        <widget class="QSlider" name="SaxaphoneVerticalSlider">
+         <property name="geometry">
+          <rect>
+           <x>510</x>
+           <y>90</y>
+           <width>22</width>
+           <height>111</height>
+          </rect>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+        <widget class="QLabel" name="Instrument3label_2">
+         <property name="geometry">
+          <rect>
+           <x>480</x>
+           <y>10</y>
+           <width>91</width>
+           <height>71</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>../Datasests/Images/saxphone.png</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="QLabel" name="Instrument3label_3">
+         <property name="geometry">
+          <rect>
+           <x>220</x>
+           <y>10</y>
+           <width>91</width>
+           <height>71</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap>../Datasests/Images/guitar1.png</pixmap>
+         </property>
+         <property name="scaledContents">
+          <bool>true</bool>
          </property>
         </widget>
        </widget>
@@ -2815,7 +2847,7 @@ PlotWidget {
      <x>0</x>
      <y>0</y>
      <width>1054</width>
-     <height>26</height>
+     <height>18</height>
     </rect>
    </property>
   </widget>

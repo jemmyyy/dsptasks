@@ -144,29 +144,37 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.setWindowTitle('Sampling-Theory Illustrator')
         self.Handle_Buttons()
 
-        self.Instrument1verticalSlider.setMaximum(10)
-        self.Instrument1verticalSlider.setMinimum(0)
-        self.Instrument1verticalSlider.setValue(1)
-        self.Instrument1verticalSlider.setTickInterval(1)
-        self.Instrument1verticalSlider.setSingleStep(1)
-        self.Instrument1verticalSlider.setTickPosition(QSlider.TicksRight)
+        self.drumVerticalSlider.setMaximum(10)
+        self.drumVerticalSlider.setMinimum(0)
+        self.drumVerticalSlider.setValue(1)
+        self.drumVerticalSlider.setTickInterval(1)
+        self.drumVerticalSlider.setSingleStep(1)
+        self.drumVerticalSlider.setTickPosition(QSlider.TicksRight)
 
-        self.Instrument2verticalSlider.setMaximum(10)
-        self.Instrument2verticalSlider.setMinimum(0)
-        self.Instrument2verticalSlider.setValue(1)
-        self.Instrument2verticalSlider.setTickInterval(1)
-        self.Instrument2verticalSlider.setSingleStep(1)
-        self.Instrument2verticalSlider.setTickPosition(QSlider.TicksRight)
+        self.guitarVerticalSlider.setMaximum(10)
+        self.guitarVerticalSlider.setMinimum(0)
+        self.guitarVerticalSlider.setValue(1)
+        self.guitarVerticalSlider.setTickInterval(1)
+        self.guitarVerticalSlider.setSingleStep(1)
+        self.guitarVerticalSlider.setTickPosition(QSlider.TicksRight)
 
 
-        self.Instrument3verticalSlider.setMaximum(10)
-        self.Instrument3verticalSlider.setMinimum(0)
-        self.Instrument3verticalSlider.setValue(1)
-        self.Instrument3verticalSlider.setTickInterval(1)
-        self.Instrument3verticalSlider.setSingleStep(1)
-        self.Instrument3verticalSlider.setTickPosition(QSlider.TicksRight)
+        self.sticksVerticalSlider.setMaximum(10)
+        self.sticksVerticalSlider.setMinimum(0)
+        self.sticksVerticalSlider.setValue(1)
+        self.sticksVerticalSlider.setTickInterval(1)
+        self.sticksVerticalSlider.setSingleStep(1)
+        self.sticksVerticalSlider.setTickPosition(QSlider.TicksRight)
 
         
+        self.SaxaphoneVerticalSlider.setMaximum(10)
+        self.SaxaphoneVerticalSlider.setMinimum(0)
+        self.SaxaphoneVerticalSlider.setValue(1)
+        self.SaxaphoneVerticalSlider.setTickInterval(1)
+        self.SaxaphoneVerticalSlider.setSingleStep(1)
+        self.SaxaphoneVerticalSlider.setTickPosition(QSlider.TicksRight)
+
+
         self.pianoFreqSlider.setMaximum(280)
         self.pianoFreqSlider.setMinimum(240)
         self.pianoFreqSlider.setValue(260)
@@ -347,14 +355,16 @@ class MainApp(QMainWindow , FORM_CLASS):
 
     def equalize(self):
         
-        # [drums , guitar , sticks]
-        freq_min = [0,2000,1466]
-        freq_max = [380, 15000,9337]
+        # [drums , guitar , sticks, saxaphone]
+        freq_min = [0,2000,1466,250]
+        freq_max = [380, 15000,9337,900]
 
-        Gains = []
-        Gains.append(self.Instrument1verticalSlider.value())
-        Gains.append(self.Instrument2verticalSlider.value())
-        Gains.append(self.Instrument3verticalSlider.value())
+        gainChanges = []
+        gainChanges.append(self.drumVerticalSlider.value())
+        gainChanges.append(self.guitarVerticalSlider.value())
+        gainChanges.append(self.sticksVerticalSlider.value())
+        gainChanges.append(self.SaxaphoneVerticalSlider.value())
+
         self.media.pause()
         self.fs, self.data = wavfile.read(self.filePath)
         self.data = self.data / 2.0 ** 15
@@ -370,7 +380,7 @@ class MainApp(QMainWindow , FORM_CLASS):
                 if  (minmum> j <maximum):
                     freqSamplingINT=len(frequencies)/(self.fs/2)
                     theindex=round(freqSamplingINT * j )
-                    rfft_coeff[theindex] = rfft_coeff[theindex] * Gains[i]
+                    rfft_coeff[theindex] = rfft_coeff[theindex] * gainChanges[i]
 
         Equalized_signal = np.fft.irfft(rfft_coeff)
         scipy.io.wavfile.write('created.wav', self.fs, Equalized_signal)
