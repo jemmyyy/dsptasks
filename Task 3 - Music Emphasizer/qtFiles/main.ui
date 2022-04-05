@@ -2274,6 +2274,19 @@ PlotWidget {
           <bool>true</bool>
          </property>
         </widget>
+        <widget class="QPushButton" name="musicmixerpushButton">
+         <property name="geometry">
+          <rect>
+           <x>750</x>
+           <y>120</y>
+           <width>131</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Music Mixer </string>
+         </property>
+        </widget>
        </widget>
        <widget class="QWidget" name="gridLayoutWidget">
         <property name="geometry">
@@ -2802,7 +2815,7 @@ PlotWidget {
      <x>0</x>
      <y>0</y>
      <width>1054</width>
-     <height>22</height>
+     <height>26</height>
     </rect>
    </property>
   </widget>

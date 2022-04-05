@@ -99,28 +99,28 @@ class MainApp(QMainWindow , FORM_CLASS):
         pyg.init()
         self.dummyEqualize = QtWidgets.QPushButton(self.tab_3)
         self.dummyEqualize.setObjectName("pushButton")
-        self.dummyEqualize.clicked.connect(lambda: self.equalize())
+        self.dummyEqualize.clicked.connect(self.equalize)
         self.gridLayout.addWidget(self.dummyEqualize,5,0,2,2)
-        self.dummyEqualize.clicked.connect(lambda: self.equalize()) 
-
-        #self.dummyEqualize.setText(("MainWindow", "Equalize"))
+        self.dummyEqualize.clicked.connect(self.equalize) 
         self.splitter_graphs = QtWidgets.QSplitter(self.tab_3)
         self.splitter_graphs.setGeometry(QtCore.QRect(20, 70, 1211, 331))
         self.splitter_graphs.setOrientation(QtCore.Qt.Horizontal)
         self.splitter_graphs.setObjectName("splitter_graphs")
-        self.gridLayout.addWidget(self.splitter_graphs,0,1,6,4)
+        self.gridLayout.addWidget(self.splitter_graphs,0,1,2,1)
         self.canvas = MplCanvas(self, width=5, height=4, dpi=100)
         self.splitter_graphs.addWidget(self.canvas)
-        #self.empty_spec = MplCanvas_spec_empty(self, width=5, height=4, dpi=100)
-        #self.splitter_graphs.addWidget(self.empty_spec)
+        self.emptySpec = MplCanvas_spec_empty(self, width=5, height=4, dpi=100)
+        self.splitter_graphs.addWidget(self.emptySpec)
         self.reference_plot = None
         self.que = queue.Queue(maxsize=20)
         self.downsample = 10
         self.device = 0
+        self.time=0
         self.channels = [1]
         self.threadpool = QtCore.QThreadPool()
         self.isRunning = False
-
+        self.DisplayedSpecto=False
+        
         self.pianoModes=[2,2.5,1.6,1.5,(4/3)]
         self.octave = ['C', 'c', 'D', 'd', 'E', 'F', 'f', 'G', 'g', 'A', 'a', 'B']
 
@@ -144,16 +144,29 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.setWindowTitle('Sampling-Theory Illustrator')
         self.Handle_Buttons()
 
-        self.Instrument1verticalSlider.setMaximum(8)
+        self.Instrument1verticalSlider.setMaximum(10)
         self.Instrument1verticalSlider.setMinimum(0)
-        self.Instrument1verticalSlider.setValue(4)
-        self.Instrument2verticalSlider.setMaximum(8)
+        self.Instrument1verticalSlider.setValue(1)
+        self.Instrument1verticalSlider.setTickInterval(1)
+        self.Instrument1verticalSlider.setSingleStep(1)
+        self.Instrument1verticalSlider.setTickPosition(QSlider.TicksRight)
+
+        self.Instrument2verticalSlider.setMaximum(10)
         self.Instrument2verticalSlider.setMinimum(0)
-        self.Instrument2verticalSlider.setValue(4)
-        self.Instrument3verticalSlider.setMaximum(8)
+        self.Instrument2verticalSlider.setValue(1)
+        self.Instrument2verticalSlider.setTickInterval(1)
+        self.Instrument2verticalSlider.setSingleStep(1)
+        self.Instrument2verticalSlider.setTickPosition(QSlider.TicksRight)
+
+
+        self.Instrument3verticalSlider.setMaximum(10)
         self.Instrument3verticalSlider.setMinimum(0)
-        self.Instrument3verticalSlider.setValue(4)
-        self.Instrument2verticalSlider.setValue(4)
+        self.Instrument3verticalSlider.setValue(1)
+        self.Instrument3verticalSlider.setTickInterval(1)
+        self.Instrument3verticalSlider.setSingleStep(1)
+        self.Instrument3verticalSlider.setTickPosition(QSlider.TicksRight)
+
+        
         self.pianoFreqSlider.setMaximum(280)
         self.pianoFreqSlider.setMinimum(240)
         self.pianoFreqSlider.setValue(260)
@@ -200,17 +213,33 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.PauseButton.clicked.connect(self.Pause)
         self.PlayButton.clicked.connect(self.Play)
         self.ShowSpectrogrampushButton.clicked.connect(self.spectrogram)
+        self.musicmixerpushButton.clicked.connect(self.equalize)
         
     def Browse(self):
         self.filePath, _ = QtWidgets.QFileDialog.getOpenFileName(
             None, 'Open Song', QtCore.QDir.rootPath(), 'wav(*.wav)')
-
-        self.media = vlc.MediaPlayer(self.filePath)
-        self.media.play()
+        
+        self.playFile(self.filePath)
 
         worker = Worker(self.start_stream,)
-        self.threadpool.start(worker)
+        self.threadpool.start(worker)    
+        
+    def playFile(self,filePath):
+        self.media = vlc.MediaPlayer(filePath)
+        self.media.play()
+        self.media.set_time(self.time)
+        self.fs, self.data = wavfile.read(filePath)
 
+    def spectrogram(self):
+        if self.DisplayedSpecto==False:
+            self.emptySpec.hide()
+            self.spectrogramFig = Canvas_spec(self.data, self.fs)
+            self.splitter_graphs.addWidget(self.spectrogramFig)
+            self.DisplayedSpecto=True
+        else: 
+            self.spectrogramFig.hide()
+            self.spectrogramFig = Canvas_spec(self.data, self.fs)
+            self.splitter_graphs.addWidget(self.spectrogramFig)        
 
     def start_stream(self):
         def audio_callback(indata, frames, time, status):
@@ -243,8 +272,6 @@ class MainApp(QMainWindow , FORM_CLASS):
                     self.reference_plot.set_ydata(self.ydata)
 
             
-            self.canvas.axes.yaxis.grid(True, linestyle='--')
-            self.canvas.axes
             self.canvas.axes.yaxis.grid(True, linestyle='--')
             start, end = self.canvas.axes.get_ylim()
             self.canvas.axes.yaxis.set_ticks(np.arange(start, end, 0.1))
@@ -317,65 +344,42 @@ class MainApp(QMainWindow , FORM_CLASS):
         data = song.astype(np.int16)
         sa.play_buffer(data, 1, 2, 44100)
 
-    def spectrogram(self):
-        #self.empty_spec.hide()
-        self.fs, self.data = wavfile.read(self.filePath)
-        self.spec_Fig = Canvas_spec(self.data, self.fs)
-        self.splitter_graphs.addWidget(self.spec_Fig)
-        self.spec_displayed = 1    
-        worker = Worker(self.start_stream,)
-        self.threadpool.start(worker) 
-
-    def playAudioFile(self, full_file_path):
-        #self.pushButton_play.setText("Pause")
-        self.media = vlc.MediaPlayer(full_file_path)
-        self.media.play()
-        ##LOLOO
-        self.fs, self.data = wavfile.read(full_file_path)
-
-        if self.spec_displayed == 0:
-            #self.empty_spec.hide()
-            self.spec_Fig = Canvas_spec(self.data, self.fs)
-            self.splitter_graphs.addWidget(self.spec_Fig)
-            self.spec_displayed = 1
-        else:
-            self.spec_Fig.hide()
-            self.spec_Fig = Canvas_spec(self.data, self.fs)
-            self.splitter_graphs.addWidget(self.spec_Fig)
-
-        worker = Worker(self.start_stream,)
-        self.threadpool.start(worker)    
 
     def equalize(self):
         
         # [drums , guitar , sticks]
-        freq_min = [0,288,1466]
-        freq_max = [380, 1964,9337]
-
+        freq_min = [0,2000,1466]
+        freq_max = [380, 15000,9337]
 
         Gains = []
         Gains.append(self.Instrument1verticalSlider.value())
         Gains.append(self.Instrument2verticalSlider.value())
         Gains.append(self.Instrument3verticalSlider.value())
-        
+        self.media.pause()
         self.fs, self.data = wavfile.read(self.filePath)
         self.data = self.data / 2.0 ** 15
         N = len(self.data)
-
+        self.time=self.media.get_time()
         rfft_coeff = np.fft.rfft(self.data)
         frequencies = np.fft.rfftfreq(N, 1. / self.fs)
 
         for i in range(3):
-            for j in range(len(frequencies)):
-                if frequencies[j] >= freq_min[i] and frequencies[j] <= freq_max[i]:
-                    rfft_coeff[j] = rfft_coeff[j] * Gains[i]
+            minmum=freq_min[i]
+            maximum=freq_max[i]
+            for j in frequencies:
+                if  (minmum> j <maximum):
+                    freqSamplingINT=len(frequencies)/(self.fs/2)
+                    theindex=round(freqSamplingINT * j )
+                    rfft_coeff[theindex] = rfft_coeff[theindex] * Gains[i]
 
         Equalized_signal = np.fft.irfft(rfft_coeff)
-        scipy.io.wavfile.write('new.wav', self.fs, Equalized_signal)
+        scipy.io.wavfile.write('created.wav', self.fs, Equalized_signal)
         self.media.stop()
-        self.playAudioFile('new.wav')
-      
+        self.playFile('created.wav')
 
+    def closeEvent(self,event):
+        self.media.stop()
+        event.accept()
 
 def playTriangle(self):
     sound = pyg.mixer.Sound('Datasests/Triangle Notes/triangle.wav')
