@@ -146,14 +146,14 @@ class MainApp(QMainWindow , FORM_CLASS):
 
         self.drumVerticalSlider.setMaximum(10)
         self.drumVerticalSlider.setMinimum(0)
-        self.drumVerticalSlider.setValue(1)
+        self.drumVerticalSlider.setValue(4)
         self.drumVerticalSlider.setTickInterval(1)
         self.drumVerticalSlider.setSingleStep(1)
         self.drumVerticalSlider.setTickPosition(QSlider.TicksRight)
 
         self.guitarVerticalSlider.setMaximum(10)
         self.guitarVerticalSlider.setMinimum(0)
-        self.guitarVerticalSlider.setValue(1)
+        self.guitarVerticalSlider.setValue(4)
         self.guitarVerticalSlider.setTickInterval(1)
         self.guitarVerticalSlider.setSingleStep(1)
         self.guitarVerticalSlider.setTickPosition(QSlider.TicksRight)
@@ -221,8 +221,6 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.filePath, _ = QtWidgets.QFileDialog.getOpenFileName(
             None, 'Open Song', QtCore.QDir.rootPath(), 'wav(*.wav)')     
         self.playFile(self.filePath)
-        self.time=0
-
         worker = Worker(self.start_stream,)
         self.threadpool.start(worker)    
         
@@ -350,9 +348,9 @@ class MainApp(QMainWindow , FORM_CLASS):
 
     def equalize(self):
         
-        # [drums , guitar , sticks, saxaphone]
-        freq_min = [0,2000,1466,250]
-        freq_max = [380, 15000,9337,900]
+        # [drums , guitar , sticks]
+        freq_min = [0,2000,1466]
+        freq_max = [380, 15000,9337]
 
         gainChanges = []
         gainChanges.append(self.drumVerticalSlider.value())
@@ -376,10 +374,13 @@ class MainApp(QMainWindow , FORM_CLASS):
                     theindex=round(freqSamplingINT * j )
                     rfft_coeff[theindex] = rfft_coeff[theindex] * gainChanges[i]
 
+        
         Equalized_signal = np.fft.irfft(rfft_coeff)
         scipy.io.wavfile.write('created.wav', self.fs, Equalized_signal)
         self.media.stop()
+        self.spectrogram()
         self.playFile('created.wav')
+        
 
     def closeEvent(self,event):
         self.media.stop()
