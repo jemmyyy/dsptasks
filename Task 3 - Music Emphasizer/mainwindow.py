@@ -272,7 +272,7 @@ class MainApp(QMainWindow , FORM_CLASS):
                 else:
                     self.reference_plot.set_ydata(self.ydata)
 
-            
+                    
             self.canvas.axes.yaxis.grid(True, linestyle='--')
             start, end = self.canvas.axes.get_ylim()
             self.canvas.axes.yaxis.set_ticks(np.arange(start, end, 0.1))
