@@ -157,7 +157,6 @@ class MainApp(QMainWindow , FORM_CLASS):
             extrapolation_fraction = self.extrapolation_pecentage/100
             interpol_range = int(extrapolation_fraction*(self.chunk_size-1))
             self.coeffs,res, _, _, _= np.polyfit(t[0:interpol_range], data[0:interpol_range], interpol_order, full=True)
-            # self.coeffs = np.array(self.coeffs,dtype=object)
             if res.size != 0:
                 self.residuals.append(res[0])
             self.chunk_coeffs.append(self.coeffs)
