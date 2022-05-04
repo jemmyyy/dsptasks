@@ -29,7 +29,12 @@ from scipy.fftpack.basic import fft
 import seaborn as sns
 import matplotlib.pyplot as plt
 import sys
+############
+# from PyQt4 import QtCore, QtGui  
+# from final_ar_gui import *
 
+from PyQt5.QtWidgets import QApplication, QDialog, QProgressBar, QPushButton
+from PyQt5.QtCore import Qt, QThread, pyqtSignal
 
 FORM_CLASS,_= loadUiType(path.join(path.dirname(__file__),"task4.ui"))
 
@@ -66,9 +71,9 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.chunkSlider.setTickInterval(1)
         self.chunkSlider.setSingleStep(1)
         self.chunkSlider.setTickPosition(QtWidgets.QSlider.TicksBelow)
-        self.chunkSlider.valueChanged.connect( self.chunkChange)
-
-
+        self.chunkSlider.valueChanged.connect(self.chunkChane)
+        self.chunkSlider.valueChanged.connect(lambda: self.Latex_Equation( int(self.orderSlider.value())))
+        
         self.orderSlider.setMinimum(1)
         self.orderSlider.setMaximum(25)
         self.orderSlider.setValue(0)
@@ -91,6 +96,36 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.chunk_size = 1000
         self.extrapolation_pecentage = 100
 
+        self.frame_graph = QtWidgets.QFrame(self.centralwidget)
+        self.frame_graph.setGeometry(QtCore.QRect(160, 35, 570, 40))
+        self.frame_graph.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_graph.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.LAYOUT_Graph = QtWidgets.QGridLayout()
+        self.frame_graph.setLayout(self.LAYOUT_Graph)
+        self.fig = Figure()
+        self.canvas = FigureCanvasQTAgg(self.fig)
+        self.LAYOUT_Graph.addWidget(self.canvas, *(0, 1))
+        self.fig.clear()
+
+        self.fig_error = Figure()
+        self.frame_error = QtWidgets.QFrame(self.centralwidget)
+        self.frame_error.setGeometry(QtCore.QRect(850, 35, 230, 40))
+        self.frame_error.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_error.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.LAYOUT_Error = QtWidgets.QGridLayout()
+        self.frame_error.setLayout(self.LAYOUT_Error)
+        self.canvas_error = FigureCanvasQTAgg(self.fig_error)
+        self.LAYOUT_Error.addWidget(self.canvas_error, *(0, 1))
+        self.fig_error.clear()
+
+
+        self.comboBox_2.addItem("Order of polynomial")
+        self.comboBox_2.addItem("no. of chunks")
+        self.comboBox_2.addItem("Over lapping")
+        self.comboBox_3.addItem("Order of polynomial")
+        self.comboBox_3.addItem("no. of chunks")
+        self.comboBox_3.addItem("Over lapping")
+        self.bool_heatmap = 0
         # self.gridLayoutWidget.setGeometry(QtCore.QRect(40, 80, 811, 300))
         # self.splitter_graphs = QtWidgets.QSplitter(self.centralwidget)
         # self.splitter_graphs.setGeometry(QtCore.QRect(110, 100, 100, 331))
@@ -103,6 +138,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         # self.intial_slider_order_val = 1
     def Handle_Buttons(self):
          self.BrowseButton.clicked.connect(self.Browse)
+         self.pushButton.clicked.connect(self.error_map)
 
     def Browse(self):
         self.fileName, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open csv', QtCore.QDir.rootPath(), 'csv(*.csv)')
@@ -156,9 +192,9 @@ class MainApp(QMainWindow , FORM_CLASS):
                     ind += 1
             extrapolation_fraction = self.extrapolation_pecentage/100
             interpol_range = int(extrapolation_fraction*(self.chunk_size-1))
-            self.coeffs,res, _, _, _= np.polyfit(t[0:interpol_range], data[0:interpol_range], interpol_order, full=True)
-            if res.size != 0:
-                self.residuals.append(res[0])
+            self.coeffs,residual, _, _, _= np.polyfit(t[0:interpol_range], data[0:interpol_range], interpol_order, full=True)
+            if residual.size != 0:
+                self.residuals.append(residual[0])
             self.chunk_coeffs.append(self.coeffs)
 
             p = np.poly1d(self.coeffs)
@@ -186,15 +222,201 @@ class MainApp(QMainWindow , FORM_CLASS):
     def orderChange(self):
         self.intial_slider_order_val = int(self.orderSlider.value())
         self.plotting_data(self.intial_slider_order_val)
-        self.latex_eqn(self.intial_slider_order_val)
+        self.Latex_Equation(self.intial_slider_order_val)
 
-    def chunkChange(self):
+    def Latex_Equation(self, slider_order_val):
+        chunck_number = self.chunkSlider.value()
+        residual = self.residuals[chunck_number - 1]
+        self.eqn = []
+        for s in range (chunck_number):
+            eqn12 = 'y = '
+            order = slider_order_val
+            coeffs = self.chunk_coeffs[s]
+            for i in range(slider_order_val + 1):
+                if order == 0 :
+                    eq1 = '{}\cdot'.format( round(coeffs[i],2))
+                    eqn12 = eqn12 + eq1 
+                else : 
+                    eq1 = '{}\cdot x^{}'.format( round(coeffs[i],2), order)
+                    eqn12 = eqn12 + eq1 + ' + ' 
+                order -= 1
+            self.eqn.append(eqn12)
+        latex_equation =  '$'+ self.eqn [chunck_number - 1] + '$'
+        self.fig.suptitle(latex_equation, fontsize = 10, x=0.0, y=0.5, horizontalalignment='left', verticalalignment='center')
+        self.canvas.draw()
+        if len(self.residuals) != 0:
+                residual = self.residuals[chunck_number - 1] 
+                error = math.sqrt(residual)
+                error_latex = '$Error = {} \%$ '.format(round(error*100,1))
+                self.fig_error.suptitle(error_latex, x=0.0, y=0.5, horizontalalignment='left', verticalalignment='center')
+                self.canvas_error.draw()
+        
+        
+    def chunkChane(self):
         self.comboBox.clear()
         self.slider_chunk_val = self.chunkSlider.value()
         self.chunk_size = ceil(1000 / self.slider_chunk_val)
         self.plotting_data(self.intial_slider_order_val)
         for i in range(self.slider_chunk_val):
             self.comboBox.addItem(str(self.slider_chunk_val - i))
+
+    def error_map(self):
+    
+        if self.pushButton.text() != "Generate Error Map":
+            #self.progressBar.hide()
+            self.pushButton.setText("Generate Error Map")
+            if self.bool_heatmap == 1:
+                self.canvas1.hide()
+            return
+
+        self.pushButton.setText("Cancel")
+        #self.progressBar.show()
+
+        comboX = self.comboBox_2.currentIndex()
+        comboY = self.comboBox_3.currentIndex()
+
+        if self.NumberofChunks.value()==0:
+            no_chuncks = 5
+        else:
+            no_chuncks = int(self.NumberofChunks.value())
+        
+        if self.PolynomialOrder.value() ==0:
+            degree_value = 5
+        else:
+            degree_value = int(self.PolynomialOrder.value())
+        
+        if self.OverLapping.value ==0:
+            overlapping = 0.75
+            overlaprange = 5
+        else:
+            overlapping = 1 - int(self.OverLapping.value()) /100
+            overlaprange = overlapping
+
+
+        chunck_label = list(map(str, range(1, no_chuncks + 1)))
+        degree_label = list(map(str, range(1, degree_value + 1)))
+        overlapping_label = [f"{overlapping_index}%" for overlapping_index in range(5, int(overlaprange*5+5), 5)]
+
+        overlapping_values, overlap = [], 1
+        while overlap > overlapping:
+            overlap -= .05
+            overlapping_values.append(overlap)
+
+
+        if (comboX == 0 and comboY == 1) or  (comboX == 1 and comboY == 0) :
+            matrix1 = []
+            for i in range(1, no_chuncks+1):
+                matrix1.append([])
+                for j in range(degree_value):
+                        X_ErrorMap = self.calculate_chuncks(self.x_axis_data, i, overlapping)
+                        Y_ErrorMap = self.calculate_chuncks(self.data_amplitude, i, overlapping)
+                        errors = []
+                        for k in range(i):
+                            x_map_val = X_ErrorMap[k]
+                            y_map_val = Y_ErrorMap[k]
+                            error_x = self.get_error(x_map_val,y_map_val,j)
+                            errors.append(error_x)
+                        matrix1[i-1].append(np.average(errors))
+
+            matrix1 = np.array(matrix1)[::-1]
+
+
+            if comboX == 1 and comboY == 0:
+                matrix1=matrix1.T
+                fig, self.ax = plt.subplots(figsize=(1, 1))
+                self.ax = sns.heatmap(matrix1 , xticklabels=chunck_label, yticklabels=degree_label[::-1])
+            else:
+                fig, self.ax = plt.subplots(figsize=(1, 1))
+                self.ax = sns.heatmap(matrix1 , xticklabels=degree_label, yticklabels=chunck_label[::-1])
+
+            self.toggle_errormap(fig)
+
+
+        elif (comboX == 0 and comboY == 2) or (comboX == 2 and comboY == 0) :
+            matrix2=[]
+
+            for i in range(degree_value):
+                matrix2.append([])
+                for j in range(len(overlapping_values)):
+                        X_Error_Map = self.calculate_chuncks(self.x_axis_data,no_chuncks,overlapping_values[j])
+                        Y_Error_Map = self.calculate_chuncks(self.data_amplitude,no_chuncks,overlapping_values[j])
+                        x1_map_val,y1_map_val= X_Error_Map[0],Y_Error_Map[0]
+                        x2_map_val,y2_map_val = X_Error_Map[1],Y_Error_Map[1]
+                        error_x1 = self.get_error(x1_map_val,y1_map_val,i)
+                        error_x2 = self.get_error(x2_map_val,y2_map_val,i)
+                        matrix2[i].append((error_x1+error_x2)/2)
+            matrix2 = np.array(matrix2)[::-1]
+
+            if comboX == 2 and comboY == 0:
+                matrix2=matrix2.T
+                fig, self.ax = plt.subplots(figsize=(1, 1))
+                self.ax = sns.heatmap(matrix2 , xticklabels=overlapping_label, yticklabels=degree_label[::-1])
+            else:
+                fig, self.ax = plt.subplots(figsize=(1, 1))
+                self.ax = sns.heatmap(matrix2 , xticklabels=degree_label, yticklabels=overlapping_label[::-1])
+
+            self.toggle_errormap(fig)
+
+
+        elif (comboX == 1 and comboY == 2) or  (comboX == 2 and comboY == 1):
+
+            matrix3 = []
+            for i in range(1,no_chuncks+1):
+                matrix3.append([])
+                for j in range(len(overlapping_values)):
+                        X_Error_Map = self.calculate_chuncks(self.x_axis_data, i, overlapping_values[j])
+                        Y_Error_Map = self.calculate_chuncks(self.data_amplitude, i, overlapping_values[j])
+                        errors = []
+                        for k in range(i):
+                            x_error_val = X_Error_Map[k]
+                            y_error_val = Y_Error_Map[k]
+                            error_x = self.get_error(x_error_val,y_error_val,degree_value)
+                            errors.append(error_x)
+                        matrix3[i-1].append(np.average(errors))
+            matrix3 = np.array(matrix3)[::-1]
+
+            if (comboX == 2 and comboY == 1):
+                matrix3 = matrix3.T
+                fig, self.ax = plt.subplots(figsize=(1, 1))
+                self.ax = sns.heatmap(matrix3.T, xticklabels=overlapping_label, yticklabels=chunck_label[::-1])
+            else:
+                fig, self.ax = plt.subplots(figsize=(1, 1))
+                self.ax = sns.heatmap(matrix3.T, xticklabels=chunck_label, yticklabels=overlapping_label[::-1])
+
+            self.toggle_errormap(fig)
+
+        else:
+            self.progressBar.hide()
+            print("You can't get The error map between the same values")
+            self.errormap.setText("Generate Error Map")
+    
+    def calculate_chuncks(self,Array_A,no_chunks,overlap_per):
+        size = int(1000 / no_chunks)
+        step = int(overlap_per * size)
+        Array_A = [Array_A[i: i + size] for i in range(0, len(Array_A), step)]
+        return Array_A
+    
+    def get_error(self,x,y,i):
+            # self.coeffs, residual, _, _, _ = np.polyfit(t[0:interpol_range], data[0:interpol_range], interpol_order, full=True)
+        z_chunk1, residual, _, _, _ = np.polyfit(x, y, i, full=True)
+        avgerror =math.sqrt(residual[0])
+        return(avgerror)
+
+    def toggle_errormap (self, fig):
+        if self.bool_heatmap == 0:
+            self.canvas1 = FigureCanvasQTAgg(fig)
+            self.splitter_AllGraphs.addWidget(self.canvas1)
+            self.bool_heatmap = 1
+        else:
+            self.canvas1.hide()
+            self.canvas1 = FigureCanvasQTAgg(fig)
+            self.splitter_AllGraphs.addWidget(self.canvas1)
+
+    # def start_progress_bar(self):
+    #      self.thread = MyThread()
+    #      self.thread.change_value.connect(self.set_progress_val)
+    #      self.thread.start()
+        
 
 
         
