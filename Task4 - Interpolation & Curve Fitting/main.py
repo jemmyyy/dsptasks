@@ -60,6 +60,8 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.setupUi(self)
         self.Handle_UI()
         self.fmax = -1000
+        self.extrapolation_sliderval = 1
+        self.extrapolation_pecentage = 100
 
     def Handle_UI(self):
         self.setWindowTitle('Interpolation and Curve Fitting')
@@ -81,6 +83,15 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.orderSlider.setSingleStep(1)
         self.orderSlider.setTickPosition(QtWidgets.QSlider.TicksBelow)
         self.orderSlider.valueChanged.connect(self.orderChange)
+
+        
+        self.extrapolationSlider.setMinimum(1)
+        self.extrapolationSlider.setMaximum(5)
+        self.extrapolationSlider.setValue(0)
+        self.extrapolationSlider.setTickInterval(1)
+        self.extrapolationSlider.setSingleStep(1)
+        self.extrapolationSlider.setTickPosition(QtWidgets.QSlider.TicksBelow)
+        self.extrapolationSlider.valueChanged.connect(lambda: self.extrapolation_change())
 
         self.splitter_AllGraphs = QtWidgets.QSplitter(self.centralwidget)
         self.splitter_AllGraphs.setGeometry(QtCore.QRect(40, 80, 1000, 300)) 
@@ -411,6 +422,16 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.canvas1.hide()
             self.canvas1 = FigureCanvasQTAgg(fig)
             self.splitter_AllGraphs.addWidget(self.canvas1)
+
+    def extrapolation_change(self):
+        self.chunkSlider.setValue(0)
+        self.chunk_size = 1000
+        self.slider_chunk_val=1
+        self.extrapolation_sliderval = self.extrapolationSlider.value()
+        val = self.extrapolation_sliderval-1
+        self.extrapolation_pecentage = 100-val*10
+        slider_order_val = self.orderSlider.value()
+        self.plotting_data(slider_order_val)
 
     # def start_progress_bar(self):
     #      self.thread = MyThread()
