@@ -29,6 +29,8 @@ from scipy.fftpack.basic import fft
 import seaborn as sns
 import matplotlib.pyplot as plt
 import sys
+from scipy.interpolate import  CubicSpline, make_interp_spline
+
 ############
 # from PyQt4 import QtCore, QtGui  
 # from final_ar_gui import *
@@ -128,7 +130,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.canvas_error = FigureCanvasQTAgg(self.fig_error)
         self.LAYOUT_Error.addWidget(self.canvas_error, *(0, 1))
         self.fig_error.clear()
-
+        self.hidden=False
 
         self.comboBox_2.addItem("Order of polynomial")
         self.comboBox_2.addItem("no. of chunks")
@@ -136,7 +138,10 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.comboBox_3.addItem("Order of polynomial")
         self.comboBox_3.addItem("no. of chunks")
         self.comboBox_3.addItem("Over lapping")
+        # self.NumberofChunks.setValue(5)
+        # self.PolynomialOrder.setValue(5)
         self.bool_heatmap = 0
+    
         # self.gridLayoutWidget.setGeometry(QtCore.QRect(40, 80, 811, 300))
         # self.splitter_graphs = QtWidgets.QSplitter(self.centralwidget)
         # self.splitter_graphs.setGeometry(QtCore.QRect(110, 100, 100, 331))
@@ -150,6 +155,9 @@ class MainApp(QMainWindow , FORM_CLASS):
     def Handle_Buttons(self):
          self.BrowseButton.clicked.connect(self.Browse)
          self.pushButton.clicked.connect(self.error_map)
+         self.comboBox_2.activated.connect(self.conection)
+         self.comboBox_3.activated.connect(self.conection2)
+         self.interpolationSelector.activated.connect(self.interpolation_method)
 
     def Browse(self):
         self.fileName, _ = QtWidgets.QFileDialog.getOpenFileName(None, 'Open csv', QtCore.QDir.rootPath(), 'csv(*.csv)')
@@ -187,8 +195,29 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.graphicsView_main.clear()
             self.graphicsView_main.plotItem.vb.setLimits(xMin=min(self.x_axis_data)-0.01, xMax=max(self.x_axis_data),yMin=min(self.data_amplitude) - 0.2, yMax=max(self.data_amplitude) + 0.2)
             self.graphicsView_main.plot(self.x_axis_data,self.data_amplitude)
-            self.interpolate_the_curve(order_val)
+            if self.interpolationSelector.currentText()=='Polynomial':
+                self.interpolate_the_curve(order_val)
+            elif self.interpolationSelector.currentText()=='Spline':
+                self.splineInterpolation()  
+            elif self.interpolationSelector.currentText()=='Cubic':
+                self.CubicInterpolation()  
+    
+    def hide_polynomial(self):
 
+        self.extrapolationSlider.hide()
+        self.chunkSlider.hide()
+        self.orderSlider.hide()
+        self.textBrowser_5.hide()
+        self.textBrowser_6.hide()
+        self.textBrowser_7.hide()
+
+    def show_polynomial(self):
+        self.extrapolationSlider.show()
+        self.chunkSlider.show()
+        self.orderSlider.show()
+        self.textBrowser_5.show()
+        self.textBrowser_6.show()
+        self.textBrowser_7.show()        
     def interpolate_the_curve(self,interpol_order):
         self.chunk_coeffs = []
         self.residuals = []
@@ -211,25 +240,29 @@ class MainApp(QMainWindow , FORM_CLASS):
             p = np.poly1d(self.coeffs)
             self.graphicsView_main.plot(t,p(t),pen = self.blue_pen)
 
-    def interpolate(self,interpol_order,chunk):
-        sampling_rate=int(2.5*self.fmax)
-        sample_time = 1/sampling_rate
-        no_of_samples = int(max(self.x_axis_data)/sample_time)
-        for i in range(0,len(self.x_axis_data)-1,chunk):
-            data = []
-            t = []
-            ind = i
-            for j in range(chunk-1):
-                if ind < len(self.x_axis_data):
-                    data.append(self.data_amplitude[ind])
-                    t.append(self.x_axis_data[ind])
-                    ind += 1
-            self.Sample_amp,self.Sample_time = signal.resample(data,no_of_samples,t)
-            z = np.polyfit(self.Sample_time, self.Sample_amp, interpol_order)
-            p = np.poly1d(z)
-            y = p(t)
-            return p 
-
+    def splineInterpolation(self):
+        time=self.x_axis_data
+        amplitude=self.data_amplitude
+        interpolationEquation=  make_interp_spline(time,amplitude)
+        self.graphicsView_main.plot(time,interpolationEquation(time),pen = self.blue_pen)
+    
+    def CubicInterpolation(self):
+        time=self.x_axis_data
+        amplitude=self.data_amplitude
+        interpolationEquation= CubicSpline(time,amplitude)
+        self.graphicsView_main.plot(time,interpolationEquation(time),pen = self.blue_pen)
+    
+    def interpolation_method(self):
+        if self.interpolationSelector.currentText()=='Polynomial' :
+                self.show_polynomial()
+                self.plotting_data(self.intial_slider_order_val)
+        elif self.interpolationSelector.currentText()=='Spline' :
+                self.hide_polynomial()  
+                self.plotting_data(self.intial_slider_order_val)
+        elif self.interpolationSelector.currentText()=='Cubic' :
+                self.hide_polynomial()  
+                self.plotting_data(self.intial_slider_order_val)
+        
     def orderChange(self):
         self.intial_slider_order_val = int(self.orderSlider.value())
         self.plotting_data(self.intial_slider_order_val)
@@ -274,18 +307,16 @@ class MainApp(QMainWindow , FORM_CLASS):
     def error_map(self):
     
         if self.pushButton.text() != "Generate Error Map":
-            #self.progressBar.hide()
+            self.progressBar.setValue(0)
             self.pushButton.setText("Generate Error Map")
             if self.bool_heatmap == 1:
                 self.canvas1.hide()
             return
 
         self.pushButton.setText("Cancel")
-        #self.progressBar.show()
-
-        comboX = self.comboBox_2.currentIndex()
-        comboY = self.comboBox_3.currentIndex()
-
+        self.progressBar.show()
+        comboY =self.comboBox_3.currentText()
+        comboX =self.comboBox_2.currentText()
         if self.NumberofChunks.value()==0:
             no_chuncks = 5
         else:
@@ -312,9 +343,8 @@ class MainApp(QMainWindow , FORM_CLASS):
         while overlap > overlapping:
             overlap -= .05
             overlapping_values.append(overlap)
-
-
-        if (comboX == 0 and comboY == 1) or  (comboX == 1 and comboY == 0) :
+        self.start_progress_bar() 
+        if (comboX == "Order of polynomial" and comboY == "no. of chunks") or  (comboX == "no. of chunks" and comboY == "Order of polynomial") :
             matrix1 = []
             for i in range(1, no_chuncks+1):
                 matrix1.append([])
@@ -332,7 +362,7 @@ class MainApp(QMainWindow , FORM_CLASS):
             matrix1 = np.array(matrix1)[::-1]
 
 
-            if comboX == 1 and comboY == 0:
+            if comboX == "no. of chunks" and comboY == "Order of polynomial":
                 matrix1=matrix1.T
                 fig, self.ax = plt.subplots(figsize=(1, 1))
                 self.ax = sns.heatmap(matrix1 , xticklabels=chunck_label, yticklabels=degree_label[::-1])
@@ -343,7 +373,7 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.toggle_errormap(fig)
 
 
-        elif (comboX == 0 and comboY == 2) or (comboX == 2 and comboY == 0) :
+        elif (comboX == "Order of polynomial" and comboY == "Over lapping") or (comboX == "Over lapping" and comboY == "Order of polynomial") :
             matrix2=[]
 
             for i in range(degree_value):
@@ -358,7 +388,7 @@ class MainApp(QMainWindow , FORM_CLASS):
                         matrix2[i].append((error_x1+error_x2)/2)
             matrix2 = np.array(matrix2)[::-1]
 
-            if comboX == 2 and comboY == 0:
+            if comboX == "Over lapping" and comboY == "Order of polynomial":
                 matrix2=matrix2.T
                 fig, self.ax = plt.subplots(figsize=(1, 1))
                 self.ax = sns.heatmap(matrix2 , xticklabels=overlapping_label, yticklabels=degree_label[::-1])
@@ -369,7 +399,7 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.toggle_errormap(fig)
 
 
-        elif (comboX == 1 and comboY == 2) or  (comboX == 2 and comboY == 1):
+        elif (comboX == "no. of chunks" and comboY == "Over lapping") or  (comboX == "Over lapping" and comboY == "no. of chunks"):
 
             matrix3 = []
             for i in range(1,no_chuncks+1):
@@ -386,7 +416,7 @@ class MainApp(QMainWindow , FORM_CLASS):
                         matrix3[i-1].append(np.average(errors))
             matrix3 = np.array(matrix3)[::-1]
 
-            if (comboX == 2 and comboY == 1):
+            if (comboX == "Over lapping" and comboY == "no. of chunks"):
                 matrix3 = matrix3.T
                 fig, self.ax = plt.subplots(figsize=(1, 1))
                 self.ax = sns.heatmap(matrix3.T, xticklabels=overlapping_label, yticklabels=chunck_label[::-1])
@@ -399,7 +429,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         else:
             self.progressBar.hide()
             print("You can't get The error map between the same values")
-            self.errormap.setText("Generate Error Map")
+            self.pushButton.setText("Generate Error Map")
     
     def calculate_chuncks(self,Array_A,no_chunks,overlap_per):
         size = int(1000 / no_chunks)
@@ -408,7 +438,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         return Array_A
     
     def get_error(self,x,y,i):
-            # self.coeffs, residual, _, _, _ = np.polyfit(t[0:interpol_range], data[0:interpol_range], interpol_order, full=True)
+        # self.coeffs, residual, _, _, _ = np.polyfit(t[0:interpol_range], data[0:interpol_range], interpol_order, full=True)
         z_chunk1, residual, _, _, _ = np.polyfit(x, y, i, full=True)
         avgerror =math.sqrt(residual[0])
         return(avgerror)
@@ -433,6 +463,34 @@ class MainApp(QMainWindow , FORM_CLASS):
         slider_order_val = self.orderSlider.value()
         self.plotting_data(slider_order_val)
 
+    def conection(self):
+        # cureentindex=self.comboBox_3.findText(self.comboBox_2.currentText())
+        # cureentindex=self.comboBox_2.currentIndex()
+        self.comboBox_3.clear()
+        self.comboBox_3.addItem("Order of polynomial")
+        self.comboBox_3.addItem("no. of chunks")
+        self.comboBox_3.addItem("Over lapping")
+        cureentindex=self.comboBox_3.findText(self.comboBox_2.currentText())
+        self.comboBox_3.removeItem(cureentindex)
+
+    def conection2(self):
+
+        # cureentindex=self.comboBox_2.findText(self.comboBox_3.currentText())
+        self.comboBox_2.clear()
+        self.comboBox_2.addItem("Order of polynomial")
+        self.comboBox_2.addItem("no. of chunks")
+        self.comboBox_2.addItem("Over lapping")
+        cureentindex=self.comboBox_2.findText(self.comboBox_3.currentText())
+        self.comboBox_2.removeItem(cureentindex)      
+
+    def start_progress_bar(self):
+        self.thread = MyThread()
+        self.thread.change_value.connect(self.set_progress_val)
+        self.thread.start()     
+
+    def set_progress_val(self, val):
+        self.progressBar.setValue(val) 
+    
     # def start_progress_bar(self):
     #      self.thread = MyThread()
     #      self.thread.change_value.connect(self.set_progress_val)
