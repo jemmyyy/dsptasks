@@ -1,4 +1,5 @@
 ##PyQT5
+from ast import Return
 from fileinput import filename
 import string
 from subprocess import *
@@ -85,8 +86,8 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.orderSlider.setSingleStep(1)
         self.orderSlider.setTickPosition(QtWidgets.QSlider.TicksBelow)
         self.orderSlider.valueChanged.connect(self.orderChange)
+        self.orderSlider.valueChanged.connect(lambda: self.Latex_Equation( int(self.orderSlider.value())))
 
-        
         self.extrapolationSlider.setMinimum(1)
         self.extrapolationSlider.setMaximum(5)
         self.extrapolationSlider.setValue(0)
@@ -135,9 +136,10 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.comboBox_2.addItem("Order of polynomial")
         self.comboBox_2.addItem("no. of chunks")
         self.comboBox_2.addItem("Over lapping")
-        self.comboBox_3.addItem("Order of polynomial")
+        # self.comboBox_3.addItem("Order of polynomial")
         self.comboBox_3.addItem("no. of chunks")
         self.comboBox_3.addItem("Over lapping")
+        self.comboBox.currentTextChanged.connect(self.latexeqn)
         # self.NumberofChunks.setValue(5)
         # self.PolynomialOrder.setValue(5)
         self.bool_heatmap = 0
@@ -156,7 +158,7 @@ class MainApp(QMainWindow , FORM_CLASS):
          self.BrowseButton.clicked.connect(self.Browse)
          self.pushButton.clicked.connect(self.error_map)
          self.comboBox_2.activated.connect(self.conection)
-         self.comboBox_3.activated.connect(self.conection2)
+        #  self.comboBox_3.activated.connect(self.conection2)
          self.interpolationSelector.activated.connect(self.interpolation_method)
 
     def Browse(self):
@@ -241,15 +243,15 @@ class MainApp(QMainWindow , FORM_CLASS):
             self.graphicsView_main.plot(t,p(t),pen = self.blue_pen)
 
     def splineInterpolation(self):
-        time=self.x_axis_data
         amplitude=self.data_amplitude
-        interpolationEquation=  make_interp_spline(time,amplitude)
+        interpolationEquation= make_interp_spline(self.x_axis_data,amplitude,2)
+        time=np.linspace(0,self.x_axis_data.max(),500)
         self.graphicsView_main.plot(time,interpolationEquation(time),pen = self.blue_pen)
-    
+
     def CubicInterpolation(self):
-        time=self.x_axis_data
         amplitude=self.data_amplitude
-        interpolationEquation= CubicSpline(time,amplitude)
+        interpolationEquation= CubicSpline(self.x_axis_data,amplitude)
+        time=np.linspace(0,self.x_axis_data.max(),500)
         self.graphicsView_main.plot(time,interpolationEquation(time),pen = self.blue_pen)
     
     def interpolation_method(self):
@@ -288,12 +290,22 @@ class MainApp(QMainWindow , FORM_CLASS):
         latex_equation =  '$'+ self.eqn [chunck_number - 1] + '$'
         self.fig.suptitle(latex_equation, fontsize = 10, x=0.0, y=0.5, horizontalalignment='left', verticalalignment='center')
         self.canvas.draw()
-        if len(self.residuals) != 0:
-                residual = self.residuals[chunck_number - 1] 
-                error = math.sqrt(residual)
-                error_latex = '$Error = {} \%$ '.format(round(error*100,1))
-                self.fig_error.suptitle(error_latex, x=0.0, y=0.5, horizontalalignment='left', verticalalignment='center')
-                self.canvas_error.draw()
+        self.errors = []
+        for s in range (chunck_number): 
+            residual = self.residuals[s -1]
+            error = math.sqrt(residual)
+            error_latex = '$Error = {} \%$ '.format(round(error*100,1))
+            self.errors.append(error_latex)
+        self.fig_error.suptitle(self.errors[chunck_number - 1], x=0.0, y=0.5, horizontalalignment='left', verticalalignment='center')
+        self.canvas_error.draw()
+
+    def latexeqn(self):
+        Chunk_no = int (self.comboBox.currentText())
+        latex_equation =  '$'+ self.eqn [ int(Chunk_no) - 1] + '$'
+        self.fig.suptitle(latex_equation, fontsize = 10, x=0.0, y=0.5, horizontalalignment='left', verticalalignment='center')
+        self.canvas.draw()
+        self.fig_error.suptitle(self.errors[Chunk_no- 1], x=0.0, y=0.5, horizontalalignment='left', verticalalignment='center')
+        self.canvas_error.draw()
         
         
     def chunkChane(self):
@@ -317,24 +329,10 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.progressBar.show()
         comboY =self.comboBox_3.currentText()
         comboX =self.comboBox_2.currentText()
-        if self.NumberofChunks.value()==0:
-            no_chuncks = 5
-        else:
-            no_chuncks = int(self.NumberofChunks.value())
-        
-        if self.PolynomialOrder.value() ==0:
-            degree_value = 5
-        else:
-            degree_value = int(self.PolynomialOrder.value())
-        
-        if self.OverLapping.value ==0:
-            overlapping = 0.75
-            overlaprange = 5
-        else:
-            overlapping = 1 - int(self.OverLapping.value()) /100
-            overlaprange = overlapping
-
-
+        no_chuncks = 5
+        degree_value = 5
+        overlapping = 0.75
+        overlaprange = 5
         chunck_label = list(map(str, range(1, no_chuncks + 1)))
         degree_label = list(map(str, range(1, degree_value + 1)))
         overlapping_label = [f"{overlapping_index}%" for overlapping_index in range(5, int(overlaprange*5+5), 5)]
@@ -363,12 +361,14 @@ class MainApp(QMainWindow , FORM_CLASS):
 
 
             if comboX == "no. of chunks" and comboY == "Order of polynomial":
-                matrix1=matrix1.T
+                normalized_error_1=self.get_invers(matrix1)
+                normalized_error_1=self.normalization(normalized_error_1)
                 fig, self.ax = plt.subplots(figsize=(1, 1))
-                self.ax = sns.heatmap(matrix1 , xticklabels=chunck_label, yticklabels=degree_label[::-1])
+                self.ax = sns.heatmap(normalized_error_1 , xticklabels=chunck_label, yticklabels=degree_label[::-1])
             else:
+                normalized_error_1=self.normalization(matrix1)
                 fig, self.ax = plt.subplots(figsize=(1, 1))
-                self.ax = sns.heatmap(matrix1 , xticklabels=degree_label, yticklabels=chunck_label[::-1])
+                self.ax = sns.heatmap(normalized_error_1 , xticklabels=degree_label, yticklabels=chunck_label[::-1])
 
             self.toggle_errormap(fig)
 
@@ -389,12 +389,14 @@ class MainApp(QMainWindow , FORM_CLASS):
             matrix2 = np.array(matrix2)[::-1]
 
             if comboX == "Over lapping" and comboY == "Order of polynomial":
-                matrix2=matrix2.T
+                normalized_error_2=self.get_invers(matrix2)                
+                normalized_error_2=self.normalization(normalized_error_2)
                 fig, self.ax = plt.subplots(figsize=(1, 1))
-                self.ax = sns.heatmap(matrix2 , xticklabels=overlapping_label, yticklabels=degree_label[::-1])
+                self.ax = sns.heatmap(normalized_error_2 , xticklabels=overlapping_label, yticklabels=degree_label[::-1])
             else:
+                normalized_error_2=self.normalization(matrix2)
                 fig, self.ax = plt.subplots(figsize=(1, 1))
-                self.ax = sns.heatmap(matrix2 , xticklabels=degree_label, yticklabels=overlapping_label[::-1])
+                self.ax = sns.heatmap(normalized_error_2 , xticklabels=degree_label, yticklabels=overlapping_label[::-1])
 
             self.toggle_errormap(fig)
 
@@ -417,12 +419,14 @@ class MainApp(QMainWindow , FORM_CLASS):
             matrix3 = np.array(matrix3)[::-1]
 
             if (comboX == "Over lapping" and comboY == "no. of chunks"):
-                matrix3 = matrix3.T
+                normalized_error_3=self.get_invers(matrix3)
+                normalized_error_3=self.normalization(normalized_error_3)
                 fig, self.ax = plt.subplots(figsize=(1, 1))
-                self.ax = sns.heatmap(matrix3.T, xticklabels=overlapping_label, yticklabels=chunck_label[::-1])
+                self.ax = sns.heatmap(normalized_error_3, xticklabels=overlapping_label, yticklabels=chunck_label[::-1])
             else:
+                normalized_error_3=self.normalization(matrix3)
                 fig, self.ax = plt.subplots(figsize=(1, 1))
-                self.ax = sns.heatmap(matrix3.T, xticklabels=chunck_label, yticklabels=overlapping_label[::-1])
+                self.ax = sns.heatmap(normalized_error_3, xticklabels=chunck_label, yticklabels=overlapping_label[::-1])
 
             self.toggle_errormap(fig)
 
@@ -464,8 +468,6 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.plotting_data(slider_order_val)
 
     def conection(self):
-        # cureentindex=self.comboBox_3.findText(self.comboBox_2.currentText())
-        # cureentindex=self.comboBox_2.currentIndex()
         self.comboBox_3.clear()
         self.comboBox_3.addItem("Order of polynomial")
         self.comboBox_3.addItem("no. of chunks")
@@ -474,8 +476,6 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.comboBox_3.removeItem(cureentindex)
 
     def conection2(self):
-
-        # cureentindex=self.comboBox_2.findText(self.comboBox_3.currentText())
         self.comboBox_2.clear()
         self.comboBox_2.addItem("Order of polynomial")
         self.comboBox_2.addItem("no. of chunks")
@@ -489,8 +489,47 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.thread.start()     
 
     def set_progress_val(self, val):
-        self.progressBar.setValue(val) 
-    
+        self.progressBar.setValue(val)
+
+    def normalization(self,oldmatrix):
+        normalized_error = []
+        min = np.amin(oldmatrix)
+        max = np.amax(oldmatrix)
+
+        for i in oldmatrix:
+            normalized_error_temp = []
+            for j in i:
+                value = (j - min) / (max - min)
+                normalized_error_temp.append(value)
+            normalized_error.append(normalized_error_temp) 
+        return normalized_error
+
+    def get_invers(self,matrixIN):
+                matrixIN = matrixIN.T
+                # for n in range(len(matrix3[m])):
+                # for m in range(len(matrix3[0])):
+                matrixOUT=[]
+                matrixOUT = np.array(matrixIN)[::-1]
+                matrixOUT[4,:]=matrixIN[0,:]  
+                matrixOUT[0,:]=matrixIN[4,:]
+                matrixOUT[3,:]=matrixIN[1,:]
+                matrixOUT[1,:]=matrixIN[3,:]
+                matrixOUT[2,:]=matrixIN[2,:]
+
+                matrixIN[4,:]=matrixOUT[4,:]  
+                matrixIN[0,:]=matrixOUT[0,:]
+                matrixIN[3,:]= matrixOUT[3,:]
+                matrixIN[1,:]= matrixOUT[3,:]
+                matrixIN[2,:]= matrixOUT[2,:]
+            
+                matrixOUT[:,4]=matrixIN[:,0]  
+                matrixOUT[:,0]=matrixIN[:,4]
+                matrixOUT[:,3]=matrixIN[:,1]
+                matrixOUT[:,1]=matrixIN[:,3]
+                matrixOUT[:,2]=matrixIN[:,2]      
+
+                return matrixOUT 
+
     # def start_progress_bar(self):
     #      self.thread = MyThread()
     #      self.thread.change_value.connect(self.set_progress_val)
