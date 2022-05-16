@@ -307,6 +307,15 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.fig_error.suptitle(self.errors[Chunk_no- 1], x=0.0, y=0.5, horizontalalignment='left', verticalalignment='center')
         self.canvas_error.draw()
         
+        self.errors = []
+        for s in range (chunck_number): 
+            residual = self.residuals[s -1]
+            error = math.sqrt(residual)
+            error_latex = '$Error = {} \%$ '.format(round(error*100,1))
+            self.errors.append(error_latex)
+        self.fig_error.suptitle(self.errors[chunck_number - 1], x=0.0, y=0.5, horizontalalignment='left', verticalalignment='center')
+        self.canvas_error.draw()
+        
         
     def chunkChane(self):
         self.comboBox.clear()
@@ -315,6 +324,15 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.plotting_data(self.intial_slider_order_val)
         for i in range(self.slider_chunk_val):
             self.comboBox.addItem(str(self.slider_chunk_val - i))
+        
+        self.errors = []
+        for s in range (chunck_number): 
+            residual = self.residuals[s -1]
+            error = math.sqrt(residual)
+            error_latex = '$Error = {} \%$ '.format(round(error*100,1))
+            self.errors.append(error_latex)
+        self.fig_error.suptitle(self.errors[chunck_number - 1], x=0.0, y=0.5, horizontalalignment='left', verticalalignment='center')
+        self.canvas_error.draw()
 
     def error_map(self):
     
