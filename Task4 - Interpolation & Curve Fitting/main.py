@@ -13,7 +13,6 @@ from PyQt5 import QtCore
 import pyqtgraph as pg
 from os import path, remove 
 from numpy.polynomial import Polynomial as P
-from logging import error
 import math
 from math import ceil, inf
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -71,16 +70,16 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.Handle_Buttons()
       
         self.chunkSlider.setMinimum(1)
-        self.chunkSlider.setMaximum(25)
+        self.chunkSlider.setMaximum(15)
         self.chunkSlider.setValue(0)
         self.chunkSlider.setTickInterval(1)
         self.chunkSlider.setSingleStep(1)
         self.chunkSlider.setTickPosition(QtWidgets.QSlider.TicksBelow)
-        self.chunkSlider.valueChanged.connect(self.chunkChane)
+        self.chunkSlider.valueChanged.connect(self.chunkChange)
         self.chunkSlider.valueChanged.connect(lambda: self.Latex_Equation( int(self.orderSlider.value())))
         
         self.orderSlider.setMinimum(1)
-        self.orderSlider.setMaximum(25)
+        self.orderSlider.setMaximum(15)
         self.orderSlider.setValue(0)
         self.orderSlider.setTickInterval(1)
         self.orderSlider.setSingleStep(1)
@@ -143,17 +142,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         # self.NumberofChunks.setValue(5)
         # self.PolynomialOrder.setValue(5)
         self.bool_heatmap = 0
-    
-        # self.gridLayoutWidget.setGeometry(QtCore.QRect(40, 80, 811, 300))
-        # self.splitter_graphs = QtWidgets.QSplitter(self.centralwidget)
-        # self.splitter_graphs.setGeometry(QtCore.QRect(110, 100, 100, 331))
-        # self.splitter_graphs.setOrientation(QtCore.Qt.Horizontal)
-        # self.splitter_graphs.setObjectName("splitter_graphs")
-        # self.gridLayout.addWidget(self.splitter_graphs,0,1,6,4)
-        
-        # self.canvas = MplCanvas(self, width=10, height=4, dpi=100)
-        # self.splitter_graphs.addWidget(self.canvas)
-        # self.intial_slider_order_val = 1
+
     def Handle_Buttons(self):
          self.BrowseButton.clicked.connect(self.Browse)
          self.pushButton.clicked.connect(self.error_map)
@@ -166,34 +155,10 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.data_set = pd.read_csv(self.fileName, header=None)
         self.data_amplitude = self.data_set[1]
         self.x_axis_data = self.data_set[0]
-        # self.canvas.draw()
-        self.Get_max_freq()
-        self.plotting_data(self.intial_slider_order_val)
+        self.plot_data(self.intial_slider_order_val)
 
 
-    def Get_max_freq(self):
-        data_amp=[]
-        n=size(self.data_amplitude)
-
-        for i in self.data_amplitude:
-            if len(data_amp)== len(self.x_axis_data):
-                break
-            else:
-                data_amp.append(i)
-
-        frequencies_array=np.arange(1,n/2,dtype ='int')
-        data_freq=fft(data_amp)
-        freq_mag=(2/n)*abs(data_freq[0:np.size(frequencies_array)])
-
-        imp_freq=freq_mag>0.2
-        clean_frequencies_array=imp_freq*frequencies_array
-        self.fmax=round(clean_frequencies_array.max())
-
-    def plotting_data(self,order_val):
-        if self.fmax == 0:
-            self.graphicsView_main.clear()
-            self.graphicsView_main.plot(self.x_axis_data,self.data_amplitude)
-        else:
+    def plot_data(self,order_val):
             self.graphicsView_main.clear()
             self.graphicsView_main.plotItem.vb.setLimits(xMin=min(self.x_axis_data)-0.01, xMax=max(self.x_axis_data),yMin=min(self.data_amplitude) - 0.2, yMax=max(self.data_amplitude) + 0.2)
             self.graphicsView_main.plot(self.x_axis_data,self.data_amplitude)
@@ -220,6 +185,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.textBrowser_5.show()
         self.textBrowser_6.show()
         self.textBrowser_7.show()        
+
     def interpolate_the_curve(self,interpol_order):
         self.chunk_coeffs = []
         self.residuals = []
@@ -257,17 +223,17 @@ class MainApp(QMainWindow , FORM_CLASS):
     def interpolation_method(self):
         if self.interpolationSelector.currentText()=='Polynomial' :
                 self.show_polynomial()
-                self.plotting_data(self.intial_slider_order_val)
+                self.plot_data(self.intial_slider_order_val)
         elif self.interpolationSelector.currentText()=='Spline' :
                 self.hide_polynomial()  
-                self.plotting_data(self.intial_slider_order_val)
+                self.plot_data(self.intial_slider_order_val)
         elif self.interpolationSelector.currentText()=='Cubic' :
                 self.hide_polynomial()  
-                self.plotting_data(self.intial_slider_order_val)
+                self.plot_data(self.intial_slider_order_val)
         
     def orderChange(self):
         self.intial_slider_order_val = int(self.orderSlider.value())
-        self.plotting_data(self.intial_slider_order_val)
+        self.plot_data(self.intial_slider_order_val)
         self.Latex_Equation(self.intial_slider_order_val)
 
     def Latex_Equation(self, slider_order_val):
@@ -308,11 +274,11 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.canvas_error.draw()
         
         
-    def chunkChane(self):
+    def chunkChange(self):
         self.comboBox.clear()
         self.slider_chunk_val = self.chunkSlider.value()
         self.chunk_size = ceil(1000 / self.slider_chunk_val)
-        self.plotting_data(self.intial_slider_order_val)
+        self.plot_data(self.intial_slider_order_val)
         for i in range(self.slider_chunk_val):
             self.comboBox.addItem(str(self.slider_chunk_val - i))
 
@@ -442,7 +408,6 @@ class MainApp(QMainWindow , FORM_CLASS):
         return Array_A
     
     def get_error(self,x,y,i):
-        # self.coeffs, residual, _, _, _ = np.polyfit(t[0:interpol_range], data[0:interpol_range], interpol_order, full=True)
         z_chunk1, residual, _, _, _ = np.polyfit(x, y, i, full=True)
         avgerror =math.sqrt(residual[0])
         return(avgerror)
@@ -465,7 +430,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         val = self.extrapolation_sliderval-1
         self.extrapolation_pecentage = 100-val*10
         slider_order_val = self.orderSlider.value()
-        self.plotting_data(slider_order_val)
+        self.plot_data(slider_order_val)
 
     def conection(self):
         self.comboBox_3.clear()

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="style.css" />
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/mathjs/3.3.0/math.min.js></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.12.1.min.js"></script>
+    <title>Filter Design</title>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar-container">
+        <ul class="navbar-nav-left">
+          <li>
+            <a href="#">z-pole</a>
+          </li>
+          <li>
+            <a href="#">Filter</a>
+          </li>
+        </ul>
+
+        <!-- Hamburger Menu -->
+        <!-- <button class="hamburger" type="button" id="menu-btn">
+          <span class="hamburger-top"></span>
+          <span class="hamburger-middle"></span>
+          <span class="hamburger-bottom"></span>
+        </button> -->
+      </div>
+    </nav>
+    <section class="zpole">
+      <div class="zpole_settings">
+        <div class="btn-box">
+          <button class="btn">Add pole</button>
+          <button class="btn">Add zero</button>
+          <button class="btn">Clear zeros</button>
+        </div>
+        <div class="checks-box">
+          <button class="btn">Clear poles</button>
+          <button class="btn">Clear all</button>
+          <div class="conjucate-box">
+            <input type="checkbox" id="conjucate" />
+            <label>Add Conjucate</label>
+          </div>
+          <div class="allPass-box">
+            <input type="checkbox" id="allPass" />
+            <label>Enable All Pass</label>
+          </div>
+        </div>
+      </div>
+      <div class="zpole_graph">
+        <canvas id="z-plane" width="400" height="400"></canvas>
+      </div>
+      <div class="zpole_response">
+        <div>
+          <canvas class="canvas" id="magChart" style="width: 560px; height: 280px"></canvas>
+        </div>
+        <div >
+          <canvas class="canvas" id="phaseChart" style="width: 560px; height:280px"></canvas>
+        </div>
+      </div>
+    </section>
+    <script src="scirpt.js"></script>
+  </body>
+</html>

@@ -25,7 +25,7 @@ from tkinter import *
 import sys
 
 
-FORM_CLASS,_= loadUiType(path.join(path.dirname(__file__),"qtFiles/main.ui"))
+FORM_CLASS,_= loadUiType(path.join(path.dirname(__file__),"../qtFiles/main.ui"))
 
 new_sig=[]
 t = np.arange(0, 1, 0.001)
