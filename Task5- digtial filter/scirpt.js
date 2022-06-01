@@ -92,3 +92,9 @@ function drawResponses() {
 }
 setZplane();
 console.log('test');
+let poleBtn = document.getElementById('poleBtn')
+poleBtn.addEventListener('click', addPole)
+
+function addPole() {
+  console.log('testing button')
+}

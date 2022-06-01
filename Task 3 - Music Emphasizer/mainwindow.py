@@ -175,20 +175,13 @@ class MainApp(QMainWindow , FORM_CLASS):
         
 
     def Handle_Buttons(self):
-        self.pianoButton1.clicked.connect(lambda: self.playPiano(0))
-        self.pianoButton1_2.clicked.connect(lambda: self.playPiano(2))
-        self.pianoButton1_3.clicked.connect(lambda: self.playPiano(4))
-        self.pianoButton1_4.clicked.connect(lambda: self.playPiano(5))
-        self.pianoButton1_5.clicked.connect(lambda: self.playPiano(7))
-        self.pianoButton1_6.clicked.connect(lambda: self.playPiano(9))
-        self.pianoButton1_7.clicked.connect(lambda: self.playPiano(11))
-        self.pianoButton2_1.clicked.connect(lambda: self.playPiano(1))
-        self.pianoButton2_2.clicked.connect(lambda: self.playPiano(3))
-        self.pianoButton2_3.clicked.connect(lambda: self.playPiano(6))
-        self.pianoButton2_4.clicked.connect(lambda: self.playPiano(8))
-        self.pianoButton2_5.clicked.connect(lambda: self.playPiano(10))
 
-        self.pianoModeButton.clicked.connect(self.getPianoMode)
+        pianoButtonsArray = [self.pianoButton1, self.pianoButton2_1, self.pianoButton1_2, self.pianoButton2_2, self.pianoButton1_3, self.pianoButton1_4, self.pianoButton2_3, self.pianoButton1_5, self.pianoButton2_4, self.pianoButton1_6, self.pianoButton2_5, self.pianoButton1_7, ]
+
+        for i in range(len(pianoButtonsArray)):
+            pianoButtonsArray[i].clicked.connect(lambda: self.playPiano(i))
+
+        self.pianoModesComboBox.activated.connect(self.getPianoMode)
         self.pianoFreqSlider.valueChanged.connect(self.getPianoFreq)
 
         self.triangleButton.clicked.connect(playTriangle)
@@ -202,7 +195,7 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.drumButtonTom4.clicked.connect(lambda: self.playDrums(9, 80))
         self.drumButtonSnare.clicked.connect(lambda: self.playDrums(11, 50))
 
-        self.drumModeButton.clicked.connect(self.getDrumMode)
+        self.drumModesComboBox.activated.connect(self.getDrumMode)
 
         self.VolumeverticalSlider.setMinimum(0)
         self.VolumeverticalSlider.setMaximum(200)
@@ -212,7 +205,6 @@ class MainApp(QMainWindow , FORM_CLASS):
         self.VolumeverticalSlider.setTickPosition(QSlider.TicksRight)
         self.VolumeverticalSlider.valueChanged.connect(self.changeVolume)  
         self.BrowsepushButton.clicked.connect(self.Browse)
-        self.PauseButton.clicked.connect(self.Pause)
         self.PlayButton.clicked.connect(self.Play)
         self.ShowSpectrogrampushButton.clicked.connect(self.spectrogram)
         self.musicmixerpushButton.clicked.connect(self.equalize)
@@ -283,14 +275,14 @@ class MainApp(QMainWindow , FORM_CLASS):
                 self.canvas.draw()
         except:
             pass
-
-    def Pause(self):
-        self.isRunning=True
-        self.media.pause()
     
     def Play(self):
-        self.isRunning=False
-        self.media.play()
+        if (self.isRunning == True):
+            self.isRunning=False
+            self.media.play()
+        else:
+            self.isRunning=True
+            self.media.pause()
     
     def changeVolume(self):
         SliderValue=int(self.VolumeverticalSlider.value())
