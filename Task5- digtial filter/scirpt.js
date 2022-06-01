@@ -23,7 +23,6 @@ function setZplane(poles, zeros) {
 
   // y axis
   ctx.beginPath();
-  //ctx.lineWidth="1";
   ctx.strokeStyle = 'black';
   ctx.moveTo(radius + pad, 0);
   ctx.lineTo(radius + pad, canvas.height);
@@ -59,7 +58,6 @@ function drawResponses() {
       },
     ],
   };
-  ///Chart.js config
 
   const magConfig = {
     type: 'line',
