@@ -28,6 +28,7 @@ body {
   color: #000;
   line-height: 1.4;
   font-size: 1.2rem;
+  height: 200vh;
 }
 a {
   color: #000;
@@ -47,10 +48,11 @@ img {
 .navbar {
   margin: 0 auto;
   height: auto;
-  background-color: #fff;
+  background-color: rgb(253, 253, 253);
   padding: 2rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 2px 2px rgba(0, 0, 0, 0.06),
     0 0 2px rgba(0, 0, 0, 0.07);
+  border-bottom: solid 1px #333;
 }
 .navbar-container {
   display: flex;
@@ -80,7 +82,7 @@ a:hover {
 }
 .zpole {
   display: flex;
-  margin: 3rem 3rem;
+  border-bottom: solid 1px #333;
   height: fit-content;
 }
 /* z-plane unit circle stlyes */
@@ -146,4 +148,42 @@ label {
 }
 .canvas {
   flex-basis: 50%;
+}
+.filter__section {
+  display: flex;
+  min-height: 50rem;
+  background-color: #f3f4f6;
+}
+.allPassLibrary {
+  flex-basis: 25%;
+  flex-direction: column;
+  display: flex;
+  justify-content: flex-start;
+  border-right: solid 1px #333;
+  align-items: center;
+  gap: 2rem;
+}
+.filter-add-box {
+  margin-top: 6rem;
+}
+.checkbox__box {
+  display: flex;
+}
+
+.all-pass-label {
+  position: relative;
+  top: -1px;
+}
+
+.filter__graphs {
+  flex-basis: 65%;
+}
+.sliderAndBrowse {
+  margin-top: 5rem;
+  margin-left: 2rem;
+}
+.slider {
+  position: relative;
+  top: 2px;
+  margin-left: 3rem;
 }
