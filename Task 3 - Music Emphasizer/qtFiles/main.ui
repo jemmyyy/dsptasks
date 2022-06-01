@@ -2134,9 +2134,9 @@ PlotWidget {
            <property name="geometry">
             <rect>
              <x>730</x>
-             <y>120</y>
-             <width>211</width>
-             <height>61</height>
+             <y>110</y>
+             <width>225</width>
+             <height>51</height>
             </rect>
            </property>
            <property name="text">
@@ -2149,7 +2149,7 @@ PlotWidget {
              <x>90</x>
              <y>100</y>
              <width>22</width>
-             <height>111</height>
+             <height>81</height>
             </rect>
            </property>
            <property name="orientation">
@@ -2162,7 +2162,7 @@ PlotWidget {
              <x>210</x>
              <y>100</y>
              <width>51</width>
-             <height>111</height>
+             <height>81</height>
             </rect>
            </property>
            <property name="orientation">
@@ -2172,10 +2172,10 @@ PlotWidget {
           <widget class="QSlider" name="guitarVerticalSlider">
            <property name="geometry">
             <rect>
-             <x>360</x>
+             <x>380</x>
              <y>100</y>
              <width>31</width>
-             <height>111</height>
+             <height>81</height>
             </rect>
            </property>
            <property name="orientation">
@@ -2186,9 +2186,9 @@ PlotWidget {
            <property name="geometry">
             <rect>
              <x>530</x>
-             <y>110</y>
+             <y>100</y>
              <width>31</width>
-             <height>111</height>
+             <height>81</height>
             </rect>
            </property>
            <property name="orientation">
@@ -2236,10 +2236,10 @@ PlotWidget {
           <widget class="QPushButton" name="musicmixerpushButton">
            <property name="geometry">
             <rect>
-             <x>1000</x>
-             <y>120</y>
-             <width>201</width>
-             <height>61</height>
+             <x>975</x>
+             <y>110</y>
+             <width>225</width>
+             <height>51</height>
             </rect>
            </property>
            <property name="text">
@@ -2249,7 +2249,7 @@ PlotWidget {
           <widget class="QLabel" name="Instrument3label_3">
            <property name="geometry">
             <rect>
-             <x>330</x>
+             <x>350</x>
              <y>20</y>
              <width>91</width>
              <height>71</height>
