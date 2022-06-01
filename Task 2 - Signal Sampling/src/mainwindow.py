@@ -50,7 +50,6 @@ class MainApp(QMainWindow , FORM_CLASS):
     def Handle_UI(self):
         self.setWindowTitle('Sampling-Theory Illustrator')
         self.Handle_Buttons()
-        #self.Handle_GraphicsViews()
         self.horizontalSlider.setMaximum(12)
         self.horizontalSlider.setMinimum(0)
         self.horizontalSlider.setValue(0)

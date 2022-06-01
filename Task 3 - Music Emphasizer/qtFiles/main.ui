@@ -2104,7 +2104,7 @@ PlotWidget {
        <widget class="QGroupBox" name="SettingsgroupBox">
         <property name="geometry">
          <rect>
-          <x>10</x>
+          <x>20</x>
           <y>430</y>
           <width>911</width>
           <height>261</height>
@@ -2129,14 +2129,14 @@ PlotWidget {
         <widget class="QPushButton" name="PlayButton">
          <property name="geometry">
           <rect>
-           <x>600</x>
-           <y>20</y>
-           <width>93</width>
+           <x>590</x>
+           <y>30</y>
+           <width>291</width>
            <height>41</height>
           </rect>
          </property>
          <property name="text">
-          <string>Play</string>
+          <string>Play/Pause</string>
          </property>
         </widget>
         <widget class="QPushButton" name="ShowSpectrogrampushButton">
@@ -2221,19 +2221,6 @@ PlotWidget {
          </property>
          <property name="scaledContents">
           <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="PauseButton">
-         <property name="geometry">
-          <rect>
-           <x>770</x>
-           <y>20</y>
-           <width>93</width>
-           <height>41</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Pause</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_3">
@@ -2553,7 +2540,7 @@ PlotWidget {
          <rect>
           <x>50</x>
           <y>30</y>
-          <width>281</width>
+          <width>401</width>
           <height>26</height>
          </rect>
         </property>
@@ -2730,19 +2717,6 @@ PlotWidget {
          <string/>
         </property>
        </widget>
-       <widget class="QPushButton" name="pianoModeButton">
-        <property name="geometry">
-         <rect>
-          <x>350</x>
-          <y>30</y>
-          <width>101</width>
-          <height>26</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Change</string>
-        </property>
-       </widget>
        <widget class="QSlider" name="pianoFreqSlider">
         <property name="geometry">
          <rect>
@@ -2756,25 +2730,12 @@ PlotWidget {
          <enum>Qt::Horizontal</enum>
         </property>
        </widget>
-       <widget class="QPushButton" name="drumModeButton">
-        <property name="geometry">
-         <rect>
-          <x>830</x>
-          <y>160</y>
-          <width>101</width>
-          <height>26</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Change</string>
-        </property>
-       </widget>
        <widget class="QComboBox" name="drumModesComboBox">
         <property name="geometry">
          <rect>
-          <x>510</x>
+          <x>490</x>
           <y>160</y>
-          <width>281</width>
+          <width>481</width>
           <height>26</height>
          </rect>
         </property>
@@ -2815,7 +2776,7 @@ PlotWidget {
      <x>0</x>
      <y>0</y>
      <width>1054</width>
-     <height>18</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
