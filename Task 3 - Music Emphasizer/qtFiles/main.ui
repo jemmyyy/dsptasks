@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1054</width>
-    <height>787</height>
+    <width>1403</width>
+    <height>917</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -2088,204 +2088,186 @@ PlotWidget {
        <attribute name="title">
         <string>Play Tab</string>
        </attribute>
-       <widget class="QPushButton" name="BrowsepushButton">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>10</y>
-          <width>93</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Browse</string>
-        </property>
-       </widget>
-       <widget class="QGroupBox" name="SettingsgroupBox">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>430</y>
-          <width>911</width>
-          <height>261</height>
-         </rect>
-        </property>
-        <property name="title">
-         <string>Settings </string>
-        </property>
-        <widget class="QLabel" name="Volumelabel">
-         <property name="geometry">
-          <rect>
-           <x>10</x>
-           <y>20</y>
-           <width>51</width>
-           <height>21</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Volume</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="PlayButton">
-         <property name="geometry">
-          <rect>
-           <x>590</x>
-           <y>30</y>
-           <width>291</width>
-           <height>41</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Play/Pause</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="ShowSpectrogrampushButton">
-         <property name="geometry">
-          <rect>
-           <x>590</x>
-           <y>120</y>
-           <width>131</width>
-           <height>41</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Show Spectrogram</string>
-         </property>
-        </widget>
-        <widget class="QSlider" name="VolumeverticalSlider">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>50</y>
-           <width>22</width>
-           <height>151</height>
-          </rect>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-        <widget class="QSlider" name="drumVerticalSlider">
-         <property name="geometry">
-          <rect>
-           <x>120</x>
-           <y>90</y>
-           <width>22</width>
-           <height>111</height>
-          </rect>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-        <widget class="QSlider" name="guitarVerticalSlider">
-         <property name="geometry">
-          <rect>
-           <x>250</x>
-           <y>90</y>
-           <width>22</width>
-           <height>111</height>
-          </rect>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-        <widget class="QSlider" name="sticksVerticalSlider">
-         <property name="geometry">
-          <rect>
-           <x>380</x>
-           <y>90</y>
-           <width>22</width>
-           <height>111</height>
-          </rect>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-        <widget class="QLabel" name="Instrument3label">
-         <property name="geometry">
-          <rect>
-           <x>350</x>
-           <y>10</y>
-           <width>91</width>
-           <height>71</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap>../Datasests/Images/sticks.png</pixmap>
-         </property>
-         <property name="scaledContents">
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QLabel" name="label_3">
-         <property name="geometry">
-          <rect>
-           <x>90</x>
-           <y>10</y>
-           <width>91</width>
-           <height>71</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap>../Datasests/Images/drum.png</pixmap>
-         </property>
-         <property name="scaledContents">
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="musicmixerpushButton">
-         <property name="geometry">
-          <rect>
-           <x>750</x>
-           <y>120</y>
-           <width>131</width>
-           <height>41</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Music Mixer </string>
-         </property>
-        </widget>
-        <widget class="QLabel" name="Instrument3label_3">
-         <property name="geometry">
-          <rect>
-           <x>220</x>
-           <y>10</y>
-           <width>91</width>
-           <height>71</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap>../Datasests/Images/guitar1.png</pixmap>
-         </property>
-         <property name="scaledContents">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="gridLayoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>60</y>
-          <width>911</width>
-          <height>331</height>
-         </rect>
-        </property>
-        <layout class="QGridLayout" name="gridLayout"/>
-       </widget>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <item row="0" column="0">
+         <widget class="QPushButton" name="BrowsepushButton">
+          <property name="text">
+           <string>Browse</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <layout class="QGridLayout" name="gridLayout"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QGroupBox" name="SettingsgroupBox">
+          <property name="title">
+           <string>Settings </string>
+          </property>
+          <widget class="QLabel" name="Volumelabel">
+           <property name="geometry">
+            <rect>
+             <x>70</x>
+             <y>40</y>
+             <width>91</width>
+             <height>41</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Volume</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="PlayButton">
+           <property name="geometry">
+            <rect>
+             <x>730</x>
+             <y>30</y>
+             <width>471</width>
+             <height>51</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Play/Pause</string>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="ShowSpectrogrampushButton">
+           <property name="geometry">
+            <rect>
+             <x>730</x>
+             <y>120</y>
+             <width>211</width>
+             <height>61</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Show Spectrogram</string>
+           </property>
+          </widget>
+          <widget class="QSlider" name="VolumeverticalSlider">
+           <property name="geometry">
+            <rect>
+             <x>90</x>
+             <y>100</y>
+             <width>22</width>
+             <height>111</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+          <widget class="QSlider" name="drumVerticalSlider">
+           <property name="geometry">
+            <rect>
+             <x>210</x>
+             <y>100</y>
+             <width>51</width>
+             <height>111</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+          <widget class="QSlider" name="guitarVerticalSlider">
+           <property name="geometry">
+            <rect>
+             <x>360</x>
+             <y>100</y>
+             <width>31</width>
+             <height>111</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+          <widget class="QSlider" name="sticksVerticalSlider">
+           <property name="geometry">
+            <rect>
+             <x>530</x>
+             <y>110</y>
+             <width>31</width>
+             <height>111</height>
+            </rect>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+          <widget class="QLabel" name="Instrument3label">
+           <property name="geometry">
+            <rect>
+             <x>500</x>
+             <y>20</y>
+             <width>91</width>
+             <height>71</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>../Datasests/Images/sticks.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QLabel" name="label_3">
+           <property name="geometry">
+            <rect>
+             <x>190</x>
+             <y>20</y>
+             <width>91</width>
+             <height>71</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>../Datasests/Images/drum.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+          <widget class="QPushButton" name="musicmixerpushButton">
+           <property name="geometry">
+            <rect>
+             <x>1000</x>
+             <y>120</y>
+             <width>201</width>
+             <height>61</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string>Music Mixer </string>
+           </property>
+          </widget>
+          <widget class="QLabel" name="Instrument3label_3">
+           <property name="geometry">
+            <rect>
+             <x>330</x>
+             <y>20</y>
+             <width>91</width>
+             <height>71</height>
+            </rect>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="pixmap">
+            <pixmap>../Datasests/Images/guitar1.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
       <widget class="QWidget" name="tab_4">
        <attribute name="title">
@@ -2294,7 +2276,7 @@ PlotWidget {
        <widget class="QFrame" name="frame">
         <property name="geometry">
          <rect>
-          <x>50</x>
+          <x>110</x>
           <y>80</y>
           <width>401</width>
           <height>241</height>
@@ -2502,10 +2484,10 @@ PlotWidget {
        <widget class="QLabel" name="label">
         <property name="geometry">
          <rect>
-          <x>90</x>
-          <y>380</y>
-          <width>341</width>
-          <height>291</height>
+          <x>110</x>
+          <y>370</y>
+          <width>401</width>
+          <height>261</height>
          </rect>
         </property>
         <property name="text">
@@ -2521,9 +2503,9 @@ PlotWidget {
        <widget class="QPushButton" name="triangleButton">
         <property name="geometry">
          <rect>
-          <x>370</x>
-          <y>620</y>
-          <width>61</width>
+          <x>440</x>
+          <y>580</y>
+          <width>71</width>
           <height>51</height>
          </rect>
         </property>
@@ -2538,9 +2520,57 @@ PlotWidget {
        <widget class="QComboBox" name="pianoModesComboBox">
         <property name="geometry">
          <rect>
-          <x>50</x>
+          <x>110</x>
           <y>30</y>
           <width>401</width>
+          <height>26</height>
+         </rect>
+        </property>
+        <item>
+         <property name="text">
+          <string>Octave</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Major Sixth</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Minor Sixth</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Perfect Fifth</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Perfect Fourth</string>
+         </property>
+        </item>
+       </widget>
+       <widget class="QSlider" name="pianoFreqSlider">
+        <property name="geometry">
+         <rect>
+          <x>109</x>
+          <y>330</y>
+          <width>401</width>
+          <height>22</height>
+         </rect>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+       <widget class="QComboBox" name="drumModesComboBox">
+        <property name="geometry">
+         <rect>
+          <x>720</x>
+          <y>110</y>
+          <width>481</width>
           <height>26</height>
          </rect>
         </property>
@@ -2573,8 +2603,8 @@ PlotWidget {
        <widget class="QLabel" name="label_2">
         <property name="geometry">
          <rect>
-          <x>490</x>
-          <y>210</y>
+          <x>720</x>
+          <y>160</y>
           <width>481</width>
           <height>361</height>
          </rect>
@@ -2589,13 +2619,29 @@ PlotWidget {
          <bool>true</bool>
         </property>
        </widget>
-       <widget class="QPushButton" name="drumButtonRide">
+       <widget class="QPushButton" name="drumButtonChina3">
         <property name="geometry">
          <rect>
-          <x>850</x>
-          <y>340</y>
-          <width>91</width>
+          <x>750</x>
+          <y>270</y>
+          <width>81</width>
           <height>41</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background: rgba(0,0,0,0.25)</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="drumButtonTom2">
+        <property name="geometry">
+         <rect>
+          <x>970</x>
+          <y>240</y>
+          <width>101</width>
+          <height>31</height>
          </rect>
         </property>
         <property name="styleSheet">
@@ -2608,8 +2654,8 @@ PlotWidget {
        <widget class="QPushButton" name="drumButtonTom4">
         <property name="geometry">
          <rect>
-          <x>620</x>
-          <y>290</y>
+          <x>850</x>
+          <y>240</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -2624,8 +2670,8 @@ PlotWidget {
        <widget class="QPushButton" name="drumButtonChina1">
         <property name="geometry">
          <rect>
-          <x>560</x>
-          <y>220</y>
+          <x>790</x>
+          <y>170</y>
           <width>81</width>
           <height>31</height>
          </rect>
@@ -2637,13 +2683,13 @@ PlotWidget {
          <string/>
         </property>
        </widget>
-       <widget class="QPushButton" name="drumButtonChina3">
+       <widget class="QPushButton" name="drumButtonSnare">
         <property name="geometry">
          <rect>
-          <x>520</x>
-          <y>320</y>
+          <x>960</x>
+          <y>420</y>
           <width>81</width>
-          <height>41</height>
+          <height>71</height>
          </rect>
         </property>
         <property name="styleSheet">
@@ -2656,8 +2702,24 @@ PlotWidget {
        <widget class="QPushButton" name="drumButtonTom1">
         <property name="geometry">
          <rect>
-          <x>670</x>
-          <y>370</y>
+          <x>900</x>
+          <y>320</y>
+          <width>91</width>
+          <height>41</height>
+         </rect>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background: rgba(0,0,0,0.25)</string>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="drumButtonRide">
+        <property name="geometry">
+         <rect>
+          <x>1080</x>
+          <y>290</y>
           <width>91</width>
           <height>41</height>
          </rect>
@@ -2672,8 +2734,8 @@ PlotWidget {
        <widget class="QPushButton" name="drumButtonChina2">
         <property name="geometry">
          <rect>
-          <x>800</x>
-          <y>220</y>
+          <x>1030</x>
+          <y>170</y>
           <width>101</width>
           <height>31</height>
          </rect>
@@ -2684,86 +2746,6 @@ PlotWidget {
         <property name="text">
          <string/>
         </property>
-       </widget>
-       <widget class="QPushButton" name="drumButtonSnare">
-        <property name="geometry">
-         <rect>
-          <x>730</x>
-          <y>470</y>
-          <width>81</width>
-          <height>71</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background: rgba(0,0,0,0.25)</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QPushButton" name="drumButtonTom2">
-        <property name="geometry">
-         <rect>
-          <x>740</x>
-          <y>290</y>
-          <width>101</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">background: rgba(0,0,0,0.25)</string>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-       <widget class="QSlider" name="pianoFreqSlider">
-        <property name="geometry">
-         <rect>
-          <x>49</x>
-          <y>330</y>
-          <width>401</width>
-          <height>22</height>
-         </rect>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-       <widget class="QComboBox" name="drumModesComboBox">
-        <property name="geometry">
-         <rect>
-          <x>490</x>
-          <y>160</y>
-          <width>481</width>
-          <height>26</height>
-         </rect>
-        </property>
-        <item>
-         <property name="text">
-          <string>Octave</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Major Sixth</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Minor Sixth</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Perfect Fifth</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Perfect Fourth</string>
-         </property>
-        </item>
        </widget>
       </widget>
      </widget>
@@ -2775,7 +2757,7 @@ PlotWidget {
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1054</width>
+     <width>1403</width>
      <height>22</height>
     </rect>
    </property>
